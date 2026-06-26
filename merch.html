@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop | Jesus College Boat Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="jcbc.css">
+<style>
+.shop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.product{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(23,20,17,.04);transition:transform .2s,box-shadow .2s}
+.product:hover{transform:translateY(-4px);box-shadow:0 18px 40px -28px rgba(23,20,17,.35)}
+.shot{aspect-ratio:4/5;display:grid;place-items:center;position:relative;overflow:hidden}
+.shot svg{width:62px;height:62px;opacity:.32;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
+.product:hover .shot svg{transform:rotate(-8deg) scale(1.08)}
+.shot-crimson{background:var(--crimson)}
+.shot-ink{background:var(--ink)}
+.shot-paper{background:var(--paper-2)}
+.shot-crimson svg line,.shot-ink svg line{stroke:#fff}
+.shot-paper svg line{stroke:var(--crimson)}
+.pbadge{position:absolute;top:12px;left:12px;background:#fff;color:var(--crimson);font-family:'Archivo';font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-size:.6rem;padding:5px 11px;border-radius:40px}
+.pbadge.sold{background:rgba(23,20,17,.85);color:#fff}
+.pinfo{padding:20px 20px 22px;display:flex;flex-direction:column;flex:1}
+.pinfo h3{font-size:1.04rem;font-weight:800;letter-spacing:-.02em}
+.pdesc{color:var(--ink-soft);font-size:.85rem;margin:6px 0 16px;flex:1}
+.prow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto}
+.pprice{font-family:'Archivo';font-weight:800;font-size:1.15rem}
+.padd{padding:9px 16px;font-size:.72rem;border-radius:6px}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.chip{font-family:'Archivo';font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.7rem;padding:8px 16px;border:1px solid var(--line);border-radius:40px;color:var(--ink-soft);transition:.15s}
+.chip:hover,.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+@media(max-width:980px){.shop-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.shop-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="bar wrap">
+    <a class="brand" href="index.html">
+      <span class="mark"><svg viewBox="0 0 40 40" aria-label="JCBC crossed oars"><g stroke="#fff" fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></span>
+      <span><b>JCBC</b><span class="sub">Since 1827</span></span>
+    </a>
+    <div class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="fairbairns.html">Fairbairn Cup</a>
+      <a href="fleet.html">Fleet</a>
+      <a href="join.html">Row for Jesus</a>
+      <a href="history.html">History</a>
+      <a href="merch.html" class="active">Shop</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a href="join.html" class="btn btn-primary">Join the Club</a>
+    <button class="menu-toggle" aria-label="Menu">☰</button>
+  </nav>
+</header>
+
+<section class="page-hero" style="--bg:url('https://static.wixstatic.com/media/f736e6_63268eb112014a78be9ca912fbe47018~mv2.jpeg/v1/fill/w_1600,h_900,al_c,q_85,enc_auto/file.jpeg')">
+  <div class="wrap">
+    <nav class="crumbs"><a href="index.html">Home</a> / Shop</nav>
+    <span class="eyebrow light">Wear the red and black</span>
+    <h1>The <em>Shop</em></h1>
+    <p class="lead">Official JCBC kit, supporter wear and limited bicentenary pieces. Every purchase helps fund the club, our boats and our rowers.</p>
+    <div class="chips" style="margin-top:24px">
+      <a class="chip on" href="#bicentenary">Bicentenary</a>
+      <a class="chip" href="#stash">Club Stash</a>
+      <a class="chip" href="#supporter">Supporter &amp; Alumni</a>
+    </div>
+  </div>
+</section>
+
+<!-- BICENTENARY -->
+<section class="bg-paper" id="bicentenary">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">1827 – 2027 · 200 Years</span>
+      <h2>The Bicentenary Collection</h2>
+      <p>A limited commemorative range marking two centuries of Jesus College Boat Club. Available while stocks last — once they're gone, they're gone.</p>
+    </div>
+    <div class="shop-grid">
+      <article class="product">
+        <div class="shot shot-crimson"><span class="pbadge">Bicentenary</span><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
+        <div class="pinfo"><h3>'200 Years' Heavyweight Hoodie</h3><p class="pdesc">Crimson heavyweight hoodie with embroidered 1827–2027 anniversary crest.</p><div class="prow"><span class="pprice">£48</span><button class="btn btn-dark padd">Add to basket</button></div></div>
+      </article>
+      <article class="product">
+        <div class="shot shot-ink"><span class="pbadge">Limited</span><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
+        <div class="pinfo"><h3>Anniversary Blade Print (A2)</h3><p class="pdesc">Hand-numbered giclée print of the JCBC blade through the decades. Edition of 200.</p><div class="prow"><span class="pprice">£30</span><button class="btn btn-dark padd">Add to basket</button></div></div>
+      </article>
+      <article class="product">
+        <div class="shot shot-paper"><span class="pbadge">Bicentenary</span><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
+        <div class="pinfo"><h3>Commemorative Wool Scarf</h3><p class="pdesc">Red and black lambswool scarf woven with the bicentenary stripe.</p><div class="prow"><span class="pprice">£35</span><button class="btn btn-dark padd">Add to basket</button></div></div>
+      </article>
+      <article class="product">
+        <div class="shot shot-crimson"><span class="pbadge sold">Pre-order</span><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
+        <div class="pinfo"><h3>200th Anniversary Dinner Tie</h3><p class="pdesc">Silk tie in club colours, made for the bicentenary boat club dinner.</p><div class="prow"><span class="pprice">£28</span><button class="btn btn-dark padd">Pre-order</button></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CLUB STASH -->
+<section class="bg-paper2" id="stash">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">On the water</span><h2>Club Stash</h2><p>The kit our crews train and race in — built for the Cam in every season.</p></div>
+    <div class="shop-grid">
+      <article class="product">
+        <div class="shot shot-ink"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
+        <div class="pinfo"><h3>JCBC Zephyr All-in-One</h3><p class="pdesc">Race-day all-in-one in club colours. Sublimated, quick-drying, built to last.</p><div class="prow"><span class="pprice">£55</span><button class="btn btn-dark padd">Add to basket</button></div></div>
+      </article>
+      <article class="product">
+        <div class="shot shot-crimson"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
+        <div class="pinfo"><h3>Splash Top</h3><p class="pdesc">Wind- and water-resistant training top for cold, wet outings.</p><div class="prow"><span class="pprice">£42</span><button class="btn btn-dark padd">Add to basket</button></div></div>
+      </article>
+      <article class="product">
+        <div class="shot shot-paper"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
+        <div class="pinfo"><h3>Training Leggings</h3><p class="pdesc">Warm, flexible leggings with club logo at the hem. Unisex sizing.</p><div class="prow"><span class="pprice">£32</span><button class="btn btn-dark padd">Add to basket</button></div></div>
+      </article>
+      <article class="product">
+        <div class="shot shot-ink"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
+        <div class="pinfo"><h3>Training Tee</h3><p class="pdesc">Breathable technical tee for ergs, land training and warm-ups.</p><div class="prow"><span class="pprice">£20</span><button class="btn btn-dark padd">Add to basket</button></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORTER & ALUMNI -->
+<section class="bg-paper" id="supporter">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Friends &amp; old members</span><h2>Supporter &amp; Alumni</h2><p>For families on the towpath and Jesuans the world over — wear your colours with pride.</p></div>
+    <div class="shop-grid">
+      <article class="product">
+        <div class="shot shot-paper"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
+        <div class="pinfo"><h3>Alumni Quarter-Zip</h3><p class="pdesc">Soft-knit quarter-zip with discreet embroidered crest. Smart on or off the river.</p><div class="prow"><span class="pprice">£46</span><button class="btn btn-dark padd">Add to basket</button></div></div>
+      </article>
+      <article class="product">
+        <div class="shot shot-crimson"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
+        <div class="pinfo"><h3>Supporters' Bobble Hat</h3><p class="pdesc">Warm knitted beanie for chilly mornings cheering crews from the bank.</p><div class="prow"><span class="pprice">£18</span><button class="btn btn-dark padd">Add to basket</button></div></div>
+      </article>
+      <article class="product">
+        <div class="shot shot-ink"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
+        <div class="pinfo"><h3>Boathouse Enamel Mug</h3><p class="pdesc">Classic enamel mug with the crossed-oars mark. Towpath tea, sorted.</p><div class="prow"><span class="pprice">£12</span><button class="btn btn-dark padd">Add to basket</button></div></div>
+      </article>
+      <article class="product">
+        <div class="shot shot-paper"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
+        <div class="pinfo"><h3>Club Tote Bag</h3><p class="pdesc">Heavy cotton tote printed with the club colours. Kit bag or shopping, your call.</p><div class="prow"><span class="pprice">£10</span><button class="btn btn-dark padd">Add to basket</button></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="bg-ink">
+  <div class="wrap grid-2" style="align-items:center">
+    <div class="prose">
+      <span class="eyebrow">Ordering</span>
+      <h2 style="color:#fff;font-size:clamp(1.9rem,4vw,2.8rem);font-weight:900;margin:12px 0 18px">How it works</h2>
+      <p>Add what you'd like to your basket and check out online — kit is produced in seasonal batches, so delivery times are shown at checkout. Current members can also collect from the boathouse to save on postage.</p>
+      <p>All proceeds go straight back into the club: new boats, blades and supporting our rowers.</p>
+    </div>
+    <div class="panel">
+      <h3 style="color:var(--crimson)">Good to know</h3>
+      <p style="color:rgba(255,255,255,.82);margin-top:12px"><b>Sizing:</b> unisex unless stated — a size guide appears on each product.</p>
+      <p style="color:rgba(255,255,255,.82);margin-top:10px"><b>Bicentenary range:</b> strictly limited; some items are pre-order for 2027 delivery.</p>
+      <p style="color:rgba(255,255,255,.82);margin-top:10px"><b>Questions?</b> Email <a class="inl" href="mailto:jcbc-president@jcsu.jesus.cam.ac.uk">the club</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <span class="eyebrow light">Two centuries on the Cam</span>
+    <h2 style="margin-top:12px">Wear the red and black</h2>
+    <p>Every order supports Jesus College Boat Club as we row towards our bicentenary.</p>
+    <div class="btn-row center"><a href="#bicentenary" class="btn btn-light">Shop the Bicentenary range</a><a href="contact.html" class="btn btn-ghost">Contact the Club</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <b>JESUS COLLEGE BOAT CLUB</b>
+        <p>Jesus College, Jesus Lane, Cambridge, CB5 8BL. Boathouse via Kimberley Road, Cambridge.</p>
+        <p style="margin-top:10px"><a href="mailto:jcbc-president@jcsu.jesus.cam.ac.uk" style="color:var(--crimson);font-weight:700">jcbc-president@jcsu.jesus.cam.ac.uk</a></p>
+      </div>
+      <div><h4>The Club</h4><a href="fleet.html">Facilities & Fleet</a><a href="history.html">History</a><a href="join.html">Row for Jesus</a><a href="merch.html">Shop</a><a href="contact.html">Contact</a></div>
+      <div><h4>Racing</h4><a href="fairbairns.html">Fairbairn Cup</a><a href="fairbairns.html#course">The Course</a><a href="fairbairns.html#info">Race Info</a><a href="history.html">Honours</a></div>
+      <div><h4>Get Involved</h4><a href="join.html">Join the Club</a><a href="merch.html">Shop the stash</a><a href="contact.html">Captains</a><a href="https://www.instagram.com/jesuscollegeboatclub/">Instagram</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Jesus College Boat Club · All views expressed are independent of Jesus College, Cambridge.</span>
+      <a class="ig" href="https://www.instagram.com/jesuscollegeboatclub/">◎ @jesuscollegeboatclub</a>
+    </div>
+  </div>
+</footer>
+
+<script src="jcbc.js"></script>
+</body>
+</html>
