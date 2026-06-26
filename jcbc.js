@@ -42,17 +42,23 @@
     var btn = document.querySelector(".menu-toggle");
     var links = document.querySelector(".navlinks");
     if (!btn || !links) return;
-    btn.addEventListener("click", function () {
-      var open = links.style.display === "flex";
-      links.style.display = open ? "" : "flex";
-      links.style.flexDirection = "column";
-      links.style.position = "absolute";
-      links.style.top = "74px";
-      links.style.left = "0";
-      links.style.right = "0";
-      links.style.background = "rgba(23,20,17,.97)";
-      links.style.padding = open ? "" : "20px 28px";
-      links.style.gap = "14px";
+    function setOpen(open) {
+      links.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.innerHTML = open ? "&times;" : "&#9776;";
+    }
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      setOpen(!links.classList.contains("open"));
+    });
+    Array.prototype.forEach.call(links.querySelectorAll("a"), function (a) {
+      a.addEventListener("click", function () { setOpen(false); });
+    });
+    document.addEventListener("click", function (e) {
+      if (links.classList.contains("open") && !links.contains(e.target) && e.target !== btn) {
+        setOpen(false);
+      }
     });
   }
 
