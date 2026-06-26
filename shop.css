@@ -81,3 +81,10 @@ body.shop-closed .padd{pointer-events:none}
 .err{color:var(--crimson);font-size:.85rem;margin-top:-6px;margin-bottom:10px;display:none}
 .err.show{display:block}
 @media(max-width:520px){.field.row{grid-template-columns:1fr}}
+
+
+/* size selector on product cards */
+.product select.size{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;margin-bottom:14px;font-family:inherit;font-size:.9rem;background:#fff;color:var(--ink)}
+.product select.size:focus{outline:2px solid var(--crimson);border-color:transparent}
+.product select.size.needs{border-color:var(--crimson);box-shadow:0 0 0 3px rgba(138,18,24,.25)}
+.ditem .dsize{display:inline-block;background:var(--paper-2);color:var(--ink-soft);font-size:.68rem;font-weight:700;letter-spacing:.04em;padding:1px 8px;border-radius:20px;margin-left:5px;vertical-align:middle}

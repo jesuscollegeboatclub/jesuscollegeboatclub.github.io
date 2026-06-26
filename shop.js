@@ -91,7 +91,10 @@ const SHOP_CONFIG = {
         const card = btn.closest(".product");
         const name = $("h3", card).textContent.trim();
         const price = parseFloat(($(".pprice", card).textContent || "").replace(/[^0-9.]/g, "")) || 0;
-        addItem(name, price);
+        const sizeSel = card.querySelector("select.size");
+        if (sizeSel && !sizeSel.value) { sizeSel.classList.add("needs"); sizeSel.focus(); setTimeout(() => sizeSel.classList.remove("needs"), 1200); return; }
+        const size = sizeSel ? sizeSel.value : "";
+        addItem(name, price, size);
         openDrawer();
         btn.textContent = "Added ✓";
         setTimeout(() => { btn.textContent = original; }, 1100);
@@ -99,19 +102,21 @@ const SHOP_CONFIG = {
     });
   }
 
-  function addItem(name, price) {
-    const ex = basket.find(i => i.name === name);
-    if (ex) ex.qty += 1; else basket.push({ name, price, qty: 1 });
+  const idOf = i => i.name + "||" + (i.size || "");
+  function addItem(name, price, size) {
+    size = size || "";
+    const ex = basket.find(i => i.name === name && (i.size || "") === size);
+    if (ex) ex.qty += 1; else basket.push({ name, price, size, qty: 1 });
     save(); render();
   }
-  function setQty(name, d) {
-    const it = basket.find(i => i.name === name);
+  function setQty(id, d) {
+    const it = basket.find(i => idOf(i) === id);
     if (!it) return;
     it.qty += d;
-    if (it.qty <= 0) basket = basket.filter(i => i.name !== name);
+    if (it.qty <= 0) basket = basket.filter(i => idOf(i) !== id);
     save(); render();
   }
-  function removeItem(name) { basket = basket.filter(i => i.name !== name); save(); render(); }
+  function removeItem(id) { basket = basket.filter(i => idOf(i) !== id); save(); render(); }
   const total = () => basket.reduce((s, i) => s + i.price * i.qty, 0);
   const count = () => basket.reduce((s, i) => s + i.qty, 0);
 
@@ -126,16 +131,18 @@ const SHOP_CONFIG = {
       foot.innerHTML = "";
       return;
     }
-    items.innerHTML = basket.map(i =>
-      '<div class="ditem">' +
-        '<div><div class="dn">' + esc(i.name) + '</div><div class="dp">' + money(i.price) + ' each</div>' +
-        '<button class="dremove" data-rm="' + esc(i.name) + '">Remove</button></div>' +
+    items.innerHTML = basket.map(function (i) {
+      var id = esc(idOf(i));
+      return '<div class="ditem">' +
+        '<div><div class="dn">' + esc(i.name) + (i.size ? ' <span class="dsize">' + esc(i.size) + '</span>' : '') + '</div>' +
+        '<div class="dp">' + money(i.price) + ' each</div>' +
+        '<button class="dremove" data-rm="' + id + '">Remove</button></div>' +
         '<div style="text-align:right">' +
-          '<div class="qty"><button data-dec="' + esc(i.name) + '">−</button><span>' + i.qty + '</span><button data-inc="' + esc(i.name) + '">+</button></div>' +
+          '<div class="qty"><button data-dec="' + id + '">−</button><span>' + i.qty + '</span><button data-inc="' + id + '">+</button></div>' +
           '<div class="line">' + money(i.price * i.qty) + '</div>' +
         '</div>' +
-      '</div>'
-    ).join("");
+      '</div>';
+    }).join("");
     foot.innerHTML =
       '<div class="sub"><span>Subtotal</span><span>' + money(total()) + '</span></div>' +
       '<button class="btn btn-primary" id="goCheckout">Checkout</button>' +
@@ -166,7 +173,7 @@ const SHOP_CONFIG = {
           '<div><label>College / crew</label><input id="f_crew" placeholder="e.g. Jesus M1"></div>' +
           '<div><label>Delivery</label><select id="f_deliver"><option>Collect from boathouse</option><option>Post (UK)</option></select></div>' +
         '</div>' +
-        '<div class="field"><label>Notes — sizes, colours, etc.</label><textarea id="f_notes" rows="2" placeholder="e.g. Hoodie size L, leggings size M"></textarea></div>' +
+        '<div class="field"><label>Notes — colours, requests, etc.</label><textarea id="f_notes" rows="2" placeholder="Anything else we should know?"></textarea></div>' +
         '<div class="err" id="f_err">Please enter your name and a valid email.</div>' +
         '<button class="btn btn-primary" id="toBank" style="width:100%">Continue to payment</button>' +
       '</div>';
@@ -222,7 +229,7 @@ const SHOP_CONFIG = {
       ref: cust.ref, date: new Date().toISOString(),
       name: cust.name, email: cust.email, crew: cust.crew,
       delivery: cust.deliver, notes: cust.notes,
-      items: basket.map(i => ({ name: i.name, qty: i.qty, price: i.price })),
+      items: basket.map(i => ({ name: i.size ? i.name + " (" + i.size + ")" : i.name, qty: i.qty, price: i.price })),
       total: total(), bank: SHOP_CONFIG.bank.name
     };
 
