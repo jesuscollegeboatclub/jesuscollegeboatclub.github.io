@@ -3,8 +3,8 @@
    Modern / sporty redesign · crimson + ink
    ============================================================ */
 :root{
-  --crimson:#A4123B;
-  --crimson-dark:#7a0d2c;
+  --crimson:#8A1218;
+  --crimson-dark:#6B0E12;
   --ink:#171411;
   --ink-soft:#56504b;
   --paper:#FBFAF8;
@@ -30,10 +30,9 @@ h1,h2,h3,h4{font-family:'Archivo',sans-serif;line-height:1.06;letter-spacing:-.0
 header{position:sticky;top:0;z-index:50;background:rgba(21,17,15,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
 nav.bar{display:flex;align-items:center;justify-content:space-between;height:74px}
 .brand{display:flex;align-items:center;gap:14px;color:#fff}
-.brand .mark{width:42px;height:42px;border-radius:50%;background:var(--crimson);display:grid;place-items:center;overflow:hidden;flex:0 0 auto;transition:transform .25s}
-.brand:hover .mark{transform:rotate(-8deg)}
-.brand .mark img{width:100%;height:100%;object-fit:contain;padding:3px}
-.brand .mark svg{width:24px;height:24px;display:block}
+.brand .mark{height:18px;width:auto;background:transparent;display:grid;place-items:center;overflow:visible;flex:0 0 auto;transition:transform .25s}
+.brand:hover .mark{transform:scale(1.08)}
+.brand .mark img{height:100%;width:auto;object-fit:contain;display:block;filter:drop-shadow(0 1px 3px rgba(0,0,0,.35))}
 .brand b{font-family:'Anton',sans-serif;font-weight:400;font-size:1.5rem;letter-spacing:.04em;line-height:1}
 .brand .sub{display:block;font-size:.62rem;letter-spacing:.28em;color:var(--crimson);font-weight:700;text-transform:uppercase;font-family:'Archivo',sans-serif}
 .navlinks{display:flex;align-items:center;gap:28px}
@@ -41,6 +40,28 @@ nav.bar{display:flex;align-items:center;justify-content:space-between;height:74p
 .navlinks a:hover,.navlinks a.active{color:#fff}
 .navlinks a::after{content:"";position:absolute;left:0;bottom:-8px;width:0;height:2px;background:var(--crimson);transition:width .25s}
 .navlinks a:hover::after,.navlinks a.active::after{width:100%}
+/* nav dropdown */
+.navlinks .dd{position:relative;display:flex;align-items:center}
+.ddtrigger{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.82);font-weight:600;font-size:.92rem;font-family:inherit;background:none;border:0;cursor:pointer;padding:0;position:relative}
+.dd:hover .ddtrigger,.dd:focus-within .ddtrigger,.ddtrigger.active{color:#fff}
+.ddtrigger .caret{font-size:.6rem;transition:transform .2s}
+.dd:hover .ddtrigger .caret{transform:rotate(180deg)}
+.ddtrigger::after{content:"";position:absolute;left:0;bottom:-8px;width:0;height:2px;background:var(--crimson);transition:width .25s}
+.dd:hover .ddtrigger::after,.ddtrigger.active::after{width:100%}
+.dd::after{content:"";position:absolute;left:-12px;right:-12px;top:100%;height:14px}
+.dd-menu{position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%) translateY(6px);min-width:200px;background:rgba(23,20,17,.98);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:8px;opacity:0;visibility:hidden;transition:opacity .2s,transform .2s,visibility .2s;box-shadow:0 24px 50px -22px rgba(0,0,0,.7);z-index:60}
+.dd:hover .dd-menu,.dd:focus-within .dd-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.dd-menu a{display:block;padding:10px 14px;border-radius:8px;color:rgba(255,255,255,.8);font-weight:600;font-size:.9rem;white-space:nowrap}
+.dd-menu a::after{display:none}
+.dd-menu a:hover,.dd-menu a.active{background:rgba(255,255,255,.08);color:#fff}
+@media(max-width:920px){
+  .navlinks .dd{display:block}
+  .ddtrigger{padding:5px 0}
+  .ddtrigger .caret{display:none}
+  .dd::after{display:none}
+  .dd-menu{position:static;opacity:1;visibility:visible;transform:none;background:none;border:0;box-shadow:none;padding:2px 0 2px 14px;min-width:0}
+  .dd-menu a{padding:6px 0}
+}
 .btn{display:inline-block;font-family:'Archivo',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:.82rem;padding:13px 26px;border-radius:6px;transition:transform .15s,background .2s,color .2s;cursor:pointer;border:0}
 .btn-primary{background:var(--crimson);color:#fff}
 .btn-primary:hover{background:var(--crimson-dark);transform:translateY(-2px)}
@@ -72,6 +93,11 @@ section{padding:104px 0}
 .bg-paper2{background:var(--paper-2)}
 .bg-ink{background:var(--ink);color:#fff}
 .bg-ink h2,.bg-ink h3{color:#fff}
+.bg-crimson{background:var(--crimson);color:#fff}
+.bg-crimson h2,.bg-crimson h3{color:#fff}
+.bg-crimson .sec-head p{color:rgba(255,255,255,.86)}
+.bg-ink .eyebrow,.bg-crimson .eyebrow{color:#fff}
+.bg-ink .eyebrow::before,.bg-crimson .eyebrow::before{background:#fff}
 .sec-head{max-width:680px;margin-bottom:56px}
 .sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
 .sec-head h2{font-size:clamp(1.9rem,4vw,2.9rem);margin:16px 0 0;font-weight:800;letter-spacing:-.025em}
@@ -82,7 +108,7 @@ section{padding:104px 0}
 .prose p{color:var(--ink-soft);margin-bottom:18px;font-size:1.05rem}
 .prose h3{font-size:1.5rem;font-weight:800;margin:34px 0 12px}
 .bg-ink .prose p{color:rgba(255,255,255,.82)}
-.inl{color:var(--crimson);font-weight:700;border-bottom:2px solid rgba(164,18,59,.3)}
+.inl{color:var(--crimson);font-weight:700;border-bottom:2px solid rgba(138,18,24,.3)}
 .inl:hover{border-color:var(--crimson)}
 
 /* GRIDS */
@@ -154,8 +180,8 @@ section{padding:104px 0}
 .gallery{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:200px 200px;gap:16px}
 .gallery figure{position:relative;border-radius:14px;overflow:hidden;background-size:cover;background-position:center;transition:transform .5s cubic-bezier(.2,.6,.2,1)}
 .gallery figure:hover{transform:translateY(-4px)}
-.gallery figure::after{content:"";position:absolute;inset:0;background:rgba(164,18,59,0);transition:background .4s}
-.gallery figure:hover::after{background:rgba(164,18,59,.14)}
+.gallery figure::after{content:"";position:absolute;inset:0;background:rgba(138,18,24,0);transition:background .4s}
+.gallery figure:hover::after{background:rgba(138,18,24,.14)}
 .gallery figure.big{grid-row:span 2}
 .gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:18px;background:linear-gradient(0deg,rgba(21,17,15,.9),transparent);color:#fff;font-family:'Archivo';font-weight:700;font-size:.92rem}
 

@@ -1,0 +1,83 @@
+/* ============================================================
+   JCBC SHOP — basket, checkout, deadline close
+   ============================================================ */
+
+/* open/closed status banner under the hero */
+.shop-banner{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;
+  background:var(--ink);color:#fff;padding:13px 20px;font-family:'Archivo',sans-serif;
+  font-weight:600;letter-spacing:.04em;font-size:.86rem;text-align:center}
+.shop-banner .dot{width:8px;height:8px;border-radius:50%;background:#36c46b;box-shadow:0 0 0 3px rgba(54,196,107,.25)}
+.shop-banner b{font-weight:800}
+body.shop-closed .shop-banner{background:var(--crimson)}
+body.shop-closed .shop-banner .dot{background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.3)}
+
+/* basket button in nav */
+#basketBtn{position:relative;border:0;cursor:pointer}
+#basketBtn .bk-count{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;
+  margin-left:7px;border-radius:20px;background:#fff;color:var(--crimson);font-size:.72rem;font-weight:800;font-family:'Archivo'}
+
+/* when shop is closed: gray everything out */
+body.shop-closed .shop-grid{filter:grayscale(1);opacity:.5;pointer-events:none;user-select:none}
+body.shop-closed #basketBtn{display:none}
+body.shop-closed .padd{pointer-events:none}
+
+/* overlay + drawer */
+.bk-overlay{position:fixed;inset:0;background:rgba(23,20,17,.5);opacity:0;visibility:hidden;
+  transition:opacity .25s,visibility .25s;z-index:200}
+.bk-overlay.open{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,94vw);background:var(--paper);
+  z-index:201;transform:translateX(100%);transition:transform .32s cubic-bezier(.2,.6,.2,1);
+  display:flex;flex-direction:column;box-shadow:-24px 0 60px -34px rgba(0,0,0,.55)}
+.drawer.open{transform:none}
+.drawer .dhead{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;
+  border-bottom:1px solid var(--line);background:#fff}
+.drawer .dhead h3{font-family:'Archivo';font-weight:800;font-size:1.2rem;text-transform:uppercase;letter-spacing:.02em}
+.dclose{background:none;border:0;font-size:1.5rem;line-height:1;cursor:pointer;color:var(--ink-soft)}
+.dclose:hover{color:var(--crimson)}
+.ditems{flex:1;overflow-y:auto;padding:10px 24px}
+.ditem{display:grid;grid-template-columns:1fr auto;gap:6px 14px;padding:18px 0;border-bottom:1px solid var(--line)}
+.ditem .dn{font-weight:700;font-size:.98rem}
+.ditem .dp{color:var(--ink-soft);font-size:.9rem}
+.ditem .qty{display:inline-flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.ditem .qty button{width:30px;height:30px;border:0;background:#fff;cursor:pointer;font-size:1rem;color:var(--ink)}
+.ditem .qty button:hover{background:var(--paper-2);color:var(--crimson)}
+.ditem .qty span{min-width:30px;text-align:center;font-weight:700;font-size:.92rem}
+.ditem .line{font-family:'Archivo';font-weight:800;align-self:center;text-align:right}
+.dremove{background:none;border:0;color:var(--ink-soft);font-size:.78rem;cursor:pointer;text-align:left;padding:0;text-decoration:underline}
+.dremove:hover{color:var(--crimson)}
+.dempty{padding:50px 24px;text-align:center;color:var(--ink-soft)}
+.dfoot{border-top:1px solid var(--line);padding:22px 24px;background:#fff}
+.dfoot .sub{display:flex;justify-content:space-between;font-family:'Archivo';font-weight:800;font-size:1.15rem;margin-bottom:16px}
+.dfoot .btn{width:100%;text-align:center}
+.dnote{font-size:.78rem;color:var(--ink-soft);margin-top:10px;text-align:center}
+
+/* checkout modal */
+.bk-modal{position:fixed;inset:0;z-index:210;display:none;align-items:center;justify-content:center;padding:20px;
+  background:rgba(23,20,17,.55)}
+.bk-modal.open{display:flex}
+.mcard{background:var(--paper);border-radius:16px;width:min(560px,96vw);max-height:92vh;overflow-y:auto;
+  box-shadow:0 30px 80px -30px rgba(0,0,0,.6)}
+.mcard .mhead{display:flex;align-items:center;justify-content:space-between;padding:24px 28px 0}
+.mcard .mhead h3{font-family:'Archivo';font-weight:800;font-size:1.35rem}
+.mbody{padding:18px 28px 28px}
+.mbody p{color:var(--ink-soft);font-size:.96rem;margin-bottom:14px}
+.field{margin-bottom:14px}
+.field label{display:block;font-family:'Archivo';font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:8px;
+  font-family:inherit;font-size:.96rem;background:#fff}
+.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--crimson);border-color:transparent}
+.field.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bankbox{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:6px 0 16px}
+.bankbox .brow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--line);font-size:.95rem}
+.bankbox .brow:last-child{border-bottom:0}
+.bankbox .brow b{font-family:'Archivo'}
+.bankbox .ref{color:var(--crimson);font-weight:800}
+.msteps{display:flex;gap:8px;margin:4px 0 18px}
+.msteps .s{flex:1;height:4px;border-radius:4px;background:var(--line)}
+.msteps .s.on{background:var(--crimson)}
+.mok{text-align:center;padding:14px 0}
+.mok .tick{width:64px;height:64px;border-radius:50%;background:var(--crimson);color:#fff;display:grid;place-items:center;
+  font-size:2rem;margin:0 auto 16px}
+.err{color:var(--crimson);font-size:.85rem;margin-top:-6px;margin-bottom:10px;display:none}
+.err.show{display:block}
+@media(max-width:520px){.field.row{grid-template-columns:1fr}}

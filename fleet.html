@@ -7,22 +7,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="jcbc.css">
+<link rel="stylesheet" href="jcbc.css?v=4">
 </head>
 <body>
 
 <header>
   <nav class="bar wrap">
     <a class="brand" href="index.html">
-      <span class="mark"><svg viewBox="0 0 40 40" aria-label="JCBC crossed oars"><g stroke="#fff" fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></span>
+      <span class="mark" style="height:36px;width:auto;background:transparent;box-shadow:none;border-radius:0"><img src="jesus_crest.png" alt="Jesus College Boat Club crest" style="height:36px;width:auto;padding:0;filter:none"></span>
       <span><b>JCBC</b><span class="sub">Since 1827</span></span>
     </a>
     <div class="navlinks">
       <a href="index.html">Home</a>
+      <div class="dd">
+        <button class="ddtrigger active" type="button">Club <span class="caret">▾</span></button>
+        <div class="dd-menu">
+          <a href="committee.html">Committee</a>
+          <a href="fleet.html" class="active">Fleet</a>
+          <a href="history.html">History</a>
+        </div>
+      </div>
       <a href="fairbairns.html">Fairbairn Cup</a>
-      <a href="fleet.html" class="active">Fleet</a>
       <a href="join.html">Row for Jesus</a>
-      <a href="history.html">History</a>
       <a href="merch.html">Shop</a>
       <a href="contact.html">Contact</a>
     </div>
@@ -31,7 +37,7 @@
   </nav>
 </header>
 
-<section class="page-hero" style="--bg:url('https://static.wixstatic.com/media/f736e6_e27afed8aa7141afa247892a34e2e39c~mv2.jpeg/v1/fill/w_1600,h_900,al_c,q_85,enc_auto/file.jpeg')">
+<section class="page-hero" style="--bg:url('images/boathouse.jpg')">
   <div class="wrap">
     <nav class="crumbs"><a href="index.html">Home</a> / Facilities & Fleet</nav>
     <span class="eyebrow light">Beside Goldie on the River Cam</span>
@@ -52,7 +58,7 @@
 <!-- BOATHOUSE -->
 <section class="bg-paper">
   <div class="wrap grid-2">
-    <div class="media"><img src="https://static.wixstatic.com/media/f736e6_71ceb8c9741a442c93b0989d6fd1f887~mv2.jpeg/v1/fill/w_900,h_675,al_c,q_85,enc_auto/file.jpeg" alt="Boathouse interior and coaching"></div>
+    <div class="media"><img src="images/coaching.jpg" alt="Boathouse interior and coaching"></div>
     <div class="prose">
       <span class="eyebrow">The boathouse</span>
       <h2 style="font-size:clamp(1.9rem,4vw,2.8rem);font-weight:900;margin:12px 0 18px">An enviable spot on the river</h2>
@@ -72,7 +78,7 @@
       <p>Our Head Coach holds the highest coaching qualification (Level 4) and has worked for British Rowing; our assistant coach is Level 2 qualified.</p>
       <p style="margin-top:10px"><a href="join.html" class="btn btn-dark">Row with us →</a></p>
     </div>
-    <div class="media"><img src="https://static.wixstatic.com/media/f736e6_270f7f216133427b982c989cd3a9a501~mv2.jpeg/v1/fill/w_900,h_675,al_c,q_85,enc_auto/file.jpeg" alt="Crews on the water"></div>
+    <div class="media"><img src="images/novices.jpg" alt="Crews on the water"></div>
   </div>
 </section>
 
@@ -105,11 +111,11 @@
   <div class="wrap">
     <div class="sec-head"><span class="eyebrow">On the water</span><h2>Out on the Cam</h2></div>
     <div class="gallery">
-      <figure class="big" style="background-image:url('https://static.wixstatic.com/media/f736e6_01c45043dfdf4f8bbcceee1e608a029c~mv2.jpeg/v1/fill/w_1000,h_900,al_c,q_85,enc_auto/file.jpeg')"><figcaption>Eights training</figcaption></figure>
-      <figure style="background-image:url('https://static.wixstatic.com/media/f736e6_63268eb112014a78be9ca912fbe47018~mv2.jpeg/v1/fill/w_700,h_440,al_c,q_85,enc_auto/file.jpeg')"><figcaption>Senior squad</figcaption></figure>
-      <figure style="background-image:url('https://static.wixstatic.com/media/f736e6_bf2c165ee3dd49519126da002e3fd16f~mv2.jpeg/v1/fill/w_700,h_440,al_c,q_85,enc_auto/file.jpeg')"><figcaption>Small boats</figcaption></figure>
-      <figure style="background-image:url('https://static.wixstatic.com/media/f736e6_8ead62c074f147d6a464696ebb259aa6~mv2.jpeg/v1/fill/w_700,h_440,al_c,q_85,enc_auto/file.jpeg')"><figcaption>Racing colours</figcaption></figure>
-      <figure style="background-image:url('https://static.wixstatic.com/media/f736e6_79558a82d98a448e904dcb30f96a0721~mv2.png/v1/fill/w_700,h_440,al_c,q_85,enc_auto/file.png')"><figcaption>January training camp</figcaption></figure>
+      <figure class="big" style="background-image:url('images/eights.jpg')"><figcaption>Eights training</figcaption></figure>
+      <figure style="background-image:url('images/on-the-water.jpg')"><figcaption>Senior squad</figcaption></figure>
+      <figure style="background-image:url('images/small-boats.jpg')"><figcaption>Small boats</figcaption></figure>
+      <figure style="background-image:url('images/racing.jpg')"><figcaption>Racing colours</figcaption></figure>
+      <figure style="background-image:url('images/training-camp.png')"><figcaption>January training camp</figcaption></figure>
     </div>
   </div>
 </section>
@@ -147,7 +153,7 @@
         <p>Jesus College, Jesus Lane, Cambridge, CB5 8BL. Boathouse via Kimberley Road, Cambridge.</p>
         <p style="margin-top:10px"><a href="mailto:jcbc-president@jcsu.jesus.cam.ac.uk" style="color:var(--crimson);font-weight:700">jcbc-president@jcsu.jesus.cam.ac.uk</a></p>
       </div>
-      <div><h4>The Club</h4><a href="fleet.html">Facilities & Fleet</a><a href="history.html">History</a><a href="join.html">Row for Jesus</a><a href="merch.html">Shop</a><a href="contact.html">Contact</a></div>
+      <div><h4>The Club</h4><a href="fleet.html">Facilities & Fleet</a><a href="committee.html">Committee</a><a href="history.html">History</a><a href="join.html">Row for Jesus</a><a href="merch.html">Shop</a><a href="contact.html">Contact</a></div>
       <div><h4>Racing</h4><a href="fairbairns.html">Fairbairn Cup</a><a href="fairbairns.html#course">The Course</a><a href="fairbairns.html#info">Race Info</a><a href="history.html">Honours</a></div>
       <div><h4>Get Involved</h4><a href="join.html">Join the Club</a><a href="join.html#brochures">Brochures</a><a href="contact.html">Captains</a><a href="https://www.instagram.com/jesuscollegeboatclub/">Instagram</a></div>
     </div>

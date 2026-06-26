@@ -7,7 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="jcbc.css">
+<link rel="stylesheet" href="jcbc.css?v=4">
+<link rel="stylesheet" href="shop.css?v=4">
 <style>
 .shop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
 .product{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(23,20,17,.04);transition:transform .2s,box-shadow .2s}
@@ -40,24 +41,30 @@
 <header>
   <nav class="bar wrap">
     <a class="brand" href="index.html">
-      <span class="mark"><svg viewBox="0 0 40 40" aria-label="JCBC crossed oars"><g stroke="#fff" fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></span>
+      <span class="mark" style="height:36px;width:auto;background:transparent;box-shadow:none;border-radius:0"><img src="jesus_crest.png" alt="Jesus College Boat Club crest" style="height:36px;width:auto;padding:0;filter:none"></span>
       <span><b>JCBC</b><span class="sub">Since 1827</span></span>
     </a>
     <div class="navlinks">
       <a href="index.html">Home</a>
+      <div class="dd">
+        <button class="ddtrigger" type="button">Club <span class="caret">▾</span></button>
+        <div class="dd-menu">
+          <a href="committee.html">Committee</a>
+          <a href="fleet.html">Fleet</a>
+          <a href="history.html">History</a>
+        </div>
+      </div>
       <a href="fairbairns.html">Fairbairn Cup</a>
-      <a href="fleet.html">Fleet</a>
       <a href="join.html">Row for Jesus</a>
-      <a href="history.html">History</a>
       <a href="merch.html" class="active">Shop</a>
       <a href="contact.html">Contact</a>
     </div>
-    <a href="join.html" class="btn btn-primary">Join the Club</a>
+    <button id="basketBtn" class="btn btn-dark" aria-label="Open basket">Basket<span class="bk-count" id="basketCount">0</span></button>
     <button class="menu-toggle" aria-label="Menu">☰</button>
   </nav>
 </header>
 
-<section class="page-hero" style="--bg:url('https://static.wixstatic.com/media/f736e6_63268eb112014a78be9ca912fbe47018~mv2.jpeg/v1/fill/w_1600,h_900,al_c,q_85,enc_auto/file.jpeg')">
+<section class="page-hero" style="--bg:url('images/on-the-water.jpg')">
   <div class="wrap">
     <nav class="crumbs"><a href="index.html">Home</a> / Shop</nav>
     <span class="eyebrow light">Wear the red and black</span>
@@ -185,7 +192,7 @@
         <p>Jesus College, Jesus Lane, Cambridge, CB5 8BL. Boathouse via Kimberley Road, Cambridge.</p>
         <p style="margin-top:10px"><a href="mailto:jcbc-president@jcsu.jesus.cam.ac.uk" style="color:var(--crimson);font-weight:700">jcbc-president@jcsu.jesus.cam.ac.uk</a></p>
       </div>
-      <div><h4>The Club</h4><a href="fleet.html">Facilities & Fleet</a><a href="history.html">History</a><a href="join.html">Row for Jesus</a><a href="merch.html">Shop</a><a href="contact.html">Contact</a></div>
+      <div><h4>The Club</h4><a href="fleet.html">Facilities & Fleet</a><a href="committee.html">Committee</a><a href="history.html">History</a><a href="join.html">Row for Jesus</a><a href="merch.html">Shop</a><a href="contact.html">Contact</a></div>
       <div><h4>Racing</h4><a href="fairbairns.html">Fairbairn Cup</a><a href="fairbairns.html#course">The Course</a><a href="fairbairns.html#info">Race Info</a><a href="history.html">Honours</a></div>
       <div><h4>Get Involved</h4><a href="join.html">Join the Club</a><a href="merch.html">Shop the stash</a><a href="contact.html">Captains</a><a href="https://www.instagram.com/jesuscollegeboatclub/">Instagram</a></div>
     </div>
@@ -197,5 +204,6 @@
 </footer>
 
 <script src="jcbc.js"></script>
+<script src="shop.js"></script>
 </body>
 </html>

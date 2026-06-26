@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="jcbc.css">
+<link rel="stylesheet" href="jcbc.css?v=4">
 <style>
 .hero{position:relative;min-height:72vh;display:flex;align-items:flex-start;color:#fff;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:0;background:
@@ -45,16 +45,21 @@
 <header>
   <nav class="bar wrap">
     <a class="brand" href="index.html">
-      <span class="mark"><img src="jesus_crest.png" alt="Jesus College Boat Club crest"></span>
+      <span class="mark" style="height:36px;width:auto;background:transparent;box-shadow:none;border-radius:0"><img src="jesus_crest.png" alt="Jesus College Boat Club crest" style="height:36px;width:auto;padding:0;filter:none"></span>
       <span><b>JCBC</b><span class="sub">Since 1827</span></span>
     </a>
     <div class="navlinks">
       <a href="index.html" class="active">Home</a>
+      <div class="dd">
+        <button class="ddtrigger" type="button">Club <span class="caret">▾</span></button>
+        <div class="dd-menu">
+          <a href="committee.html">Committee</a>
+          <a href="fleet.html">Fleet</a>
+          <a href="history.html">History</a>
+        </div>
+      </div>
       <a href="fairbairns.html">Fairbairn Cup</a>
-      <a href="fleet.html">Fleet</a>
-      <a href="committee.html">Committee</a>
       <a href="join.html">Row for Jesus</a>
-      <a href="history.html">History</a>
       <a href="merch.html">Shop</a>
       <a href="contact.html">Contact</a>
     </div>
@@ -84,7 +89,24 @@
   </div>
 </section>
 
-<section class="bg-paper2">
+<section class="bg-ink">
+  <div class="wrap welcome-grid">
+    <div class="pres-card">
+      <img src="https://static.wixstatic.com/media/f736e6_9222be25591d4f2ba981ef528bb42715~mv2.jpg/v1/fill/w_700,h_875,al_c,q_85,enc_auto/file.jpg" alt="JCBC President Ellis Collins">
+      <div class="badge"><b>Ellis Collins</b><span>President · 2025–26</span></div>
+    </div>
+    <div class="prose">
+      <span class="eyebrow">Welcome</span>
+      <h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:900;margin:14px 0 18px">Welcome to Jesus College Boat Club</h2>
+      <p>As a boat club, we cater to all levels. The vast majority join as beginners and take part in our novice programme in their first term, before joining our senior crews. Experienced rowers can jump straight in, and every year several students go on to trial with the University — receiving the best financial support available from any Cambridge college.</p>
+      <p>As if we don't have enough fun on the water, we run an amazing set of social events: informal bar nights, crew pastas and black-tie formals to celebrate the end of each term.</p>
+      <p>We boast <a class="inl" href="fleet.html">excellent facilities</a> just a five-minute cycle from College accommodation, one of the most extensive fleets on the Cam, and a Level-4 head coach. Historically, we are the most successful Cambridge college boat club.</p>
+      <p style="margin-top:24px"><a href="join.html" class="btn btn-light">Join the club →</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="bg-crimson">
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">Where to start</span>
@@ -104,23 +126,6 @@
         <div class="ph" style="background-image:url('https://static.wixstatic.com/media/f736e6_79558a82d98a448e904dcb30f96a0721~mv2.png/v1/fill/w_800,h_500,al_c,q_85,enc_auto/file.png')"><span class="tag">Off the water</span></div>
         <div class="body"><h3>Club & Socials</h3><p>Bar nights, crew pastas, black-tie formals and a heavily subsidised January training camp in Spain. The club is as much about people as podiums.</p><a href="fleet.html" class="go">Facilities <span class="arr">→</span></a></div>
       </article>
-    </div>
-  </div>
-</section>
-
-<section class="bg-paper">
-  <div class="wrap welcome-grid">
-    <div class="pres-card">
-      <img src="https://static.wixstatic.com/media/f736e6_9222be25591d4f2ba981ef528bb42715~mv2.jpg/v1/fill/w_700,h_875,al_c,q_85,enc_auto/file.jpg" alt="JCBC President Ellis Collins">
-      <div class="badge"><b>Ellis Collins</b><span>President · 2025–26</span></div>
-    </div>
-    <div class="prose">
-      <span class="eyebrow">Welcome</span>
-      <h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:900;margin:14px 0 18px">Welcome to Jesus College Boat Club</h2>
-      <p>As a boat club, we cater to all levels. The vast majority join as beginners and take part in our novice programme in their first term, before joining our senior crews. Experienced rowers can jump straight in, and every year several students go on to trial with the University — receiving the best financial support available from any Cambridge college.</p>
-      <p>As if we don't have enough fun on the water, we run an amazing set of social events: informal bar nights, crew pastas and black-tie formals to celebrate the end of each term.</p>
-      <p>We boast <a class="inl" href="fleet.html">excellent facilities</a> just a five-minute cycle from College accommodation, one of the most extensive fleets on the Cam, and a Level-4 head coach. Historically, we are the most successful Cambridge college boat club.</p>
-      <p style="margin-top:24px"><a href="join.html" class="btn btn-dark">Join the club →</a></p>
     </div>
   </div>
 </section>
@@ -202,4 +207,3 @@
 <script src="jcbc.js"></script>
 </body>
 </html>
-

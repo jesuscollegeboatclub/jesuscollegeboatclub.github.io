@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Committee | Jesus College Boat Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="jcbc.css?v=4">
+<style>
+.team{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.cm{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 1px 2px rgba(23,20,17,.04);transition:transform .2s,box-shadow .2s}
+.cm:hover{transform:translateY(-4px);box-shadow:0 18px 40px -28px rgba(23,20,17,.35)}
+.cm .pic{aspect-ratio:1/1;overflow:hidden;background:var(--paper-2)}
+.cm .pic img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
+.cm:hover .pic img{transform:scale(1.05)}
+.ci{padding:16px 18px 20px}
+.crole{font-family:'Archivo';font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-size:.64rem;color:var(--crimson)}
+.ci h3{font-size:1.04rem;font-weight:800;margin-top:5px;letter-spacing:-.02em}
+.ci .tiny{font-size:.78rem;color:var(--ink-soft);margin-top:4px;font-style:italic}
+@media(max-width:980px){.team{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:680px){.team{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:430px){.team{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="bar wrap">
+    <a class="brand" href="index.html">
+      <span class="mark" style="height:36px;width:auto;background:transparent;box-shadow:none;border-radius:0"><img src="jesus_crest.png" alt="Jesus College Boat Club crest" style="height:36px;width:auto;padding:0;filter:none"></span>
+      <span><b>JCBC</b><span class="sub">Since 1827</span></span>
+    </a>
+    <div class="navlinks">
+      <a href="index.html">Home</a>
+      <div class="dd">
+        <button class="ddtrigger active" type="button">Club <span class="caret">▾</span></button>
+        <div class="dd-menu">
+          <a href="committee.html" class="active">Committee</a>
+          <a href="fleet.html">Fleet</a>
+          <a href="history.html">History</a>
+        </div>
+      </div>
+      <a href="fairbairns.html">Fairbairn Cup</a>
+      <a href="join.html">Row for Jesus</a>
+      <a href="merch.html">Shop</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a href="join.html" class="btn btn-primary">Join the Club</a>
+    <button class="menu-toggle" aria-label="Menu">☰</button>
+  </nav>
+</header>
+
+<section class="page-hero" style="--bg:url('images/eights.jpg')">
+  <div class="wrap">
+    <nav class="crumbs"><a href="index.html">Home</a> / The Committee</nav>
+    <span class="eyebrow light">The people behind the club</span>
+    <h1>Meet the <em>Committee</em></h1>
+    <p class="lead">The students and coaches who run Jesus College Boat Club — keeping crews on the water, races organised and the boathouse buzzing.</p>
+  </div>
+</section>
+
+<!-- CAPTAINS -->
+<section class="bg-paper">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Leadership</span><h2>Captains &amp; Vice-Captains</h2></div>
+    <div class="team">
+      <article class="cm"><div class="pic"><img src="images/president.png" alt="President" loading="lazy"></div><div class="ci"><span class="crole">President</span><h3>Ellis Collins</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/captainwomen.png" alt="Women's Captain" loading="lazy"></div><div class="ci"><span class="crole">Women's Captain</span><h3>Izzie Fisher</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/captainmen.png" alt="Men's Captain" loading="lazy"></div><div class="ci"><span class="crole">Men's Captain</span><h3>Ellis Collins</h3><p class="tiny">Yes — the same one!</p></div></article>
+      <article class="cm"><div class="pic"><img src="images/coxingcaptain.png" alt="Coxing Captain" loading="lazy"></div><div class="ci"><span class="crole">Coxing Captain</span><h3>Elena Ruddy</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/vicecaptainwomen.png" alt="Women's Vice-Captain" loading="lazy"></div><div class="ci"><span class="crole">Women's Vice-Captain</span><h3>Aniko Firman</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/vicecaptainmen.png" alt="Men's Vice-Captain" loading="lazy"></div><div class="ci"><span class="crole">Men's Vice-Captain</span><h3>Will Duffield</h3></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- LOWER BOATS -->
+<section class="bg-paper2">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Lower boats</span><h2>Lower Boats Captains</h2></div>
+    <div class="team">
+      <article class="cm"><div class="pic"><img src="images/lowerboatcaptainwomen1.png" alt="Women's Lower Boats Captain" loading="lazy"></div><div class="ci"><span class="crole">Women's Lower Boats</span><h3>Grace Skinner</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/lowerboatcaptainwomen2.png" alt="Women's Lower Boats Captain" loading="lazy"></div><div class="ci"><span class="crole">Women's Lower Boats</span><h3>Emma Tabernacle</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/lowerboatcaptainmen1.png" alt="Men's Lower Boats Captain" loading="lazy"></div><div class="ci"><span class="crole">Men's Lower Boats</span><h3>Finn Foley</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/lowerboatcaptainmen2.png" alt="Men's Lower Boats Captain" loading="lazy"></div><div class="ci"><span class="crole">Men's Lower Boats</span><h3>Jake Hawkes</h3></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- OFFICERS -->
+<section class="bg-paper">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Behind the scenes</span><h2>Officers &amp; Secretaries</h2></div>
+    <div class="team">
+      <article class="cm"><div class="pic"><img src="images/treasurer.png" alt="Treasurer" loading="lazy"></div><div class="ci"><span class="crole">Treasurer</span><h3>Jenson Wightman</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/webmaster.png" alt="Webmaster" loading="lazy"></div><div class="ci"><span class="crole">Webmaster</span><h3>Amanda Stoffers</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/secretary.png" alt="Secretary" loading="lazy"></div><div class="ci"><span class="crole">Secretary</span><h3>Maddie Ross</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/alumnioutreach.png" alt="Alumni &amp; Outreach" loading="lazy"></div><div class="ci"><span class="crole">Alumni &amp; Outreach</span><h3>Hannah Wimhurst</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/fairbairnssecretary.png" alt="Fairbairn's Secretary" loading="lazy"></div><div class="ci"><span class="crole">Fairbairn's Secretary</span><h3>John Jessop</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/welfareofficer.png" alt="Welfare Officer" loading="lazy"></div><div class="ci"><span class="crole">Welfare Officer</span><h3>Adrian Ifrim</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/socialsecretary.png" alt="Social Secretary" loading="lazy"></div><div class="ci"><span class="crole">Social Secretary</span><h3>Julia Morton</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/sponsorshipofficer.png" alt="Sponsorship &amp; Fundraising Officer" loading="lazy"></div><div class="ci"><span class="crole">Sponsorship &amp; Fundraising</span><h3>Alina Lelke</h3></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- COACHES & MASCOT -->
+<section class="bg-ink">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Coaching &amp; mascot</span><h2>Coaches &amp; the Boathouse Dog</h2></div>
+    <div class="team">
+      <article class="cm"><div class="pic"><img src="images/headcoach.png" alt="Head Coach" loading="lazy"></div><div class="ci"><span class="crole">Head Coach</span><h3>Jonathan Conder</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/assistantcoach.png" alt="Assistant Coach" loading="lazy"></div><div class="ci"><span class="crole">Assistant Coach</span><h3>Callum Bland</h3></div></article>
+      <article class="cm"><div class="pic"><img src="images/boathousedog.png" alt="Boathouse Dog" loading="lazy"></div><div class="ci"><span class="crole">Boathouse Dog</span><h3>Peaches</h3><p class="tiny">Chief morale officer.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <span class="eyebrow light">Get in touch</span>
+    <h2 style="margin-top:12px">Questions for the committee?</h2>
+    <p>Whatever you need — joining, coxing, racing or facilities — someone here is happy to help.</p>
+    <div class="btn-row center"><a href="contact.html" class="btn btn-light">Contact Us</a><a href="join.html" class="btn btn-ghost">Row for Jesus</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <b>JESUS COLLEGE BOAT CLUB</b>
+        <p>Jesus College, Jesus Lane, Cambridge, CB5 8BL. Boathouse via Kimberley Road, Cambridge.</p>
+        <p style="margin-top:10px"><a href="mailto:jcbc-president@jcsu.jesus.cam.ac.uk" style="color:var(--crimson);font-weight:700">jcbc-president@jcsu.jesus.cam.ac.uk</a></p>
+      </div>
+      <div><h4>The Club</h4><a href="fleet.html">Facilities & Fleet</a><a href="committee.html">Committee</a><a href="history.html">History</a><a href="join.html">Row for Jesus</a><a href="merch.html">Shop</a><a href="contact.html">Contact</a></div>
+      <div><h4>Racing</h4><a href="fairbairns.html">Fairbairn Cup</a><a href="fairbairns.html#course">The Course</a><a href="fairbairns.html#info">Race Info</a><a href="history.html">Honours</a></div>
+      <div><h4>Get Involved</h4><a href="join.html">Join the Club</a><a href="merch.html">Shop the stash</a><a href="contact.html">Captains</a><a href="https://www.instagram.com/jesuscollegeboatclub/">Instagram</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Jesus College Boat Club · All views expressed are independent of Jesus College, Cambridge.</span>
+      <a class="ig" href="https://www.instagram.com/jesuscollegeboatclub/">◎ @jesuscollegeboatclub</a>
+    </div>
+  </div>
+</footer>
+
+<script src="jcbc.js"></script>
+</body>
+</html>
