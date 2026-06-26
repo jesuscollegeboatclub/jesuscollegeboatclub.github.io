@@ -24,7 +24,7 @@ h1,h2,h3,h4{font-family:'Archivo',sans-serif;line-height:1.06;letter-spacing:-.0
 .eyebrow{display:inline-flex;align-items:center;gap:11px;font-family:'Archivo',sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;font-weight:700;color:var(--crimson)}
 .eyebrow::before{content:"";width:26px;height:2px;background:currentColor;display:inline-block;flex:0 0 auto}
 .sec-head.center .eyebrow{justify-content:center}
-.eyebrow.light{color:#fff;opacity:.9}
+.eyebrow.light{color:#fff;opacity:.95;text-shadow:0 1px 8px rgba(0,0,0,.55)}
 
 /* NAV */
 header{position:sticky;top:0;z-index:50;background:rgba(21,17,15,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
@@ -90,14 +90,15 @@ nav.bar{display:flex;align-items:center;justify-content:space-between;height:74p
 /* PAGE HERO (inner pages) */
 .page-hero{position:relative;color:#fff;padding:140px 0 80px;overflow:hidden}
 .page-hero::before{content:"";position:absolute;inset:0;background:
-  linear-gradient(180deg,rgba(23,20,17,.45),rgba(23,20,17,.78)),var(--bg) center/cover no-repeat;}
+  linear-gradient(180deg,rgba(23,20,17,.5),rgba(23,20,17,.82)),var(--bg) center/cover no-repeat;}
 .page-hero .wrap{position:relative;z-index:2}
-.crumbs{font-size:.78rem;letter-spacing:.04em;color:rgba(255,255,255,.7);margin-bottom:22px;text-transform:uppercase;font-family:'Archivo';font-weight:600}
+.crumbs{font-size:.78rem;letter-spacing:.04em;color:rgba(255,255,255,.8);margin-bottom:22px;text-transform:uppercase;font-family:'Archivo';font-weight:600;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 .crumbs a{color:rgba(255,255,255,.92)}
 .crumbs a:hover{color:#fff}
-.page-hero h1{font-family:'Anton';font-weight:400;text-transform:uppercase;font-size:clamp(2.6rem,7vw,5rem);line-height:.96;margin-top:10px}
+.page-hero h1{font-family:'Anton';font-weight:400;text-transform:uppercase;font-size:clamp(2.6rem,7vw,5rem);line-height:.96;margin-top:10px;text-shadow:0 2px 18px rgba(0,0,0,.6)}
 .page-hero h1 em{font-style:normal;color:#fff}
-.lead{font-size:1.16rem;color:rgba(255,255,255,.9);max-width:640px;margin-top:20px;line-height:1.65}
+.lead{font-size:1.16rem;color:rgba(255,255,255,.95);max-width:640px;margin-top:20px;line-height:1.65;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.page-hero.hero-fb::before{background:linear-gradient(90deg,rgba(23,20,17,.8),rgba(23,20,17,.34) 50%,rgba(23,20,17,.06) 72%,rgba(23,20,17,0)),var(--bg) center/cover no-repeat}
 
 /* SECTIONS */
 section{padding:104px 0}

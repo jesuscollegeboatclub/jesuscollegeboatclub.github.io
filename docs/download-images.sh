@@ -11,7 +11,7 @@
 #  Safe to re-run.
 # ============================================================
 set -euo pipefail
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/.."
 mkdir -p images
 BASE="https://static.wixstatic.com/media"
 

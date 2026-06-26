@@ -17,7 +17,7 @@ email receipts and the orders spreadsheet.
 5. **Closing date** — after the date you set, the whole shop **greys out and
    locks**, and a banner says the shop is closed.
 
-## What you must edit (in `shop.js`, top of the file)
+## What you must edit (in `assets/js/shop.js`, top of the file)
 
 ```js
 const SHOP_CONFIG = {
@@ -47,7 +47,7 @@ the backend below is what makes the receipt + spreadsheet automatic.
    - *Execute as:* **Me**
    - *Who has access:* **Anyone**
    - Click **Deploy**, authorise, and **copy the Web app URL**.
-6. Paste that URL into `shop.js` → `SHOP_CONFIG.orderEndpoint`.
+6. Paste that URL into `assets/js/shop.js` → `SHOP_CONFIG.orderEndpoint`.
 
 Each order now appends a row (timestamp, reference, name, email, crew,
 delivery, items, total, notes, and a blank "Payment received?" column you can
