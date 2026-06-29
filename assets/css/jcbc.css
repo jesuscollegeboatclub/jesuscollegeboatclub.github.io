@@ -271,3 +271,13 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:60px 0 26px}
 .bg-crimson .prose h3{color:#fff}
 .bg-ink .inl,.bg-crimson .inl{color:#fff;border-color:rgba(255,255,255,.55)}
 .bg-ink .timeline .tl-body p,.bg-crimson .timeline .tl-body p{color:rgba(255,255,255,.82)}
+
+/* collapsible full-text documents */
+.doc{border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:14px;overflow:hidden;color:var(--ink)}
+.doc summary{cursor:pointer;list-style:none;padding:18px 22px;font-family:'Archivo',sans-serif;font-weight:800;font-size:1.05rem;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.doc summary::-webkit-details-marker{display:none}
+.doc summary::after{content:"+";font-family:'Archivo';font-weight:800;color:var(--crimson);font-size:1.4rem;line-height:1}
+.doc[open] summary::after{content:"\2013"}
+.doc .dmeta{margin-left:auto;margin-right:6px;font-family:'Inter';font-weight:500;font-size:.78rem;color:var(--ink-soft);text-transform:none;letter-spacing:0}
+.doc .doc-text{padding:18px 22px;border-top:1px solid var(--line);white-space:pre-wrap;color:var(--ink-soft);font-size:.9rem;line-height:1.62;max-height:60vh;overflow:auto}
+.doc .doc-foot{padding:14px 22px;border-top:1px solid var(--line)}
