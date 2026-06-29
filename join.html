@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/jcbc.css?v=7">
+<link rel="stylesheet" href="assets/css/jcbc.css?v=11">
 <style>
 .blist{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:11px 30px;margin-top:8px}
 .blist li{position:relative;padding-left:24px;color:var(--ink-soft);font-size:.97rem;line-height:1.5}
@@ -17,6 +17,8 @@
 .brochure-block>p{color:var(--ink-soft);margin-bottom:6px}
 .callout{margin-top:20px;padding:16px 20px;background:var(--paper-2);border-left:3px solid var(--crimson);border-radius:8px;color:var(--ink-soft);font-size:.96rem}
 @media(max-width:680px){.blist{grid-template-columns:1fr}}
+.form-embed{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 1px 2px rgba(23,20,17,.04)}
+.form-embed iframe{display:block;width:100%;border:0}
 </style>
 </head>
 <body>
@@ -27,17 +29,28 @@
       <span class="mark" style="height:36px;width:auto;background:transparent;box-shadow:none;border-radius:0"><img src="images/jesus_crest.png" alt="Jesus College Boat Club crest" style="height:36px;width:auto;padding:0;filter:none"></span>
       <span><b>JCBC</b><span class="sub">Since 1827</span></span>
     </a>
-    <div class="navlinks">
+        <div class="navlinks">
       <a href="index.html">Home</a>
       <div class="dd">
         <button class="ddtrigger" type="button">Club <span class="caret">▾</span></button>
         <div class="dd-menu">
           <a href="committee.html">Committee</a>
-          <a href="fleet.html">Fleet</a>
+          <a href="fleet.html">Facilities &amp; Fleet</a>
+          <a href="sponsorship.html">Sponsorship</a>
+          <a href="trust.html">The Trust</a>
+          <a href="documents.html">Governance &amp; Documents</a>
           <a href="history.html">History</a>
         </div>
       </div>
-      <a href="fairbairns.html">Fairbairn Cup</a>
+      <div class="dd">
+        <button class="ddtrigger" type="button">Fairbairn Cup <span class="caret">▾</span></button>
+        <div class="dd-menu">
+          <a href="fairbairns.html">Overview</a>
+          <a href="fairbairn-archives.html">Archives</a>
+          <a href="fairbairn-history.html">History</a>
+        </div>
+      </div>
+      <a href="news.html">News</a>
       <a href="join.html" class="active">Row for Jesus</a>
       <a href="merch.html">Shop</a>
       <a href="contact.html">Contact</a>
@@ -47,14 +60,14 @@
   </nav>
 </header>
 
-<section class="page-hero" style="--bg:url('images/on-the-water.jpg')">
+<section class="page-hero" style="background:url('images/on-the-water.jpg') center/cover no-repeat">
   <div class="wrap">
     <nav class="crumbs"><a href="index.html">Home</a> / Row for Jesus</nav>
     <span class="eyebrow light">No experience required</span>
     <h1>Row for <em>Jesus</em></h1>
     <p class="lead">Cambridge's most successful rowing college caters for all levels — from top athletes who've rowed before to the many complete beginners who take up the sport here and go on to great things.</p>
     <div class="btn-row" style="margin-top:26px">
-      <a href="https://www.jesusboatclub.co.uk/signup" class="btn btn-primary">Sign Up Now</a>
+      <a href="#signup" class="btn btn-primary">Sign Up Now</a>
       <a href="mailto:jcbc-lbcaptains@jcsu.jesus.cam.ac.uk" class="btn btn-ghost">Ask about learning to row</a>
     </div>
   </div>
@@ -85,6 +98,16 @@
       <div class="panel"><h3 style="color:var(--crimson)">Most convenient</h3><p style="color:rgba(255,255,255,.82);margin-top:8px">A boathouse just five minutes' cycle from College accommodation — closer than anyone else on the Cam.</p></div>
       <div class="panel"><h3 style="color:var(--crimson)">Best supported</h3><p style="color:rgba(255,255,255,.82);margin-top:8px">University trialists receive the best financial support available from any Cambridge college.</p></div>
       <div class="panel"><h3 style="color:var(--crimson)">Most successful</h3><p style="color:rgba(255,255,255,.82);margin-top:8px">The most headships at both the May and Lent Bumps, plus Henley Royal Regatta success.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGN-UP FORM -->
+<section class="bg-paper2" id="signup">
+  <div class="wrap narrow">
+    <div class="sec-head center"><span class="eyebrow">Sign up</span><h2>Register to row</h2><p>Fill in the form below and we'll be in touch — it only takes a minute.</p></div>
+    <div class="form-embed">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfKeOrs9-RN5GuC9LtI8KNKQh3LLAOBmCBiDpkzo2youM33ZQ/viewform?embedded=true" title="JCBC sign-up form" loading="lazy" style="width:100%;height:1100px;border:0;display:block">Loading…</iframe>
     </div>
   </div>
 </section>
@@ -138,7 +161,7 @@
     <span class="eyebrow light">Ready when you are</span>
     <h2 style="margin-top:12px">Get on the water</h2>
     <p>All Jesus College students — and anyone who shortly will be — can sign up now.</p>
-    <div class="btn-row center"><a href="https://www.jesusboatclub.co.uk/signup" class="btn btn-light">Sign Up Now</a><a href="contact.html" class="btn btn-ghost">Meet the Captains</a></div>
+    <div class="btn-row center"><a href="#signup" class="btn btn-light">Sign Up Now</a><a href="contact.html" class="btn btn-ghost">Meet the Captains</a></div>
   </div>
 </section>
 
@@ -150,9 +173,9 @@
         <p>Jesus College, Jesus Lane, Cambridge, CB5 8BL. Boathouse via Kimberley Road, Cambridge.</p>
         <p style="margin-top:10px"><a href="mailto:jcbc-president@jcsu.jesus.cam.ac.uk" style="color:var(--crimson);font-weight:700">jcbc-president@jcsu.jesus.cam.ac.uk</a></p>
       </div>
-      <div><h4>The Club</h4><a href="fleet.html">Facilities & Fleet</a><a href="committee.html">Committee</a><a href="history.html">History</a><a href="join.html">Row for Jesus</a><a href="merch.html">Shop</a><a href="contact.html">Contact</a></div>
-      <div><h4>Racing</h4><a href="fairbairns.html">Fairbairn Cup</a><a href="fairbairns.html#course">The Course</a><a href="fairbairns.html#info">Race Info</a><a href="history.html">Honours</a></div>
-      <div><h4>Get Involved</h4><a href="join.html">Join the Club</a><a href="join.html#brochures">Brochures</a><a href="contact.html">Captains</a><a href="https://www.instagram.com/jesuscollegeboatclub/">Instagram</a></div>
+      <div><h4>The Club</h4><a href="committee.html">Committee</a><a href="fleet.html">Facilities & Fleet</a><a href="sponsorship.html">Sponsorship</a><a href="trust.html">The Trust</a><a href="documents.html">Governance & Documents</a><a href="history.html">History</a></div>
+      <div><h4>Racing</h4><a href="fairbairns.html">Fairbairn Cup</a><a href="fairbairn-archives.html">Archives</a><a href="fairbairn-history.html">Fairbairn History</a><a href="news.html">News</a></div>
+      <div><h4>Get Involved</h4><a href="join.html">Row for Jesus</a><a href="merch.html">Shop</a><a href="contact.html">Contact</a><a href="credits.html">Credits</a><a href="https://www.instagram.com/jesuscollegeboatclub/">Instagram</a></div>
     </div>
     <div class="foot-bottom">
       <span>© 2026 Jesus College Boat Club · All views expressed are independent of Jesus College, Cambridge.</span>
