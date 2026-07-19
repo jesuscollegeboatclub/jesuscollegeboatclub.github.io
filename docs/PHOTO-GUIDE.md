@@ -38,6 +38,7 @@ containing their role, name and bio right next to their image filename.
 | `webmaster.jpg` | Webmaster | Grace Skinner |
 | `socialsecretary1.jpg` | Social Secretary | Amanda Stoffers |
 | `socialsecretary2.jpg` | Social Secretary | Flynn Bizzell |
+| `stashofficer2.jpg` | Stash Officer | Amanda Stoffers |
 | `welfareofficer1.jpg` | Welfare Officer | Elena Ruddy |
 | `welfareofficer2.jpg` | Welfare Officer | Marleen Wölke |
 | `fundraisingofficer.jpg` | Fundraising Officer | Anastasia Slastikova |
@@ -67,5 +68,29 @@ automatically — no code changes needed.
 ## A note on email addresses
 
 Personal `@cam.ac.uk` addresses are deliberately **not** published on the committee page,
-to avoid scraping and for privacy. Role-based club addresses
-(jcbc-president@…, jcbc-webmaster@… etc.) are listed on the Contact page instead.
+to avoid scraping and for privacy. Instead, every portrait carries a small **envelope button
+in the top-right corner** which opens a `mailto:` to that person's **role-based club account**.
+When the committee changes, the addresses stay correct automatically — nothing to edit.
+
+| Role | Address |
+|------|---------|
+| President | `jcbc-president@jcsu.jesus.cam.ac.uk` |
+| Men's Captain / Men's Vice-Captain | `jcbc-mcaptain@jcsu.jesus.cam.ac.uk` |
+| Women's Captain / Women's Vice-Captain | `jcbc-wcaptain@jcsu.jesus.cam.ac.uk` |
+| Coxing Captain | `jcbc-cox-captain@jcsu.jesus.cam.ac.uk` |
+| All eight Lower Boats Captains | `jcbc-lbcaptains@jcsu.jesus.cam.ac.uk` |
+| Treasurer | `jcbc-treasurer@jcsu.jesus.cam.ac.uk` |
+| Secretary | `jcbc-secretary@jcsu.jesus.cam.ac.uk` |
+| Fairbairn's Secretary | `jcbc-fbsecretary@jcsu.jesus.cam.ac.uk` |
+| Webmaster | `jcbc-webmaster@jcsu.jesus.cam.ac.uk` |
+| Social Secretaries | `jcbc-social@jcsu.jesus.cam.ac.uk` |
+| Welfare Officers | `jcbc-welfare@jcsu.jesus.cam.ac.uk` |
+| Fundraising / Sponsorship Officer | `jcbc-sponsorship@jcsu.jesus.cam.ac.uk` |
+| Alumni & Outreach Officer | `jcbc-alumni@jcsu.jesus.cam.ac.uk` |
+| Stash Officers | `jcbc-stash@jcsu.jesus.cam.ac.uk` |
+| Coaches / Boatman | `boatman@jesus.cam.ac.uk` |
+
+**Please check the italicised ones below actually exist before going live** — they follow the
+same `jcbc-<role>@jcsu…` pattern as the confirmed addresses, but were inferred rather than taken
+from an official list: *treasurer, secretary, social, welfare, alumni, stash*. To correct one,
+edit the address in `committee.html` (search for `mailto:`).
