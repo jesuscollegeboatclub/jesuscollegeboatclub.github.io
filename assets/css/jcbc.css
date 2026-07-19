@@ -62,7 +62,8 @@ nav.bar{display:flex;align-items:center;justify-content:space-between;height:74p
     max-height:calc(100vh - 74px);overflow-y:auto;z-index:40;
     transform:translateY(-10px);opacity:0;visibility:hidden;
     transition:opacity .22s ease,transform .22s ease,visibility .22s}
-  .navlinks.open{opacity:1;transform:none;visibility:visible}
+  .navlinks{pointer-events:none}
+  .navlinks.open{opacity:1;transform:none;visibility:visible;pointer-events:auto}
   .navlinks>a{padding:15px 26px;font-size:1.02rem;border-bottom:1px solid rgba(255,255,255,.06)}
   .navlinks>a::after{display:none}
   .navlinks .dd{position:static;display:block;border-bottom:1px solid rgba(255,255,255,.06)}
@@ -70,7 +71,9 @@ nav.bar{display:flex;align-items:center;justify-content:space-between;height:74p
   .ddtrigger::after{display:none}
   .ddtrigger .caret{display:none}
   .dd::after{display:none}
-  .dd-menu{position:static;opacity:1;visibility:visible;transform:none;background:none;border:0;box-shadow:none;padding:0 0 6px;min-width:0}
+  /* visibility must INHERIT here: an explicit `visible` would re-expose these
+     links to taps while the closed panel is only opacity:0 (invisible but hit-testable). */
+  .dd-menu{position:static;opacity:1;visibility:inherit;transform:none;background:none;border:0;box-shadow:none;padding:0 0 6px;min-width:0}
   .dd-menu a{display:block;padding:12px 26px 12px 42px;font-size:.96rem;color:rgba(255,255,255,.72)}
   .dd-menu a:hover,.dd-menu a.active{background:rgba(255,255,255,.06)}
 }
