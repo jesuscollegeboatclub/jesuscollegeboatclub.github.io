@@ -20,7 +20,7 @@ containing their role, name and bio right next to their image filename.
 |------|------|---------|
 | `president.jpg` | President | Emma Tabernacle |
 | `captainmen.jpg` | Men's Captain | Thomas McCarter |
-| `captainwomen.jpg` | Women's Captain | Katherine Bradley |
+| `captainwomen.jpg` | Women's Captain | Katy Bradley |
 | `coxingcaptain.jpg` | Coxing Captain | Arzoo Iqbal |
 | `vicecaptainmen.jpg` | Men's Vice-Captain | Finn Foley |
 | `vicecaptainwomen.jpg` | Women's Vice-Captain | Ingrid Berg |
@@ -51,13 +51,12 @@ and `images/boathousedog.png`.
 ## Placeholders
 
 Anyone without a photo yet shows a **claret tile with their initials** and the words
-"PHOTO TO FOLLOW". Currently six people:
+"PHOTO TO FOLLOW". Currently five people:
 
 | File | Waiting on |
 |------|-----------|
 | `vicecaptainmen.jpg` | Finn Foley |
 | `vicecaptainwomen.jpg` | Ingrid Berg |
-| `lowerboatcaptainmen4.jpg` | Freddie Metcalfe |
 | `webmaster.jpg` | Grace Skinner |
 | `welfareofficer2.jpg` | Marleen Wölke |
 | `stashofficer1.jpg` | Will Galloway |
