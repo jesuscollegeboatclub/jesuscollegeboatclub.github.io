@@ -51,14 +51,13 @@ and `images/boathousedog.png`.
 ## Placeholders
 
 Anyone without a photo yet shows a **claret tile with their initials** and the words
-"PHOTO TO FOLLOW". Currently five people:
+"PHOTO TO FOLLOW". Currently four people:
 
 | File | Waiting on |
 |------|-----------|
 | `vicecaptainmen.jpg` | Finn Foley |
 | `vicecaptainwomen.jpg` | Ingrid Berg |
 | `webmaster.jpg` | Grace Skinner |
-| `welfareofficer2.jpg` | Marleen Wölke |
 | `stashofficer1.jpg` | Will Galloway |
 
 Drop a square photo in under the matching filename and the placeholder disappears
