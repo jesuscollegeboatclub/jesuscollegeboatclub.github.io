@@ -4,23 +4,20 @@
   "use strict";
 
   /* ============================================================
-     SHOP SWITCH — turn the online shop on or off in ONE place.
-       false = Shop hidden from every menu, and the shop page shows
-               a "coming soon" notice instead of products.
-       true  = Shop live.
+     SHOP SWITCH — turn the sellable STASH on or off in ONE place.
+       false = the product items are hidden and a "coming soon" notice
+               shows instead. The Shop stays in the menu and the
+               Bicentenary Books stay visible.
+       true  = the full shop (products) is live.
      Flip this to true once there's real stash to sell.
      ============================================================ */
   var SHOP_LIVE = false;
 
   function setupShopVisibility() {
     if (SHOP_LIVE) return;
-    // 1) Hide every link to the shop, site-wide (top nav + mobile menu + footer).
-    Array.prototype.forEach.call(
-      document.querySelectorAll('a[href="merch.html"]'),
-      function (a) { a.style.display = "none"; }
-    );
-    // 2) On the shop page itself, hide the basket + all product sections
-    //    and drop in a friendly "coming soon" notice.
+    // On the shop page, hide the basket + product sections and drop in a
+    // friendly "coming soon" notice. The Shop link stays in every menu, and
+    // any .shop-keep section (the books) stays visible above the notice.
     var basket = document.getElementById("basketBtn");
     if (!basket) return;                 // not the shop page
     basket.style.display = "none";
