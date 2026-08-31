@@ -25,10 +25,15 @@
     if (!basket) return;                 // not the shop page
     basket.style.display = "none";
     var hero = document.querySelector(".page-hero");
+    // sections that should stay visible even while the shop is off (e.g. the books)
+    var keep = document.querySelectorAll(".page-hero, .shop-keep");
+    var kept = Array.prototype.slice.call(keep);
     Array.prototype.forEach.call(document.querySelectorAll("body > section"), function (s) {
-      if (s !== hero) s.style.display = "none";
+      if (kept.indexOf(s) === -1) s.style.display = "none";
     });
-    if (hero) {
+    var anchor = kept.length ? kept[kept.length - 1] : hero;  // put notice after the last kept section
+    if (anchor) {
+      hero = anchor;
       var notice = document.createElement("section");
       notice.className = "bg-paper";
       notice.innerHTML =
