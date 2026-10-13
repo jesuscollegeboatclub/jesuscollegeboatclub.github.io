@@ -96,7 +96,7 @@ and the active states, then add the link to every page's nav/footer.
 - `assets/js/jcbc.js`: mobile menu, scroll-reveal, **shop switch** (section 7).
   `assets/js/shop.js`: basket and checkout.
 - Every page links them with a version query, e.g. `jcbc.css?v=14`, `jcbc.js?v=10`,
-  `shop.css?v=16`, `shop.js?v=12`. **After editing a CSS/JS file, bump its `?v=` on every
+  `shop.css?v=16`, `shop.js?v=13`. **After editing a CSS/JS file, bump its `?v=` on every
   page**, otherwise returning visitors keep the old file.
 - Section background classes: `bg-paper`, `bg-paper2` (light), `bg-ink`, `bg-crimson`
   (dark). Reusable bits: `.card`, `.panel`, `.dl` (download/link card with `.ic`
@@ -185,7 +185,7 @@ cm/inches; data copied from the supplier's charts). Shop photos deliberately hav
 `localStorage` (`jcbc_basket_v1`). The item name comes from the card's `<h3>`, the price
 from `.pprice`, the colour from an optional `<select class="colour">` (appended to the
 name) and the size from an optional `<select class="size">`; items can't be added until
-every present select has a value. Checkout collects name/email/crew/notes (collection is fixed to the boathouse), then
+every present select has a value. Checkout collects name/email, a required "Connection to JCBC" dropdown (Current member / Alumni / Fan / supporter / Other; current members get an optional crew box, stored as e.g. "Current member (W2)" in the sheet's College/Crew column) and notes (collection is fixed to the boathouse), then
 shows the bank details and a reference `JCBC-<initials>-<4 chars>`. "Place order" POSTs
 JSON to the Apps Script (`docs/orders-backend.gs`), which appends a row to the orders
 Google Sheet (timestamp, reference, name, email, crew, delivery, items, total, notes,

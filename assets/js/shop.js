@@ -210,22 +210,29 @@ const SHOP_CONFIG = {
         '<div class="field"><label>Full name</label><input id="f_name" autocomplete="name"></div>' +
         '<div class="field"><label>Email (for your receipt)</label><input id="f_email" type="email" autocomplete="email"></div>' +
         '<div class="field row">' +
-          '<div><label>College / crew</label><input id="f_crew" placeholder="e.g. Jesus M1"></div>' +
+          '<div><label>Connection to JCBC</label><select id="f_conn">' +
+            '<option value="" disabled selected>Choose…</option>' +
+            '<option>Current member</option><option>Alumni</option>' +
+            '<option>Fan / supporter</option><option>Other</option></select></div>' +
           '<div><label>Collection</label><div class="fixedopt">Pick up from the boathouse</div></div>' +
         '</div>' +
+        '<div class="field" id="f_crewwrap" hidden><label>Crew (optional)</label><input id="f_crew" placeholder="e.g. M1, W2, novice"></div>' +
         '<div class="field"><label>Notes (optional)</label><textarea id="f_notes" rows="2" placeholder="Anything else we should know?"></textarea></div>' +
-        '<div class="err" id="f_err">Please enter your name and a valid email.</div>' +
+        '<div class="err" id="f_err">Please enter your name, a valid email and your connection to JCBC.</div>' +
         '<button class="btn btn-primary" id="toBank" style="width:100%">' + (payLater() ? 'Continue' : 'Continue to payment') + '</button>' +
       '</div>';
     $("#bkModal").classList.add("open");
     $("#mClose").onclick = closeAll;
+    $("#f_conn").onchange = () => { $("#f_crewwrap").hidden = $("#f_conn").value !== "Current member"; };
     $("#toBank").onclick = () => {
       const name = $("#f_name").value.trim();
       const email = $("#f_email").value.trim();
-      if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { $("#f_err").classList.add("show"); return; }
+      const conn = $("#f_conn").value;
+      if (!name || !conn || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { $("#f_err").classList.add("show"); return; }
+      const crewTxt = conn === "Current member" ? $("#f_crew").value.trim() : "";
       checkoutBank({
         name, email,
-        crew: $("#f_crew").value.trim(),
+        crew: crewTxt ? conn + " (" + crewTxt + ")" : conn,
         deliver: "Pick up from the boathouse",
         notes: $("#f_notes").value.trim()
       });
@@ -311,7 +318,7 @@ const SHOP_CONFIG = {
     const body =
       "New JCBC shop order\n\nReference: " + order.ref +
       "\nName: " + order.name + "\nEmail: " + order.email +
-      "\nCollege/crew: " + order.crew + "\nDelivery: " + order.delivery +
+      "\nConnection to JCBC: " + order.crew + "\nDelivery: " + order.delivery +
       "\nNotes: " + order.notes + "\n\nItems:\n" + lines +
       "\n\nTotal: " + money(order.total) +
       "\n\nI will pay by bank transfer using reference " + order.ref + ".";
