@@ -78,7 +78,7 @@ function sendReceipt(order) {
     "*** IMPORTANT: " + warning + " ***\n\n" +
     help + "\n\n" +
     "We'll let you know when your jacket is ready to pick up from the boathouse.\n\n" +
-    "Boaty love,\nyour stash officers Amanda & Will";
+    "Boatie love,\nyour stash officers Amanda & Will";
 
   // HTML version with the highlighted deadline box
   var rows = items.map(function (i) {
@@ -101,7 +101,7 @@ function sendReceipt(order) {
     "IMPORTANT: " + esc(warning) + "</div>" +
     "<p>" + esc(help) + "</p>" +
     "<p>We'll let you know when your jacket is ready to pick up from the boathouse.</p>" +
-    "<p>Boaty love,<br>your stash officers Amanda &amp; Will</p></div>";
+    "<p>Boatie love,<br>your stash officers Amanda &amp; Will</p></div>";
 
   MailApp.sendEmail({
     to: order.email,

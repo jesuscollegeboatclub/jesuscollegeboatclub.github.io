@@ -200,9 +200,9 @@ change the live emails**: paste it into the Apps Script editor and redeploy via
 *Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy* (keeps the same URL).
 The live script is the Apps Script project **"sync orders"**, bound to the Google Sheet
 **"Merch Orders"** (tab "Orders"; open it via Extensions → Apps Script). Deployment ID
-`AKfycbwMM7VF…` = the `orderEndpoint` in `shop.js`. Version 5 (13 Oct 2026, deadline 25 Oct) is live: deadline warning
+`AKfycbwMM7VF…` = the `orderEndpoint` in `shop.js`. Version 6 (13 Oct 2026, deadline 25 Oct) is live: deadline warning
 box (payment questions to the treasurer), "Questions about the jackets? Just reply to this
-email." and the sign-off "Boaty love, your stash officers Amanda & Will". The script runs as
+email." and the sign-off "Boatie love, your stash officers Amanda & Will". The script runs as
 the webmaster's account (aas208@cam.ac.uk), so receipts are sent from that address and buyer
 replies land there; the other stash officer (Will, wsg22@cam.ac.uk, `STASH_CC`) is in visible CC and
 the treasurer gets a BCC of every receipt. No replyTo is set (deliberate:
