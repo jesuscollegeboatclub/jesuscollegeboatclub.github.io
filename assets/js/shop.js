@@ -346,11 +346,19 @@ const SHOP_CONFIG = {
 
   /* ---------- product photos (front/back) + size guide ---------- */
   function wireExtras() {
-    $$("[data-flip]").forEach(b => b.addEventListener("click", e => {
-      e.preventDefault();
-      const on = b.closest(".shot").classList.toggle("flip");
-      b.textContent = on ? "View front" : "View back";
-    }));
+    // front/back photo toggle: the button or a tap on the photo switches sides
+    $$(".shot.photo").forEach(shot => {
+      const b = shot.querySelector("[data-flip]");
+      if (!b) return;
+      const flip = e => {
+        e.preventDefault();
+        const back = shot.classList.toggle("back");
+        b.textContent = back ? "View front" : "View back";
+        b.setAttribute("aria-pressed", back);
+      };
+      b.addEventListener("click", flip);
+      shot.querySelectorAll("img").forEach(i => i.addEventListener("click", flip));
+    });
     const dlg = $("#sizeGuide");
     if (!dlg) return;
     const open = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", ""); };
@@ -370,8 +378,18 @@ const SHOP_CONFIG = {
   }
 
   /* ---------- closed state ---------- */
+  // After the deadline: grey out every product, stamp it "Sold out", disable its controls.
   function applyClosed() {
-    if (closed()) document.body.classList.add("shop-closed");
+    if (!closed()) return;
+    document.body.classList.add("shop-closed");
+    $$(".product").forEach(p => {
+      p.classList.add("soldout");
+      const shot = $(".shot", p);
+      if (shot && !$(".soldstamp", shot)) shot.insertAdjacentHTML("beforeend", '<span class="soldstamp">Sold out</span>');
+      $$("select, button", p).forEach(el => { el.disabled = true; });
+      const add = $(".padd", p);
+      if (add) add.textContent = "Sold out";
+    });
   }
 
   /* ---------- init ---------- */

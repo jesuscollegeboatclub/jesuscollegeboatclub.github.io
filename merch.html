@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/jcbc.css?v=14">
-<link rel="stylesheet" href="assets/css/shop.css?v=16">
+<link rel="stylesheet" href="assets/css/shop.css?v=17">
 <style>
 .shop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
 .product{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(23,20,17,.04);transition:transform .2s,box-shadow .2s;color:var(--ink)}
@@ -20,8 +20,9 @@
 .shot.photo{background:#fff;border-bottom:1px solid var(--line)}
 .shot.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity .35s ease,transform .6s cubic-bezier(.2,.6,.2,1)}
 .shot.photo .b{opacity:0}
-.shot.photo.flip .b,.product:hover .shot.photo:not(.flip) .b{opacity:1}
-.shot.photo.flip .f,.product:hover .shot.photo:not(.flip) .f{opacity:0}
+.shot.photo.back .b{opacity:1}
+.shot.photo.back .f{opacity:0}
+.shot.photo img{cursor:pointer}
 .shot.photo .pbadge{z-index:2;background:var(--ink);color:#fff}
 .shot .flip{position:absolute;right:12px;bottom:12px;z-index:2;font-family:'Archivo';font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.62rem;padding:7px 12px;border-radius:40px;border:1px solid var(--line);background:rgba(255,255,255,.92);color:var(--ink);cursor:pointer}
 .sguide{align-self:flex-start;background:none;border:0;padding:0;margin:-6px 0 16px;font-family:'Archivo';font-weight:700;font-size:.78rem;color:var(--crimson);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
@@ -238,6 +239,6 @@ dialog.sg::backdrop{background:rgba(23,20,17,.55)}
 </footer>
 
 <script src="assets/js/jcbc.js?v=10"></script>
-<script src="assets/js/shop.js?v=13"></script>
+<script src="assets/js/shop.js?v=14"></script>
 </body>
 </html>

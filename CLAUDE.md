@@ -96,7 +96,7 @@ and the active states, then add the link to every page's nav/footer.
 - `assets/js/jcbc.js`: mobile menu, scroll-reveal, **shop switch** (section 7).
   `assets/js/shop.js`: basket and checkout.
 - Every page links them with a version query, e.g. `jcbc.css?v=14`, `jcbc.js?v=10`,
-  `shop.css?v=16`, `shop.js?v=13`. **After editing a CSS/JS file, bump its `?v=` on every
+  `shop.css?v=17`, `shop.js?v=14`. **After editing a CSS/JS file, bump its `?v=` on every
   page**, otherwise returning visitors keep the old file.
 - Section background classes: `bg-paper`, `bg-paper2` (light), `bg-ink`, `bg-crimson`
   (dark). Reusable bits: `.card`, `.panel`, `.dl` (download/link card with `.ic`
@@ -144,8 +144,9 @@ and the active states, then add the link to every page's nav/footer.
    - `true`: full shop. Flip it only when there is real stash to sell.
 2. **`SHOP_CONFIG`** at the top of `assets/js/shop.js`:
    - `closeDate`: order deadline. Currently `2026-11-01T23:59:59` (orders close Sunday
-     1 November 2026). After it the shop greys out (`body.shop-closed`) and shows a
-     "shop is closed" banner. The "Shop is open · orders close …" banner only appears
+     1 November 2026). After it the shop shows a "shop is closed" banner and every
+     `.product` gets `.soldout`: greyed out, a crimson "Sold out" stamp on the photo, controls
+     disabled and the button reads "Sold out" (`applyClosed()` in `shop.js`). The "Shop is open · orders close …" banner only appears
      while `SHOP_LIVE` is true (`window.JCBC_SHOP_LIVE`).
    - The jacket section has a crimson **deadline countdown** (`[data-countdown]` in
      `merch.html`, driven by `closeDate` via `countdown()` in `shop.js`; pulses in the last
@@ -166,7 +167,7 @@ waterproof seam-sealed Ocean Tech with a hood that packs into the collar (verifi
 musto.com, Oct 2026). Each card links the Musto men's/women's product pages (`.mlinks`;
 SKUs 82617/82619 Sardinia, 82615/82618 Corsica). Prices are the supplier's per-unit cost
 incl. VAT from the order spreadsheet. Photos in `images/shop/` (front + back, cut from the
-supplier artwork PDF); hover or "View back" swaps to the back. There is **no Sardinia Black
+supplier artwork PDF); the "View back"/"View front" button or a tap on the photo toggles `.shot.photo.back` (no hover swap: it fought with the button). There is **no Sardinia Black
 artwork**, so both Sardinia colours show the Platinum images and the badge (`[data-cnote]`)
 reads "Black · artwork shown in Platinum". If a black image arrives, save it as
 `images/shop/sardinia-black-front/back.jpg` and point the Black option's `data-front`/
