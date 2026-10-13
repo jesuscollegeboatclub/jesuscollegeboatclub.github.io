@@ -11,7 +11,7 @@
        true  = the full shop (products) is live.
      Flip this to true once there's real stash to sell.
      ============================================================ */
-  var SHOP_LIVE = false;
+  var SHOP_LIVE = true;
   window.JCBC_SHOP_LIVE = SHOP_LIVE;   // read by shop.js (status banner)
 
   function setupShopVisibility() {

@@ -43,6 +43,9 @@ const SHOP_CONFIG = {
   const LS = "jcbc_basket_v1";
   const money = n => SHOP_CONFIG.currency + n.toFixed(2).replace(/\.00$/, "");
   const closed = () => new Date() > new Date(SHOP_CONFIG.closeDate);
+  // Bank details not filled in yet: take orders, and the treasurer emails payment details.
+  const payLater = () => { const b = SHOP_CONFIG.bank || {};
+    return !b.sortCode || !b.accountNumber || /^[0-]+$/.test(b.sortCode) || /^0+$/.test(b.accountNumber); };
 
   let basket = [];
   try { basket = JSON.parse(localStorage.getItem(LS)) || []; } catch (e) { basket = []; }
@@ -183,7 +186,7 @@ const SHOP_CONFIG = {
     foot.innerHTML =
       '<div class="sub"><span>Subtotal</span><span>' + money(total()) + '</span></div>' +
       '<button class="btn btn-primary" id="goCheckout">Checkout</button>' +
-      '<div class="dnote">Payment is by bank transfer; details are shown at checkout.</div>';
+      '<div class="dnote">' + (payLater() ? 'Payment is by bank transfer; the treasurer will email you the details.' : 'Payment is by bank transfer; details are shown at checkout.') + '</div>';
     $$("[data-inc]", items).forEach(b => b.onclick = () => setQty(b.dataset.inc, 1));
     $$("[data-dec]", items).forEach(b => b.onclick = () => setQty(b.dataset.dec, -1));
     $$("[data-rm]", items).forEach(b => b.onclick = () => removeItem(b.dataset.rm));
@@ -212,7 +215,7 @@ const SHOP_CONFIG = {
         '</div>' +
         '<div class="field"><label>Notes (optional)</label><textarea id="f_notes" rows="2" placeholder="Anything else we should know?"></textarea></div>' +
         '<div class="err" id="f_err">Please enter your name and a valid email.</div>' +
-        '<button class="btn btn-primary" id="toBank" style="width:100%">Continue to payment</button>' +
+        '<button class="btn btn-primary" id="toBank" style="width:100%">' + (payLater() ? 'Continue' : 'Continue to payment') + '</button>' +
       '</div>';
     $("#bkModal").classList.add("open");
     $("#mClose").onclick = closeAll;
@@ -238,6 +241,24 @@ const SHOP_CONFIG = {
     cust.ref = genRef(cust.name);
     const b = SHOP_CONFIG.bank;
     const m = $("#mcard");
+    if (payLater()) {
+      m.innerHTML =
+        '<div class="mhead"><h3>Confirm your order</h3><button class="dclose" id="mClose">&times;</button></div>' +
+        '<div class="mbody">' +
+          '<div class="msteps"><div class="s on"></div><div class="s on"></div><div class="s"></div></div>' +
+          '<div class="bankbox">' +
+            '<div class="brow"><span>Total</span><b>' + money(total()) + '</b></div>' +
+            '<div class="brow"><span>Collection</span><b>Pick up from the boathouse</b></div>' +
+            '<div class="brow"><span>Your reference</span><b class="ref">' + cust.ref + '</b></div>' +
+          '</div>' +
+          '<p style="font-size:.86rem">Place your order now. The treasurer will email you the club&#x27;s bank details; please pay by bank transfer using your reference so we can match your payment. You&#x27;ll get a receipt by email.</p>' +
+          '<div class="err" id="p_err">Something went wrong sending your order. Please email us instead.</div>' +
+          '<button class="btn btn-primary" id="placeOrder" style="width:100%">Place order</button>' +
+        '</div>';
+      $("#mClose").onclick = closeAll;
+      $("#placeOrder").onclick = () => placeOrder(cust);
+      return;
+    }
     m.innerHTML =
       '<div class="mhead"><h3>Pay by bank transfer</h3><button class="dclose" id="mClose">&times;</button></div>' +
       '<div class="mbody">' +
@@ -308,7 +329,7 @@ const SHOP_CONFIG = {
         '<div class="mok"><div class="tick">✓</div>' +
         '<p style="color:var(--ink);font-weight:700;font-size:1.05rem">Thank you, ' + esc(cust.name.split(" ")[0]) + '!</p>' +
         '<p>Your reference is <b style="color:var(--crimson)">' + cust.ref + '</b>. ' +
-        'Please make your bank transfer with that reference if you haven’t already. ' +
+        (payLater() ? 'The treasurer will email you the bank details; please pay using that reference. ' : 'Please make your bank transfer with that reference if you haven’t already. ') +
         'A receipt is on its way to <b>' + esc(cust.email) + '</b>.</p></div>' +
         '<button class="btn btn-dark" id="mDone" style="width:100%">Done</button>' +
       '</div>';

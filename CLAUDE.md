@@ -95,8 +95,8 @@ and the active states, then add the link to every page's nav/footer.
   `--ink`, `--paper`, `--line` …). `assets/css/shop.css`: shop only.
 - `assets/js/jcbc.js`: mobile menu, scroll-reveal, **shop switch** (section 7).
   `assets/js/shop.js`: basket and checkout.
-- Every page links them with a version query, e.g. `jcbc.css?v=14`, `jcbc.js?v=9`,
-  `shop.css?v=16`, `shop.js?v=10`. **After editing a CSS/JS file, bump its `?v=` on every
+- Every page links them with a version query, e.g. `jcbc.css?v=14`, `jcbc.js?v=10`,
+  `shop.css?v=16`, `shop.js?v=11`. **After editing a CSS/JS file, bump its `?v=` on every
   page**, otherwise returning visitors keep the old file.
 - Section background classes: `bg-paper`, `bg-paper2` (light), `bg-ink`, `bg-crimson`
   (dark). Reusable bits: `.card`, `.panel`, `.dl` (download/link card with `.ic`
@@ -136,7 +136,7 @@ and the active states, then add the link to every page's nav/footer.
 
 **Two switches, two different jobs:**
 
-1. **`SHOP_LIVE`** at the top of `assets/js/jcbc.js` (currently `false`).
+1. **`SHOP_LIVE`** at the top of `assets/js/jcbc.js` (currently `true`, shop live since 13 Oct 2026).
    - `false`: on `merch.html` the basket button and every product section are hidden
      and a "The shop is being restocked" notice is inserted. The **Shop link stays in
      the menu**, and any section with class **`shop-keep`** (the Bicentenary Books)
@@ -155,7 +155,7 @@ and the active states, then add the link to every page's nav/footer.
      If blank, "Place order" falls back to opening an email to the treasurer.
    - `treasurerEmail`: `jcbc-treasurer@jcsu.jesus.cam.ac.uk`.
    - `bank`: **sort code and account number are still placeholders (`00-00-00`,
-     `00000000`)**. These must be the real details before `SHOP_LIVE = true`.
+     `00000000`)**. While they are placeholders, checkout runs in **pay-later mode** (`payLater()` in `shop.js`): no bank box is shown, customers place the order with their reference and the treasurer emails the bank details. Filling in real details switches the bank box back on automatically.
 
 **Current range (Michaelmas 2026):** two Musto jackets in `merch.html#range`
 (`.shop-grid.two`): **Sardinia** (£157.86, Black or Platinum; light mesh lining) and
