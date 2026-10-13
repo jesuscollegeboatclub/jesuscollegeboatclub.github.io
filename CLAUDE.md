@@ -200,8 +200,15 @@ change the live emails**: paste it into the Apps Script editor and redeploy via
 *Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy* (keeps the same URL).
 The live script is the Apps Script project **"sync orders"**, bound to the Google Sheet
 **"Merch Orders"** (tab "Orders"; open it via Extensions → Apps Script). Deployment ID
-`AKfycbwMM7VF…` = the `orderEndpoint` in `shop.js`. Version 2 (13 Oct 2026) has the
-deadline warning. Claude can update it itself through the built-in browser, where the
+`AKfycbwMM7VF…` = the `orderEndpoint` in `shop.js`. Version 3 (13 Oct 2026) is live: deadline warning
+box (payment questions to the treasurer), "Questions about the jackets? Just reply to this
+email." and the sign-off "Boaty love, your stash officers Amanda & Will". The script runs as
+the webmaster's account (aas208@cam.ac.uk), so receipts are sent from that address and buyer
+replies land there; the treasurer gets a BCC of every receipt. No replyTo is set (deliberate:
+product questions come back as replies, never to the webmaster role address).
+If the browser pane is hidden/covered, the editor can still be driven by DOM events via the
+JS tool (Save button `[aria-label="Save project to Drive"]`; menuitem
+`[aria-label="Manage deployments option"]`; Edit; Version combobox → "New version"; Deploy). Claude can update it itself through the built-in browser, where the
 webmaster's Google account is signed in: replace the editor contents, Cmd+S, then redeploy
 as above.
 
