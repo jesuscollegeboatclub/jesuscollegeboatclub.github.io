@@ -15,6 +15,8 @@
 
 var TREASURER_EMAIL = "jcbc-treasurer@jcsu.jesus.cam.ac.uk";
 var SHEET_NAME = "Orders";
+// Second stash officer, copied (visible CC) on every receipt
+var STASH_CC = "wsg22@cam.ac.uk";
 // Payment deadline shown in the receipt email (keep in step with closeDate in shop.js)
 var DEADLINE_TEXT = "Sunday 1 November 2026 (23:59)";
 var DEADLINE_SHORT = "1 November";
@@ -103,6 +105,7 @@ function sendReceipt(order) {
 
   MailApp.sendEmail({
     to: order.email,
+    cc: STASH_CC,
     bcc: TREASURER_EMAIL,
     subject: "Your JCBC order " + order.ref + " (pay by " + DEADLINE_SHORT + ")",
     body: body,
