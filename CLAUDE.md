@@ -173,7 +173,7 @@ reads "Black · artwork shown in Platinum". If a black image arrives, save it as
 `images/shop/sardinia-black-front/back.jpg` and point the Black option's `data-front`/
 `data-back` at it. Each card has a `select.colour` (options may carry `data-front`,
 `data-back`, `data-note` to swap the photos/badge) and a `select.size` with two
-`optgroup`s: men's/unisex (XS S M MB L LB XL XXL 3XL) and women's (UK 8–18 with letter
+`optgroup`s: men's/unisex (XS S M L XL XXL 3XL; the supplier does not do MB/LB, removed 13 Oct) and women's (UK 8–18 with letter
 size). The basket item is "<h3> · <colour>" with size e.g. "Men's L" or "Women's 12 (M)".
 Every `[data-size-guide]` element opens the `<dialog id="sizeGuide">` (tabs: men's/women's ×
 cm/inches; data copied from the supplier's charts). Shop photos deliberately have no
