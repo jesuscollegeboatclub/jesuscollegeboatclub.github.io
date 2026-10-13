@@ -57,7 +57,8 @@ function sendReceipt(order) {
     "Please pay by " + DEADLINE_TEXT + ". We will only place the club order for jackets " +
     "that have been paid for by then. We will not chase unpaid orders: if your payment " +
     "has not arrived by the deadline, your order will be dropped and you will not receive " +
-    "a jacket. If you have any concerns, contact us at " + TREASURER_EMAIL + ".";
+    "a jacket. For any questions about payment, contact the treasurer at " + TREASURER_EMAIL + ".";
+  var help = "Questions about the jackets (sizes, colours, your order)? Just reply to this email.";
 
   // Plain-text version (for mail apps that don't show HTML)
   var body =
@@ -73,8 +74,9 @@ function sendReceipt(order) {
     "  Account number: " + BANK.accountNumber + "\n" +
     "  Reference: " + order.ref + "\n\n" +
     "*** IMPORTANT: " + warning + " ***\n\n" +
+    help + "\n\n" +
     "We'll let you know when your jacket is ready to pick up from the boathouse.\n\n" +
-    "Row for Jesus,\nJCBC";
+    "Boaty love,\nyour stash officers Amanda & Will";
 
   // HTML version with the highlighted deadline box
   var rows = items.map(function (i) {
@@ -95,8 +97,9 @@ function sendReceipt(order) {
     "<br>Account number: " + BANK.accountNumber + "<br>Reference: <b>" + esc(order.ref) + "</b></p>" +
     "<div style='background:#FFF3B0;border-left:6px solid #8A1218;padding:14px 16px;margin:18px 0;font-weight:bold'>" +
     "IMPORTANT: " + esc(warning) + "</div>" +
+    "<p>" + esc(help) + "</p>" +
     "<p>We'll let you know when your jacket is ready to pick up from the boathouse.</p>" +
-    "<p>Row for Jesus,<br>JCBC</p></div>";
+    "<p>Boaty love,<br>your stash officers Amanda &amp; Will</p></div>";
 
   MailApp.sendEmail({
     to: order.email,
