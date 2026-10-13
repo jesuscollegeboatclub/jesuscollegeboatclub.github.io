@@ -96,7 +96,7 @@ and the active states, then add the link to every page's nav/footer.
 - `assets/js/jcbc.js`: mobile menu, scroll-reveal, **shop switch** (section 7).
   `assets/js/shop.js`: basket and checkout.
 - Every page links them with a version query, e.g. `jcbc.css?v=14`, `jcbc.js?v=10`,
-  `shop.css?v=16`, `shop.js?v=11`. **After editing a CSS/JS file, bump its `?v=` on every
+  `shop.css?v=16`, `shop.js?v=12`. **After editing a CSS/JS file, bump its `?v=` on every
   page**, otherwise returning visitors keep the old file.
 - Section background classes: `bg-paper`, `bg-paper2` (light), `bg-ink`, `bg-crimson`
   (dark). Reusable bits: `.card`, `.panel`, `.dl` (download/link card with `.ic`
@@ -154,8 +154,10 @@ and the active states, then add the link to every page's nav/footer.
    - `orderEndpoint`: URL of the deployed Google Apps Script web app (already set).
      If blank, "Place order" falls back to opening an email to the treasurer.
    - `treasurerEmail`: `jcbc-treasurer@jcsu.jesus.cam.ac.uk`.
-   - `bank`: **sort code and account number are still placeholders (`00-00-00`,
-     `00000000`)**. While they are placeholders, checkout runs in **pay-later mode** (`payLater()` in `shop.js`): no bank box is shown, customers place the order with their reference and the treasurer emails the bank details. Filling in real details switches the bank box back on automatically.
+   - `bank`: Jesus College Boat Club, sort code 30-91-56, account 00538948 (entered
+     13 Oct 2026, confirmed by the webmaster). If these are ever blanked or set back to
+     zeros, checkout falls back to **pay-later mode** (`payLater()` in `shop.js`): no bank
+     box, and the treasurer emails the bank details.
 
 **Current range (Michaelmas 2026):** two Musto jackets in `merch.html#range`
 (`.shop-grid.two`): **Sardinia** (£157.86, Black or Platinum; light mesh lining) and
@@ -189,6 +191,18 @@ JSON to the Apps Script (`docs/orders-backend.gs`), which appends a row to the o
 Google Sheet (timestamp, reference, name, email, crew, delivery, items, total, notes,
 "payment received?") and emails the customer a receipt BCC'd to the treasurer. Full
 setup: `docs/SHOP-SETUP.md`.
+The receipt (HTML + plain text) includes the bank details and a highlighted box: pay by the
+deadline or the order is dropped, no chasing, contact the treasurer with concerns. Its
+deadline text and bank details are constants at the top of `orders-backend.gs`
+(`DEADLINE_TEXT`, `DEADLINE_SHORT`, `BANK`). **Editing the .gs file in the repo does not
+change the live emails**: paste it into the Apps Script editor and redeploy via
+*Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy* (keeps the same URL).
+The live script is the Apps Script project **"sync orders"**, bound to the Google Sheet
+**"Merch Orders"** (tab "Orders"; open it via Extensions → Apps Script). Deployment ID
+`AKfycbwMM7VF…` = the `orderEndpoint` in `shop.js`. Version 2 (13 Oct 2026) has the
+deadline warning. Claude can update it itself through the built-in browser, where the
+webmaster's Google account is signed in: replace the editor contents, Cmd+S, then redeploy
+as above.
 
 **Adding or editing a product:** copy an `<article class="product">` block in
 `merch.html#range`, change the `<h3>`, `.pdesc`, `.pprice`, the images, and keep or

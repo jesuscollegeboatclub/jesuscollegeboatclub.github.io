@@ -26,11 +26,11 @@ const SHOP_CONFIG = {
   // Where order notifications / fallback emails go.
   treasurerEmail: "jcbc-treasurer@jcsu.jesus.cam.ac.uk",
 
-  // Bank details shown to customers for the transfer.  *** PLACEHOLDERS ***
+  // Bank details shown to customers for the transfer.
   bank: {
     name: "Jesus College Boat Club",
-    sortCode: "00-00-00",
-    accountNumber: "00000000"
+    sortCode: "30-91-56",
+    accountNumber: "00538948"
   },
 
   currency: "£"

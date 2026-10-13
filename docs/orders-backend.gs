@@ -15,6 +15,10 @@
 
 var TREASURER_EMAIL = "jcbc-treasurer@jcsu.jesus.cam.ac.uk";
 var SHEET_NAME = "Orders";
+// Payment deadline shown in the receipt email (keep in step with closeDate in shop.js)
+var DEADLINE_TEXT = "Sunday 1 November 2026 (23:59)";
+var DEADLINE_SHORT = "1 November";
+var BANK = { name: "Jesus College Boat Club", sortCode: "30-91-56", accountNumber: "00538948" };
 
 function doPost(e) {
   try {
@@ -43,27 +47,69 @@ function appendToSheet(order) {
 }
 
 function sendReceipt(order) {
-  var lines = (order.items || []).map(function (i) {
-    return "  " + i.qty + " x " + i.name + "  —  £" + (i.price * i.qty).toFixed(2);
+  var total = "£" + Number(order.total).toFixed(2);
+  var items = order.items || [];
+  var lines = items.map(function (i) {
+    return "  " + i.qty + " x " + i.name + ":  £" + (i.price * i.qty).toFixed(2);
   }).join("\n");
 
+  var warning =
+    "Please pay by " + DEADLINE_TEXT + ". We will only place the club order for jackets " +
+    "that have been paid for by then. We will not chase unpaid orders: if your payment " +
+    "has not arrived by the deadline, your order will be dropped and you will not receive " +
+    "a jacket. If you have any concerns, contact us at " + TREASURER_EMAIL + ".";
+
+  // Plain-text version (for mail apps that don't show HTML)
   var body =
     "Hi " + order.name + ",\n\n" +
     "Thank you for your order with Jesus College Boat Club.\n\n" +
     "Order reference: " + order.ref + "\n\n" +
     lines + "\n\n" +
-    "Total: £" + Number(order.total).toFixed(2) + "\n" +
-    "Delivery: " + order.delivery + "\n\n" +
-    "If you haven't already, please pay by bank transfer using your reference (" + order.ref + ") " +
-    "so we can match your payment. We'll be in touch once it arrives.\n\n" +
+    "Total: " + total + "\n" +
+    "Collection: " + order.delivery + "\n\n" +
+    "Pay by bank transfer to:\n" +
+    "  Account name: " + BANK.name + "\n" +
+    "  Sort code: " + BANK.sortCode + "\n" +
+    "  Account number: " + BANK.accountNumber + "\n" +
+    "  Reference: " + order.ref + "\n\n" +
+    "*** IMPORTANT: " + warning + " ***\n\n" +
+    "We'll let you know when your jacket is ready to pick up from the boathouse.\n\n" +
     "Row for Jesus,\nJCBC";
+
+  // HTML version with the highlighted deadline box
+  var rows = items.map(function (i) {
+    return "<tr><td style='padding:4px 12px 4px 0'>" + i.qty + " &times; " + esc(i.name) +
+           "</td><td style='padding:4px 0;text-align:right'>&pound;" + (i.price * i.qty).toFixed(2) + "</td></tr>";
+  }).join("");
+  var html =
+    "<div style='font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#171411;max-width:560px'>" +
+    "<p>Hi " + esc(order.name) + ",</p>" +
+    "<p>Thank you for your order with Jesus College Boat Club.</p>" +
+    "<p><b>Order reference: <span style='color:#8A1218'>" + esc(order.ref) + "</span></b></p>" +
+    "<table style='border-collapse:collapse;margin:8px 0'>" + rows +
+    "<tr><td style='padding:8px 12px 4px 0;border-top:1px solid #ddd'><b>Total</b></td>" +
+    "<td style='padding:8px 0 4px;border-top:1px solid #ddd;text-align:right'><b>" + total.replace("£", "&pound;") + "</b></td></tr></table>" +
+    "<p>Collection: " + esc(order.delivery) + "</p>" +
+    "<p style='margin-bottom:4px'><b>Pay by bank transfer to:</b></p>" +
+    "<p style='margin-top:0'>Account name: " + BANK.name + "<br>Sort code: " + BANK.sortCode +
+    "<br>Account number: " + BANK.accountNumber + "<br>Reference: <b>" + esc(order.ref) + "</b></p>" +
+    "<div style='background:#FFF3B0;border-left:6px solid #8A1218;padding:14px 16px;margin:18px 0;font-weight:bold'>" +
+    "IMPORTANT: " + esc(warning) + "</div>" +
+    "<p>We'll let you know when your jacket is ready to pick up from the boathouse.</p>" +
+    "<p>Row for Jesus,<br>JCBC</p></div>";
 
   MailApp.sendEmail({
     to: order.email,
     bcc: TREASURER_EMAIL,
-    subject: "Your JCBC order " + order.ref,
-    body: body
+    subject: "Your JCBC order " + order.ref + " (pay by " + DEADLINE_SHORT + ")",
+    body: body,
+    htmlBody: html
   });
+}
+
+function esc(s) {
+  return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
 function json(obj) {
