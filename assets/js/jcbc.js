@@ -12,6 +12,7 @@
      Flip this to true once there's real stash to sell.
      ============================================================ */
   var SHOP_LIVE = false;
+  window.JCBC_SHOP_LIVE = SHOP_LIVE;   // read by shop.js (status banner)
 
   function setupShopVisibility() {
     if (SHOP_LIVE) return;

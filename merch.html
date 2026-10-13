@@ -8,12 +8,43 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/jcbc.css?v=14">
-<link rel="stylesheet" href="assets/css/shop.css?v=14">
+<link rel="stylesheet" href="assets/css/shop.css?v=16">
 <style>
 .shop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
 .product{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(23,20,17,.04);transition:transform .2s,box-shadow .2s;color:var(--ink)}
 .product:hover{transform:translateY(-4px);box-shadow:0 18px 40px -28px rgba(23,20,17,.35)}
 .shot{aspect-ratio:4/5;display:grid;place-items:center;position:relative;overflow:hidden}
+.page-hero .chip{color:#fff;border-color:rgba(255,255,255,.5)}
+.page-hero .chip:hover{background:#fff;color:var(--ink);border-color:#fff}
+.shop-grid.three{grid-template-columns:repeat(3,1fr);max-width:1060px;margin:0 auto}
+.shot.photo{background:#fff;border-bottom:1px solid var(--line)}
+.shot.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity .35s ease,transform .6s cubic-bezier(.2,.6,.2,1)}
+.shot.photo .b{opacity:0}
+.shot.photo.flip .b,.product:hover .shot.photo:not(.flip) .b{opacity:1}
+.shot.photo.flip .f,.product:hover .shot.photo:not(.flip) .f{opacity:0}
+.shot.photo .pbadge{z-index:2;background:var(--ink);color:#fff}
+.shot .flip{position:absolute;right:12px;bottom:12px;z-index:2;font-family:'Archivo';font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.62rem;padding:7px 12px;border-radius:40px;border:1px solid var(--line);background:rgba(255,255,255,.92);color:var(--ink);cursor:pointer}
+.sguide{align-self:flex-start;background:none;border:0;padding:0;margin:-6px 0 16px;font-family:'Archivo';font-weight:700;font-size:.78rem;color:var(--crimson);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.sg-cta{text-align:center;margin-top:28px}
+dialog.sg{margin:auto;border:0;border-radius:16px;padding:0;width:min(860px,94vw);max-height:88vh;box-shadow:0 30px 80px -20px rgba(0,0,0,.5);color:var(--ink)}
+dialog.sg::backdrop{background:rgba(23,20,17,.55)}
+.sg-inner{padding:22px 24px 20px;max-height:88vh;overflow:auto}
+.sg-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.sg-head h3{font-size:1.25rem;font-weight:900;letter-spacing:-.02em}
+.sg-head .dclose{background:none;border:0;font-size:1.8rem;line-height:1;cursor:pointer;color:var(--ink-soft)}
+.sg-controls{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.sg-seg{display:inline-flex;border:1px solid var(--line);border-radius:40px;overflow:hidden}
+.sg-seg button{background:#fff;border:0;padding:8px 16px;font-family:'Archivo';font-weight:700;font-size:.78rem;color:var(--ink-soft);cursor:pointer}
+.sg-seg button.on{background:var(--ink);color:#fff}
+.sg-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.sgt{border-collapse:collapse;width:100%;font-size:.86rem;min-width:560px}
+.sgt th,.sgt td{padding:9px 10px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap}
+.sgt thead th{background:var(--ink);color:#fff;font-family:'Archivo';font-weight:800;font-size:.78rem}
+.sgt tbody th{text-align:left;font-weight:700;background:var(--paper-2)}
+.sgt tbody tr:nth-child(even) td{background:#faf8f4}
+.sg-note{color:var(--ink-soft);font-size:.82rem;margin-top:10px}
+@media(max-width:980px){.shop-grid.three{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.shop-grid.three{grid-template-columns:1fr}}
 .shot svg{width:62px;height:62px;opacity:.32;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
 .product:hover .shot svg{transform:rotate(-8deg) scale(1.08)}
 .shot-crimson{background:var(--crimson)}
@@ -34,6 +65,16 @@
 .chip:hover,.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 @media(max-width:980px){.shop-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:540px){.shop-grid{grid-template-columns:1fr}}
+.shop-grid.two{grid-template-columns:repeat(2,1fr);max-width:760px;margin:0 auto}
+@media(max-width:540px){.shop-grid.two{grid-template-columns:1fr}}
+.product select.colour{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;margin-bottom:10px;font-family:inherit;font-size:.9rem;background:#fff;color:var(--ink)}
+.product select.colour.needs{border-color:var(--crimson);box-shadow:0 0 0 3px rgba(138,18,24,.25)}
+.pdesc.emb{flex:0 0 auto;margin-top:0}
+.pinfo .pdesc:not(.emb){flex:0 0 auto}
+.mlinks{font-size:.8rem;color:var(--ink-soft);margin:auto 0 14px}
+.mlinks a{color:var(--crimson);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.sg-hint{display:none;font-size:.78rem;color:var(--crimson);font-weight:700;margin:0 0 8px}
+@media(max-width:620px){.sg-hint{display:block}.sg-scroll th:first-child,.sg-scroll td:first-child{position:sticky;left:0;z-index:1;background:var(--paper-2);box-shadow:6px 0 8px -6px rgba(0,0,0,.25)}.sg-scroll thead th:first-child{background:var(--ink)}}
 </style>
 </head>
 <body>
@@ -82,16 +123,41 @@
     <nav class="crumbs"><a href="index.html">Home</a> / Shop</nav>
     <span class="eyebrow light">Wear the red and black</span>
     <h1>The <em>Shop</em></h1>
-    <p class="lead">Official JCBC kit, supporter wear and limited bicentenary pieces. Every purchase helps fund the club, our boats and our rowers.</p>
+    <p class="lead">Official JCBC jackets and the bicentenary books. Every purchase helps fund the club, our boats and our rowers.</p>
     <div class="chips" style="margin-top:24px">
-      <a class="chip on" href="#bicentenary">Bicentenary</a>
-      <a class="chip" href="#stash">Club Stash</a>
-      <a class="chip" href="#supporter">Supporter &amp; Alumni</a>
+      <a class="chip on" href="#range">Jackets</a>
+      <a class="chip" href="#range" data-size-guide>Size guide</a>
+      <a class="chip" href="#books">Bicentenary books</a>
     </div>
   </div>
 </section>
 
-<!-- BICENTENARY -->
+<!-- JCBC JACKET RANGE -->
+<section class="bg-paper2" id="range">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">New &middot; Michaelmas 2026</span>
+      <h2>The JCBC jacket range</h2>
+      <p>Two hooded Musto waterproofs in men&#x27;s/unisex and women&#x27;s fits, embroidered with the club crest on the chest and crossed oars on the back. The <b>Sardinia</b> (Black or Platinum) has a light mesh lining; the <b>Corsica</b> (Black) has a warm fleece lining. <b>Order by Sunday 1 November 2026.</b> All orders are picked up from the boathouse.</p>
+    </div>
+    <div class="deadline" data-countdown>
+      <div class="dl-l"><span class="dl-k">Orders close</span><span class="dl-d">Sunday 1 November</span><span class="dl-s">at midnight. One club order, no late additions.</span></div>
+      <div class="dl-c" aria-live="polite"><div><b data-cd="d">00</b><span>days</span></div><div><b data-cd="h">00</b><span>hrs</span></div><div><b data-cd="m">00</b><span>min</span></div><div><b data-cd="s">00</b><span>sec</span></div></div>
+    </div>
+    <div class="shop-grid two">
+      <article class="product">
+        <div class="shot photo"><span class="pbadge" data-cnote>Shown in Platinum</span><img class="f" src="images/shop/sardinia-platinum-front.jpg" alt="Sardinia Jacket, front with the JCBC crest"><img class="b" src="images/shop/sardinia-platinum-back.jpg" alt="Sardinia Jacket, back with crossed oars and JCBC"><button type="button" class="flip" data-flip>View back</button></div>
+        <div class="pinfo"><h3>Sardinia Jacket</h3><p class="pdesc">The lighter of the two. Waterproof, fully seam-sealed Musto Ocean Tech shell with a <b>breathable mesh lining</b>, a hood that packs into the collar, zipped chest pocket and two hand pockets. Best for mild, wet days and layering.</p><p class="pdesc emb">Embroidered club crest with JCBC on the left chest; crossed oars and JCBC across the back.</p><p class="mlinks">Full specs on Musto: <a href="https://www.musto.com/en_gb/m-sardinia-jkt-82617" target="_blank" rel="noopener">men&#x27;s</a> &middot; <a href="https://www.musto.com/en_gb/w-sardinia-jkt-82619" target="_blank" rel="noopener">women&#x27;s</a></p><select class="colour" aria-label="Choose colour"><option value="" disabled selected>Choose colour…</option><option value="Black" data-front="images/shop/sardinia-platinum-front.jpg" data-back="images/shop/sardinia-platinum-back.jpg" data-note="Black · artwork shown in Platinum">Black</option><option value="Platinum" data-front="images/shop/sardinia-platinum-front.jpg" data-back="images/shop/sardinia-platinum-back.jpg" data-note="Platinum">Platinum</option></select><select class="size" aria-label="Choose fit and size"><option value="" disabled selected>Choose fit &amp; size…</option><optgroup label="Men&#x27;s / unisex fit"><option value="Men&#x27;s XS">Men&#x27;s XS</option><option value="Men&#x27;s S">Men&#x27;s S</option><option value="Men&#x27;s M">Men&#x27;s M</option><option value="Men&#x27;s MB">Men&#x27;s MB</option><option value="Men&#x27;s L">Men&#x27;s L</option><option value="Men&#x27;s LB">Men&#x27;s LB</option><option value="Men&#x27;s XL">Men&#x27;s XL</option><option value="Men&#x27;s XXL">Men&#x27;s XXL</option><option value="Men&#x27;s 3XL">Men&#x27;s 3XL</option></optgroup><optgroup label="Women&#x27;s fit"><option value="Women&#x27;s 8 (XS)">Women&#x27;s 8 (XS)</option><option value="Women&#x27;s 10 (S)">Women&#x27;s 10 (S)</option><option value="Women&#x27;s 12 (M)">Women&#x27;s 12 (M)</option><option value="Women&#x27;s 14 (L)">Women&#x27;s 14 (L)</option><option value="Women&#x27;s 16 (XL)">Women&#x27;s 16 (XL)</option><option value="Women&#x27;s 18 (XXL)">Women&#x27;s 18 (XXL)</option></optgroup></select><button type="button" class="sguide" data-size-guide>Size guide</button><div class="prow"><span class="pprice">£157.86</span><button class="btn btn-dark padd">Add to basket</button></div></div>
+      </article>
+      <article class="product">
+        <div class="shot photo"><img class="f" src="images/shop/corsica-black-front.jpg" alt="Corsica Jacket in Black, front with the JCBC crest"><img class="b" src="images/shop/corsica-black-back.jpg" alt="Corsica Jacket in Black, back with crossed oars and JCBC"><button type="button" class="flip" data-flip>View back</button></div>
+        <div class="pinfo"><h3>Corsica Jacket</h3><p class="pdesc">The warmer of the two. The same waterproof, seam-sealed Ocean Tech shell and packaway hood, with a <b>soft brushed fleece lining</b> and three zipped pockets. Best for cold winter outings.</p><p class="pdesc emb">Embroidered club crest with JCBC on the left chest; crossed oars and JCBC across the back.</p><p class="mlinks">Full specs on Musto: <a href="https://www.musto.com/en_gb/m-corsica-jkt-82615" target="_blank" rel="noopener">men&#x27;s</a> &middot; <a href="https://www.musto.com/en_gb/w-corsica-jkt-82618" target="_blank" rel="noopener">women&#x27;s</a></p><select class="colour" aria-label="Choose colour"><option value="Black" selected>Black</option></select><select class="size" aria-label="Choose fit and size"><option value="" disabled selected>Choose fit &amp; size…</option><optgroup label="Men&#x27;s / unisex fit"><option value="Men&#x27;s XS">Men&#x27;s XS</option><option value="Men&#x27;s S">Men&#x27;s S</option><option value="Men&#x27;s M">Men&#x27;s M</option><option value="Men&#x27;s MB">Men&#x27;s MB</option><option value="Men&#x27;s L">Men&#x27;s L</option><option value="Men&#x27;s LB">Men&#x27;s LB</option><option value="Men&#x27;s XL">Men&#x27;s XL</option><option value="Men&#x27;s XXL">Men&#x27;s XXL</option><option value="Men&#x27;s 3XL">Men&#x27;s 3XL</option></optgroup><optgroup label="Women&#x27;s fit"><option value="Women&#x27;s 8 (XS)">Women&#x27;s 8 (XS)</option><option value="Women&#x27;s 10 (S)">Women&#x27;s 10 (S)</option><option value="Women&#x27;s 12 (M)">Women&#x27;s 12 (M)</option><option value="Women&#x27;s 14 (L)">Women&#x27;s 14 (L)</option><option value="Women&#x27;s 16 (XL)">Women&#x27;s 16 (XL)</option><option value="Women&#x27;s 18 (XXL)">Women&#x27;s 18 (XXL)</option></optgroup></select><button type="button" class="sguide" data-size-guide>Size guide</button><div class="prow"><span class="pprice">£165.06</span><button class="btn btn-dark padd">Add to basket</button></div></div>
+      </article>
+    </div>
+    <p class="sg-cta"><button type="button" class="btn btn-outline" data-size-guide>Open the size guide</button></p>
+  </div>
+</section>
+
 <!-- BICENTENARY BOOKS (stays visible even while the shop is off) -->
 <section class="bg-paper shop-keep" id="books">
   <div class="wrap">
@@ -108,83 +174,6 @@
     </div>
   </div>
 </section>
-<section class="bg-paper" id="bicentenary">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">1827 – 2027 · 200 Years</span>
-      <h2>The Bicentenary Collection</h2>
-      <p>A limited commemorative range marking two centuries of Jesus College Boat Club. Available while stocks last — once they're gone, they're gone.</p>
-    </div>
-    <div class="shop-grid">
-      <article class="product">
-        <div class="shot shot-crimson"><span class="pbadge">Bicentenary</span><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
-        <div class="pinfo"><h3>'200 Years' Heavyweight Hoodie</h3><p class="pdesc">Crimson heavyweight hoodie with embroidered 1827–2027 anniversary crest.</p><select class="size" aria-label="Choose size"><option value="" disabled selected>Choose size…</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select><div class="prow"><span class="pprice">£48</span><button class="btn btn-dark padd">Add to basket</button></div></div>
-      </article>
-      <article class="product">
-        <div class="shot shot-ink"><span class="pbadge">Limited</span><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
-        <div class="pinfo"><h3>Anniversary Blade Print (A2)</h3><p class="pdesc">Hand-numbered giclée print of the JCBC blade through the decades. Edition of 200.</p><div class="prow"><span class="pprice">£30</span><button class="btn btn-dark padd">Add to basket</button></div></div>
-      </article>
-      <article class="product">
-        <div class="shot shot-paper"><span class="pbadge">Bicentenary</span><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
-        <div class="pinfo"><h3>Commemorative Wool Scarf</h3><p class="pdesc">Red and black lambswool scarf woven with the bicentenary stripe.</p><div class="prow"><span class="pprice">£35</span><button class="btn btn-dark padd">Add to basket</button></div></div>
-      </article>
-      <article class="product">
-        <div class="shot shot-crimson"><span class="pbadge sold">Pre-order</span><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
-        <div class="pinfo"><h3>200th Anniversary Dinner Tie</h3><p class="pdesc">Silk tie in club colours, made for the bicentenary boat club dinner.</p><div class="prow"><span class="pprice">£28</span><button class="btn btn-dark padd">Pre-order</button></div></div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- CLUB STASH -->
-<section class="bg-paper2" id="stash">
-  <div class="wrap">
-    <div class="sec-head"><span class="eyebrow">On the water</span><h2>Club Stash</h2><p>The kit our crews train and race in — built for the Cam in every season.</p></div>
-    <div class="shop-grid">
-      <article class="product">
-        <div class="shot shot-ink"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
-        <div class="pinfo"><h3>JCBC Zephyr All-in-One</h3><p class="pdesc">Race-day all-in-one in club colours. Sublimated, quick-drying, built to last.</p><select class="size" aria-label="Choose size"><option value="" disabled selected>Choose size…</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select><div class="prow"><span class="pprice">£55</span><button class="btn btn-dark padd">Add to basket</button></div></div>
-      </article>
-      <article class="product">
-        <div class="shot shot-crimson"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
-        <div class="pinfo"><h3>Splash Top</h3><p class="pdesc">Wind- and water-resistant training top for cold, wet outings.</p><select class="size" aria-label="Choose size"><option value="" disabled selected>Choose size…</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select><div class="prow"><span class="pprice">£42</span><button class="btn btn-dark padd">Add to basket</button></div></div>
-      </article>
-      <article class="product">
-        <div class="shot shot-paper"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
-        <div class="pinfo"><h3>Training Leggings</h3><p class="pdesc">Warm, flexible leggings with club logo at the hem. Unisex sizing.</p><select class="size" aria-label="Choose size"><option value="" disabled selected>Choose size…</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select><div class="prow"><span class="pprice">£32</span><button class="btn btn-dark padd">Add to basket</button></div></div>
-      </article>
-      <article class="product">
-        <div class="shot shot-ink"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
-        <div class="pinfo"><h3>Training Tee</h3><p class="pdesc">Breathable technical tee for ergs, land training and warm-ups.</p><select class="size" aria-label="Choose size"><option value="" disabled selected>Choose size…</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select><div class="prow"><span class="pprice">£20</span><button class="btn btn-dark padd">Add to basket</button></div></div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- SUPPORTER & ALUMNI -->
-<section class="bg-paper" id="supporter">
-  <div class="wrap">
-    <div class="sec-head"><span class="eyebrow">Friends &amp; old members</span><h2>Supporter &amp; Alumni</h2><p>For families on the towpath and Jesuans the world over — wear your colours with pride.</p></div>
-    <div class="shop-grid">
-      <article class="product">
-        <div class="shot shot-paper"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
-        <div class="pinfo"><h3>Alumni Quarter-Zip</h3><p class="pdesc">Soft-knit quarter-zip with discreet embroidered crest. Smart on or off the river.</p><select class="size" aria-label="Choose size"><option value="" disabled selected>Choose size…</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select><div class="prow"><span class="pprice">£46</span><button class="btn btn-dark padd">Add to basket</button></div></div>
-      </article>
-      <article class="product">
-        <div class="shot shot-crimson"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
-        <div class="pinfo"><h3>Supporters' Bobble Hat</h3><p class="pdesc">Warm knitted beanie for chilly mornings cheering crews from the bank.</p><div class="prow"><span class="pprice">£18</span><button class="btn btn-dark padd">Add to basket</button></div></div>
-      </article>
-      <article class="product">
-        <div class="shot shot-ink"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
-        <div class="pinfo"><h3>Boathouse Enamel Mug</h3><p class="pdesc">Classic enamel mug with the crossed-oars mark. Towpath tea, sorted.</p><div class="prow"><span class="pprice">£12</span><button class="btn btn-dark padd">Add to basket</button></div></div>
-      </article>
-      <article class="product">
-        <div class="shot shot-paper"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="26" y1="31" x2="13" y2="12" stroke-width="2.2"/><line x1="14" y1="31" x2="27" y2="12" stroke-width="2.2"/><line x1="13" y1="12.5" x2="9.5" y2="7.5" stroke-width="5.5"/><line x1="27" y1="12.5" x2="30.5" y2="7.5" stroke-width="5.5"/></g></svg></div>
-        <div class="pinfo"><h3>Club Tote Bag</h3><p class="pdesc">Heavy cotton tote printed with the club colours. Kit bag or shopping, your call.</p><div class="prow"><span class="pprice">£10</span><button class="btn btn-dark padd">Add to basket</button></div></div>
-      </article>
-    </div>
-  </div>
-</section>
 
 <!-- HOW IT WORKS -->
 <section class="bg-ink">
@@ -192,13 +181,13 @@
     <div class="prose">
       <span class="eyebrow">Ordering</span>
       <h2 style="color:#fff;font-size:clamp(1.9rem,4vw,2.8rem);font-weight:900;margin:12px 0 18px">How it works</h2>
-      <p>Add what you'd like to your basket and check out online — kit is produced in seasonal batches, so delivery times are shown at checkout. Current members can also collect from the boathouse to save on postage.</p>
+      <p>Choose your fit and size, add your jacket to the basket and check out online. You&#x27;ll see the club&#x27;s bank details and a personal payment reference; once you&#x27;ve paid, place the order and a receipt is emailed to you.</p><p><b>Orders close on Sunday 1 November 2026.</b> Everything is picked up from the boathouse; there is no home delivery.</p>
       <p>All proceeds go straight back into the club: new boats, blades and supporting our rowers.</p>
     </div>
     <div class="panel">
       <h3 style="color:var(--crimson)">Good to know</h3>
-      <p style="color:rgba(255,255,255,.82);margin-top:12px"><b>Sizing:</b> unisex unless stated — a size guide appears on each product.</p>
-      <p style="color:rgba(255,255,255,.82);margin-top:10px"><b>Bicentenary range:</b> strictly limited; some items are pre-order for 2027 delivery.</p>
+      <p style="color:rgba(255,255,255,.82);margin-top:12px"><b>Sizing:</b> men&#x27;s/unisex and women&#x27;s fits. <a class="inl" href="#range" data-size-guide>Open the size guide</a>.</p>
+      <p style="color:rgba(255,255,255,.82);margin-top:10px"><b>Collection:</b> pick up from the Jesus College Boathouse; we&#x27;ll let you know when your order is ready.</p>
       <p style="color:rgba(255,255,255,.82);margin-top:10px"><b>Questions?</b> Email <a class="inl" href="mailto:jcbc-president@jcsu.jesus.cam.ac.uk">the club</a>.</p>
     </div>
   </div>
@@ -209,9 +198,25 @@
     <span class="eyebrow light">Two centuries on the Cam</span>
     <h2 style="margin-top:12px">Wear the red and black</h2>
     <p>Every order supports Jesus College Boat Club as we row towards our bicentenary.</p>
-    <div class="btn-row center"><a href="#bicentenary" class="btn btn-light">Shop the Bicentenary range</a><a href="contact.html" class="btn btn-ghost">Contact the Club</a></div>
+    <div class="btn-row center"><a href="#range" class="btn btn-light">Shop the jackets</a><a href="contact.html" class="btn btn-ghost">Contact the Club</a></div>
   </div>
 </section>
+
+<!-- SIZE GUIDE (opened by any [data-size-guide] button) -->
+<dialog id="sizeGuide" class="sg" aria-labelledby="sgTitle">
+  <div class="sg-inner">
+    <div class="sg-head"><h3 id="sgTitle">Jacket size guide</h3><button type="button" class="dclose" data-sg-close aria-label="Close">&times;</button></div>
+    <div class="sg-controls">
+      <div class="sg-seg"><button type="button" data-sg-tab="m">Men&#x27;s &amp; unisex</button><button type="button" data-sg-tab="w">Women&#x27;s</button></div>
+      <div class="sg-seg"><button type="button" data-sg-unit="cm">cm</button><button type="button" data-sg-unit="in">inches</button></div>
+    </div>
+    <div data-sg-panel="m-cm"><p class="sg-hint">Swipe the table sideways for more sizes &rarr;</p><div class="sg-scroll"><table class="sgt"><thead><tr><th></th><th>XS</th><th>S</th><th>M</th><th>MB</th><th>L</th><th>LB</th><th>XL</th><th>XXL</th><th>3XL</th></tr></thead><tbody><tr><th>Chest</th><td>85</td><td>92</td><td>99</td><td>106</td><td>106&ndash;111</td><td>113</td><td>113</td><td>120</td><td>127</td></tr><tr><th>Waist</th><td>72</td><td>79</td><td>86</td><td>93</td><td>93</td><td>100</td><td>100</td><td>108</td><td>115</td></tr><tr><th>Hip</th><td>87</td><td>94</td><td>101</td><td>108</td><td>108</td><td>116</td><td>116</td><td>123</td><td>130</td></tr><tr><th>Sleeve*</th><td>76.5</td><td>78.5</td><td>80.5</td><td>80.5</td><td>82.5</td><td>82.5</td><td>84.5</td><td>86.5</td><td>88.5</td></tr><tr><th>Height</th><td>157&ndash;162</td><td>165&ndash;170</td><td>173&ndash;178</td><td>173&ndash;178</td><td>180&ndash;185</td><td>180&ndash;185</td><td>188&ndash;195</td><td>195&ndash;200</td><td>200&ndash;205</td></tr></tbody></table></div><p class="sg-note">Body measurements in cm. Height is a guide.</p></div>
+    <div data-sg-panel="m-in" hidden><p class="sg-hint">Swipe the table sideways for more sizes &rarr;</p><div class="sg-scroll"><table class="sgt"><thead><tr><th></th><th>XS</th><th>S</th><th>M</th><th>MB</th><th>L</th><th>LB</th><th>XL</th><th>XXL</th><th>3XL</th></tr></thead><tbody><tr><th>Chest</th><td>33.5</td><td>36</td><td>39</td><td>42</td><td>42</td><td>44.5</td><td>44.5</td><td>47</td><td>50</td></tr><tr><th>Hip</th><td>34.2</td><td>37</td><td>39.7</td><td>42.5</td><td>42.5</td><td>45.6</td><td>45.6</td><td>48.4</td><td>51.1</td></tr><tr><th>Sleeve*</th><td>30.1</td><td>30.9</td><td>31.6</td><td>31.6</td><td>32.4</td><td>32.4</td><td>33.2</td><td>34</td><td>34.8</td></tr></tbody></table></div><p class="sg-note">Body measurements in inches.</p></div>
+    <div data-sg-panel="w-cm" hidden><p class="sg-hint">Swipe the table sideways for more sizes &rarr;</p><div class="sg-scroll"><table class="sgt"><thead><tr><th></th><th>8 (XS)</th><th>10 (S)</th><th>12 (M)</th><th>14 (L)</th><th>16 (XL)</th><th>18 (XXL)</th></tr></thead><tbody><tr><th>Chest</th><td>84</td><td>89</td><td>94</td><td>99</td><td>105</td><td>110</td></tr><tr><th>Waist</th><td>69</td><td>74</td><td>79</td><td>84</td><td>89</td><td>94</td></tr><tr><th>Hip</th><td>93</td><td>98</td><td>103</td><td>108</td><td>113</td><td>118</td></tr><tr><th>Sleeve*</th><td>75</td><td>76.5</td><td>78</td><td>79.5</td><td>81</td><td>82.5</td></tr></tbody></table></div><p class="sg-note">UK sizes, with letter sizing in brackets. Body measurements in cm.</p></div>
+    <div data-sg-panel="w-in" hidden><p class="sg-hint">Swipe the table sideways for more sizes &rarr;</p><div class="sg-scroll"><table class="sgt"><thead><tr><th></th><th>8 (XS)</th><th>10 (S)</th><th>12 (M)</th><th>14 (L)</th><th>16 (XL)</th><th>18 (XXL)</th></tr></thead><tbody><tr><th>Chest</th><td>33</td><td>35</td><td>37</td><td>38.9</td><td>41.3</td><td>43.3</td></tr><tr><th>Waist</th><td>27.1</td><td>29.1</td><td>31.1</td><td>33</td><td>35</td><td>37</td></tr><tr><th>Hip</th><td>36.6</td><td>38.5</td><td>40.5</td><td>42.5</td><td>44.4</td><td>46.4</td></tr><tr><th>Sleeve*</th><td>29.5</td><td>30.1</td><td>30.7</td><td>31.2</td><td>31.8</td><td>32.4</td></tr></tbody></table></div><p class="sg-note">UK sizes, with letter sizing in brackets. Body measurements in inches.</p></div>
+    <p class="sg-note">*Sleeve length is measured from the side neck point to the wrist bone.</p>
+  </div>
+</dialog>
 
 <footer>
   <div class="wrap">
@@ -232,7 +237,7 @@
   </div>
 </footer>
 
-<script src="assets/js/jcbc.js?v=8"></script>
-<script src="assets/js/shop.js?v=5"></script>
+<script src="assets/js/jcbc.js?v=9"></script>
+<script src="assets/js/shop.js?v=10"></script>
 </body>
 </html>

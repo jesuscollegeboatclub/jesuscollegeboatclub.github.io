@@ -1,7 +1,11 @@
 # Jesus College Boat Club — website
 
 The JCBC website. Plain HTML, CSS and JavaScript — no build step. Hosted on
-GitHub Pages (this repo is `jesuscollegeboatclub.github.io`).
+GitHub Pages (this repo is `jesuscollegeboatclub.github.io`), live at
+https://www.jesusboatclub.co.uk.
+
+**Start with [`CLAUDE.md`](CLAUDE.md)**: the full handbook for editing and publishing the
+site, the shop, the committee page, the Fairbairn Cup pages, the domain and the house rules.
 
 ## Folder overview
 

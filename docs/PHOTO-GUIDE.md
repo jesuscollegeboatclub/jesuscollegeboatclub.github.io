@@ -50,18 +50,11 @@ and `images/boathousedog.png`.
 
 ## Placeholders
 
-Anyone without a photo yet shows a **claret tile with their initials** and the words
-"PHOTO TO FOLLOW". Currently four people:
+If a member has no photo yet, use a claret square with their initials and the words
+"PHOTO TO FOLLOW" saved under their role filename. As of October 2026 **every committee
+member has a real photo**, so there are no placeholders.
 
-| File | Waiting on |
-|------|-----------|
-| `vicecaptainmen.jpg` | Finn Foley |
-| `vicecaptainwomen.jpg` | Ingrid Berg |
-| `webmaster.jpg` | Grace Skinner |
-| `stashofficer1.jpg` | Will Galloway |
-
-Drop a square photo in under the matching filename and the placeholder disappears
-automatically — no code changes needed.
+Keep new photos small: a 700×700 square JPEG (see `CLAUDE.md`, section 6).
 
 ## A note on email addresses
 

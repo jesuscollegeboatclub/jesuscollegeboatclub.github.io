@@ -8,7 +8,7 @@ email receipts and the orders spreadsheet.
 1. **Add to basket** — every product's button adds it to a basket that is
    saved in the customer's browser (so it survives a page refresh).
 2. **Checkout** — they open the basket (top-right), review it, and enter
-   their name, email, college/crew, delivery choice and any notes.
+   their name, email, college/crew and any notes. All orders are picked up from the boathouse (there is no delivery option).
 3. **Bank transfer** — they're shown the club's bank details and a unique
    **payment reference** (e.g. `JCBC-AS-4F9X`) to use, so you can match the
    transfer to the order.
@@ -21,7 +21,7 @@ email receipts and the orders spreadsheet.
 
 ```js
 const SHOP_CONFIG = {
-  closeDate: "2027-03-31T23:59:59",   // when the shop greys out and closes
+  closeDate: "2026-11-01T23:59:59",   // order deadline: shop greys out and closes
   orderEndpoint: "",                  // paste your Apps Script URL (step below)
   treasurerEmail: "jcbc-treasurer@jcsu.jesus.cam.ac.uk",
   bank: {

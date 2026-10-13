@@ -16,7 +16,7 @@
 const SHOP_CONFIG = {
   // Shop closes at the end of this moment (local time). After it,
   // the shop greys out and no orders can be placed.
-  closeDate: "2027-03-31T23:59:59",
+  closeDate: "2026-11-01T23:59:59",
 
   // Paste your deployed Apps Script Web App URL here to enable
   // email receipts + the orders spreadsheet. If left blank, the
@@ -50,6 +50,7 @@ const SHOP_CONFIG = {
 
   /* ---------- status banner under the hero ---------- */
   function banner() {
+    if (window.JCBC_SHOP_LIVE === false) return;   // stash hidden: no open/closed banner
     const hero = $(".page-hero");
     if (!hero) return;
     const b = document.createElement("div");
@@ -57,13 +58,34 @@ const SHOP_CONFIG = {
     const close = new Date(SHOP_CONFIG.closeDate);
     const fmt = close.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
     if (closed()) {
-      b.innerHTML = '<span class="dot"></span>The shop is now <b>closed</b> — thank you for your orders. It will reopen for the next stash drop.';
+      b.innerHTML = '<span class="dot"></span><span>The shop is now <b>closed</b>. Thank you for your orders; it will reopen for the next stash drop.</span>';
     } else {
       const days = Math.max(0, Math.ceil((close - new Date()) / 86400000));
-      b.innerHTML = '<span class="dot"></span>Shop is <b>open</b> — orders close <b>' + fmt + '</b>' +
-                    (days <= 60 ? ' &nbsp;·&nbsp; ' + days + ' day' + (days === 1 ? "" : "s") + ' left' : '');
+      if (days <= 14) b.classList.add("urgent");
+      b.innerHTML = '<span class="dot"></span><span>' + (days <= 14 ? '<b>Last call</b> · ' : 'Shop is <b>open</b> · ') +
+                    'orders close <b>' + fmt + '</b>' +
+                    (days <= 60 ? ' · <b>' + (days <= 1 ? 'final day' : days + ' days left') + '</b>' : '') + '</span>';
     }
     hero.insertAdjacentElement("afterend", b);
+  }
+
+  /* ---------- live countdown to the order deadline ---------- */
+  function countdown() {
+    const box = $("[data-countdown]");
+    if (!box) return;
+    if (closed()) { box.remove(); return; }
+    const end = new Date(SHOP_CONFIG.closeDate), pad = n => String(n).padStart(2, "0");
+    const tick = () => {
+      let ms = end - new Date();
+      if (ms <= 0) { location.reload(); return; }
+      const d = Math.floor(ms / 864e5); ms -= d * 864e5;
+      const h = Math.floor(ms / 36e5); ms -= h * 36e5;
+      const m = Math.floor(ms / 6e4), s = Math.floor((ms - m * 6e4) / 1e3);
+      $("[data-cd=d]", box).textContent = pad(d); $("[data-cd=h]", box).textContent = pad(h);
+      $("[data-cd=m]", box).textContent = pad(m); $("[data-cd=s]", box).textContent = pad(s);
+      box.classList.toggle("final", d < 3);
+    };
+    tick(); setInterval(tick, 1000);
   }
 
   /* ---------- build drawer + modal ---------- */
@@ -93,11 +115,26 @@ const SHOP_CONFIG = {
         const price = parseFloat(($(".pprice", card).textContent || "").replace(/[^0-9.]/g, "")) || 0;
         const sizeSel = card.querySelector("select.size");
         if (sizeSel && !sizeSel.value) { sizeSel.classList.add("needs"); sizeSel.focus(); setTimeout(() => sizeSel.classList.remove("needs"), 1200); return; }
+        const colSel = card.querySelector("select.colour");
+        if (colSel && !colSel.value) { colSel.classList.add("needs"); colSel.focus(); setTimeout(() => colSel.classList.remove("needs"), 1200); return; }
         const size = sizeSel ? sizeSel.value : "";
-        addItem(name, price, size);
+        addItem(colSel ? name + " · " + colSel.value : name, price, size);
         openDrawer();
         btn.textContent = "Added ✓";
         setTimeout(() => { btn.textContent = original; }, 1100);
+      });
+    });
+  }
+
+  /* optional colour selector: swap photos and badge from the chosen <option data-*> */
+  function wireColours() {
+    $$(".product select.colour").forEach(sel => {
+      sel.addEventListener("change", () => {
+        const card = sel.closest(".product"), o = sel.selectedOptions[0];
+        const f = card.querySelector(".shot img.f"), b = card.querySelector(".shot img.b"), n = card.querySelector("[data-cnote]");
+        if (o.dataset.front && f) f.src = o.dataset.front;
+        if (o.dataset.back && b) b.src = o.dataset.back;
+        if (n && o.dataset.note) n.textContent = o.dataset.note;
       });
     });
   }
@@ -146,7 +183,7 @@ const SHOP_CONFIG = {
     foot.innerHTML =
       '<div class="sub"><span>Subtotal</span><span>' + money(total()) + '</span></div>' +
       '<button class="btn btn-primary" id="goCheckout">Checkout</button>' +
-      '<div class="dnote">Payment is by bank transfer — details shown at checkout.</div>';
+      '<div class="dnote">Payment is by bank transfer; details are shown at checkout.</div>';
     $$("[data-inc]", items).forEach(b => b.onclick = () => setQty(b.dataset.inc, 1));
     $$("[data-dec]", items).forEach(b => b.onclick = () => setQty(b.dataset.dec, -1));
     $$("[data-rm]", items).forEach(b => b.onclick = () => removeItem(b.dataset.rm));
@@ -166,14 +203,14 @@ const SHOP_CONFIG = {
       '<div class="mhead"><h3>Checkout</h3><button class="dclose" id="mClose">&times;</button></div>' +
       '<div class="mbody">' +
         '<div class="msteps"><div class="s on"></div><div class="s"></div><div class="s"></div></div>' +
-        '<p>Just a few details so we can match your transfer and post your stash.</p>' +
+        '<p>Just a few details so we can match your transfer. All orders are picked up from the boathouse.</p>' +
         '<div class="field"><label>Full name</label><input id="f_name" autocomplete="name"></div>' +
         '<div class="field"><label>Email (for your receipt)</label><input id="f_email" type="email" autocomplete="email"></div>' +
         '<div class="field row">' +
           '<div><label>College / crew</label><input id="f_crew" placeholder="e.g. Jesus M1"></div>' +
-          '<div><label>Delivery</label><select id="f_deliver"><option>Collect from boathouse</option><option>Post (UK)</option></select></div>' +
+          '<div><label>Collection</label><div class="fixedopt">Pick up from the boathouse</div></div>' +
         '</div>' +
-        '<div class="field"><label>Notes — colours, requests, etc.</label><textarea id="f_notes" rows="2" placeholder="Anything else we should know?"></textarea></div>' +
+        '<div class="field"><label>Notes (optional)</label><textarea id="f_notes" rows="2" placeholder="Anything else we should know?"></textarea></div>' +
         '<div class="err" id="f_err">Please enter your name and a valid email.</div>' +
         '<button class="btn btn-primary" id="toBank" style="width:100%">Continue to payment</button>' +
       '</div>';
@@ -186,7 +223,7 @@ const SHOP_CONFIG = {
       checkoutBank({
         name, email,
         crew: $("#f_crew").value.trim(),
-        deliver: $("#f_deliver").value,
+        deliver: "Pick up from the boathouse",
         notes: $("#f_notes").value.trim()
       });
     };
@@ -213,9 +250,9 @@ const SHOP_CONFIG = {
           '<div class="brow"><span>Amount</span><b>' + money(total()) + '</b></div>' +
           '<div class="brow"><span>Payment reference</span><b class="ref">' + cust.ref + '</b></div>' +
         '</div>' +
-        '<p style="font-size:.86rem">Once you’ve made the transfer, place your order below. You’ll get a receipt by email, and we’ll post or set aside your stash once payment arrives.</p>' +
+        '<p style="font-size:.86rem">Once you’ve made the transfer, place your order below. You’ll get a receipt by email, and we’ll let you know when your order is ready to pick up from the boathouse.</p>' +
         '<div class="err" id="p_err">Something went wrong sending your order. Please email us instead.</div>' +
-        '<button class="btn btn-primary" id="placeOrder" style="width:100%">I’ve made the transfer — place order</button>' +
+        '<button class="btn btn-primary" id="placeOrder" style="width:100%">I’ve made the transfer: place order</button>' +
       '</div>';
     $("#mClose").onclick = closeAll;
     $("#placeOrder").onclick = () => placeOrder(cust);
@@ -279,6 +316,31 @@ const SHOP_CONFIG = {
     $("#mDone").onclick = closeAll;
   }
 
+  /* ---------- product photos (front/back) + size guide ---------- */
+  function wireExtras() {
+    $$("[data-flip]").forEach(b => b.addEventListener("click", e => {
+      e.preventDefault();
+      const on = b.closest(".shot").classList.toggle("flip");
+      b.textContent = on ? "View front" : "View back";
+    }));
+    const dlg = $("#sizeGuide");
+    if (!dlg) return;
+    const open = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", ""); };
+    const shut = () => { if (dlg.close) dlg.close(); else dlg.removeAttribute("open"); };
+    $$("[data-size-guide]").forEach(b => b.addEventListener("click", e => { e.preventDefault(); open(); }));
+    $$("[data-sg-close]", dlg).forEach(b => b.addEventListener("click", shut));
+    dlg.addEventListener("click", e => { if (e.target === dlg) shut(); });   // click on backdrop
+    let fit = "m", unit = "cm";
+    const show = () => {
+      $$("[data-sg-panel]", dlg).forEach(p => { p.hidden = p.dataset.sgPanel !== fit + "-" + unit; });
+      $$("[data-sg-tab]", dlg).forEach(b => b.classList.toggle("on", b.dataset.sgTab === fit));
+      $$("[data-sg-unit]", dlg).forEach(b => b.classList.toggle("on", b.dataset.sgUnit === unit));
+    };
+    $$("[data-sg-tab]", dlg).forEach(b => b.addEventListener("click", () => { fit = b.dataset.sgTab; show(); }));
+    $$("[data-sg-unit]", dlg).forEach(b => b.addEventListener("click", () => { unit = b.dataset.sgUnit; show(); }));
+    show();
+  }
+
   /* ---------- closed state ---------- */
   function applyClosed() {
     if (closed()) document.body.classList.add("shop-closed");
@@ -286,7 +348,7 @@ const SHOP_CONFIG = {
 
   /* ---------- init ---------- */
   function init() {
-    ui(); banner(); wireProducts(); applyClosed(); render();
+    ui(); banner(); wireProducts(); wireColours(); wireExtras(); countdown(); applyClosed(); render();
     const bb = $("#basketBtn");
     if (bb) bb.addEventListener("click", openDrawer);
   }
