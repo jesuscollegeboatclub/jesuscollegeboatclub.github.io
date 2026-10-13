@@ -16,7 +16,7 @@
 const SHOP_CONFIG = {
   // Shop closes at the end of this moment (local time). After it,
   // the shop greys out and no orders can be placed.
-  closeDate: "2026-11-01T23:59:59",
+  closeDate: "2026-10-25T23:59:59",
 
   // Paste your deployed Apps Script Web App URL here to enable
   // email receipts + the orders spreadsheet. If left blank, the

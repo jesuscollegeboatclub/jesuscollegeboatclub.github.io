@@ -21,7 +21,7 @@ email receipts and the orders spreadsheet.
 
 ```js
 const SHOP_CONFIG = {
-  closeDate: "2026-11-01T23:59:59",   // order deadline: shop greys out and closes
+  closeDate: "2026-10-25T23:59:59",   // order deadline: shop greys out and closes
   orderEndpoint: "",                  // paste your Apps Script URL (step below)
   treasurerEmail: "jcbc-treasurer@jcsu.jesus.cam.ac.uk",
   bank: {

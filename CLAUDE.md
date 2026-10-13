@@ -96,7 +96,7 @@ and the active states, then add the link to every page's nav/footer.
 - `assets/js/jcbc.js`: mobile menu, scroll-reveal, **shop switch** (section 7).
   `assets/js/shop.js`: basket and checkout.
 - Every page links them with a version query, e.g. `jcbc.css?v=14`, `jcbc.js?v=10`,
-  `shop.css?v=17`, `shop.js?v=14`. **After editing a CSS/JS file, bump its `?v=` on every
+  `shop.css?v=17`, `shop.js?v=15`. **After editing a CSS/JS file, bump its `?v=` on every
   page**, otherwise returning visitors keep the old file.
 - Section background classes: `bg-paper`, `bg-paper2` (light), `bg-ink`, `bg-crimson`
   (dark). Reusable bits: `.card`, `.panel`, `.dl` (download/link card with `.ic`
@@ -143,8 +143,8 @@ and the active states, then add the link to every page's nav/footer.
      stays visible above the notice.
    - `true`: full shop. Flip it only when there is real stash to sell.
 2. **`SHOP_CONFIG`** at the top of `assets/js/shop.js`:
-   - `closeDate`: order deadline. Currently `2026-11-01T23:59:59` (orders close Sunday
-     1 November 2026). After it the shop shows a "shop is closed" banner and every
+   - `closeDate`: order deadline. Currently `2026-10-25T23:59:59` (orders close Sunday
+     25 October 2026; moved from 1 November on 13 Oct). After it the shop shows a "shop is closed" banner and every
      `.product` gets `.soldout`: greyed out, a crimson "Sold out" stamp on the photo, controls
      disabled and the button reads "Sold out" (`applyClosed()` in `shop.js`). The "Shop is open · orders close …" banner only appears
      while `SHOP_LIVE` is true (`window.JCBC_SHOP_LIVE`).
@@ -200,7 +200,7 @@ change the live emails**: paste it into the Apps Script editor and redeploy via
 *Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy* (keeps the same URL).
 The live script is the Apps Script project **"sync orders"**, bound to the Google Sheet
 **"Merch Orders"** (tab "Orders"; open it via Extensions → Apps Script). Deployment ID
-`AKfycbwMM7VF…` = the `orderEndpoint` in `shop.js`. Version 4 (13 Oct 2026) is live: deadline warning
+`AKfycbwMM7VF…` = the `orderEndpoint` in `shop.js`. Version 5 (13 Oct 2026, deadline 25 Oct) is live: deadline warning
 box (payment questions to the treasurer), "Questions about the jackets? Just reply to this
 email." and the sign-off "Boaty love, your stash officers Amanda & Will". The script runs as
 the webmaster's account (aas208@cam.ac.uk), so receipts are sent from that address and buyer

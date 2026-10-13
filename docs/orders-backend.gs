@@ -18,8 +18,8 @@ var SHEET_NAME = "Orders";
 // Second stash officer, copied (visible CC) on every receipt
 var STASH_CC = "wsg22@cam.ac.uk";
 // Payment deadline shown in the receipt email (keep in step with closeDate in shop.js)
-var DEADLINE_TEXT = "Sunday 1 November 2026 (23:59)";
-var DEADLINE_SHORT = "1 November";
+var DEADLINE_TEXT = "Sunday 25 October 2026 (23:59)";
+var DEADLINE_SHORT = "25 October";
 var BANK = { name: "Jesus College Boat Club", sortCode: "30-91-56", accountNumber: "00538948" };
 
 function doPost(e) {
