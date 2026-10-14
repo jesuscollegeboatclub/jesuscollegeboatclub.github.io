@@ -248,10 +248,16 @@ reads everything from the HTML, so no JS change is needed.
   geometry in `river-centrelines.json`; all label/marker coordinates are at the bottom
   of the script). Then re-export PNGs:
   `convert -density 200 -background white -flatten X.svg X.png`.
-- Race PDFs live in `documents/` (`fairbairn-rules-and-regulations-2025.pdf`,
-  `fairbairn-safety-plan-2025.pdf`, `fairbairn-coxes-notes-2025.pdf`). When new versions
+- Race PDFs live in `documents/`: 2026 rules and coxes' notes
+  (`fairbairn-rules-and-regulations-2026.pdf`, `fairbairn-coxes-notes-2026.pdf`, made from the
+  Fairbairns Secretary's .docx with LibreOffice) and the 2025 safety plan
+  (`fairbairn-safety-plan-2025.pdf`, no 2026 version yet; old 2025 rules/notes PDFs kept but unlinked). When new versions
   arrive, either overwrite with the same filename or update the links in
   `fairbairns.html` and `coxes-notes.html`, and refresh the on-page summaries.
+- **2026 race dates: Novice VIIIs Thursday 3 December, Senior VIIIs and IVs Friday 4 December.**
+  Shown as explicit dates (not "Wk9") in the fairbairns.html hero, tile, `.fb-dates` box,
+  times and prizes headings, on coxes-notes.html and in the index.html Fairbairn block. Update
+  all of these each year.
 - Fairbairns Secretary for 2026 is Vova Chub (sign-off on the coxes' notes summary).
 - Novice definition: no rower has rowed / no cox has coxed **before September** of the
   current year.
