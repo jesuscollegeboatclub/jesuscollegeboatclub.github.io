@@ -217,12 +217,12 @@ deadline or the order is dropped, no chasing, contact the treasurer with concern
 deadline text and bank details are constants at the top of `orders-backend.gs`
 (`DEADLINE_TEXT`, `DEADLINE_SHORT`, `BANK`); since 19 Oct 2026 the repo script prefers `order.payBy`
 (sent by shop.js v16+) over the constants, and its wording says "stash"/"your order" rather than "jacket".
-This version is saved in the "sync orders" editor but only goes live once redeployed as version 7. **Editing the .gs file in the repo does not
+Live as **version 7** (19 Oct 2026, same deployment ID). **Editing the .gs file in the repo does not
 change the live emails**: paste it into the Apps Script editor and redeploy via
 *Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy* (keeps the same URL).
 The live script is the Apps Script project **"sync orders"**, bound to the Google Sheet
 **"Merch Orders"** (tab "Orders"; open it via Extensions → Apps Script). Deployment ID
-`AKfycbwMM7VF…` = the `orderEndpoint` in `shop.js`. Version 6 (13 Oct 2026, deadline 25 Oct) is live: deadline warning
+`AKfycbwMM7VF…` = the `orderEndpoint` in `shop.js`. Version 7 (19 Oct 2026) is live; version 6 (13 Oct 2026) introduced: deadline warning
 box (payment questions to the treasurer), "Questions about the jackets? Just reply to this
 email." and the sign-off "Boatie love, your stash officers Amanda & Will". The script runs as
 the webmaster's account (aas208@cam.ac.uk), so receipts are sent from that address and buyer
