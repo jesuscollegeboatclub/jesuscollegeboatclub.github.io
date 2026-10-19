@@ -43,6 +43,11 @@ const SHOP_CONFIG = {
   const LS = "jcbc_basket_v1";
   const money = n => SHOP_CONFIG.currency + n.toFixed(2).replace(/\.00$/, "");
   const closed = () => new Date() > new Date(SHOP_CONFIG.closeDate);
+  // Per-range deadlines: a section with data-close="YYYY-MM-DDTHH:MM:SS" closes its own
+  // products earlier than the whole shop (e.g. the trackies). Default: SHOP_CONFIG.closeDate.
+  const past = d => new Date() > new Date(d);
+  const closeOf = el => { const s = el && el.closest("[data-close]"); return s ? s.dataset.close : SHOP_CONFIG.closeDate; };
+  const dayFmt = d => new Date(d).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
   // Bank details not filled in yet: take orders, and the treasurer emails payment details.
   const payLater = () => { const b = SHOP_CONFIG.bank || {};
     return !b.sortCode || !b.accountNumber || /^[0-]+$/.test(b.sortCode) || /^0+$/.test(b.accountNumber); };
@@ -67,17 +72,19 @@ const SHOP_CONFIG = {
       if (days <= 14) b.classList.add("urgent");
       b.innerHTML = '<span class="dot"></span><span>' + (days <= 14 ? '<b>Last call</b> · ' : 'Shop is <b>open</b> · ') +
                     'orders close <b>' + fmt + '</b>' +
-                    (days <= 60 ? ' · <b>' + (days <= 1 ? 'final day' : days + ' days left') + '</b>' : '') + '</span>';
+                    (days <= 60 ? ' · <b>' + (days <= 1 ? 'final day' : days + ' days left') + '</b>' : '') +
+                    $$("[data-close][data-close-label]").filter(s => !past(s.dataset.close))
+                      .map(s => ' · ' + esc(s.dataset.closeLabel) + ' close <b>' + dayFmt(s.dataset.close) + '</b>').join("") + '</span>';
     }
     hero.insertAdjacentElement("afterend", b);
   }
 
   /* ---------- live countdown to the order deadline ---------- */
-  function countdown() {
-    const box = $("[data-countdown]");
-    if (!box) return;
-    if (closed()) { box.remove(); return; }
-    const end = new Date(SHOP_CONFIG.closeDate), pad = n => String(n).padStart(2, "0");
+  function countdown() { $$("[data-countdown]").forEach(countdownBox); }
+  function countdownBox(box) {
+    const endStr = box.dataset.countdown || SHOP_CONFIG.closeDate;
+    if (closed() || past(endStr)) { box.remove(); return; }
+    const end = new Date(endStr), pad = n => String(n).padStart(2, "0");
     const tick = () => {
       let ms = end - new Date();
       if (ms <= 0) { location.reload(); return; }
@@ -112,7 +119,7 @@ const SHOP_CONFIG = {
     $$(".product .padd").forEach(btn => {
       const original = btn.textContent;
       btn.addEventListener("click", () => {
-        if (closed()) return;
+        if (closed() || past(closeOf(btn))) return;
         const card = btn.closest(".product");
         const name = $("h3", card).textContent.trim();
         const price = parseFloat(($(".pprice", card).textContent || "").replace(/[^0-9.]/g, "")) || 0;
@@ -121,7 +128,7 @@ const SHOP_CONFIG = {
         const colSel = card.querySelector("select.colour");
         if (colSel && !colSel.value) { colSel.classList.add("needs"); colSel.focus(); setTimeout(() => colSel.classList.remove("needs"), 1200); return; }
         const size = sizeSel ? sizeSel.value : "";
-        addItem(colSel ? name + " · " + colSel.value : name, price, size);
+        addItem(colSel ? name + " · " + colSel.value : name, price, size, closeOf(card));
         openDrawer();
         btn.textContent = "Added ✓";
         setTimeout(() => { btn.textContent = original; }, 1100);
@@ -143,10 +150,10 @@ const SHOP_CONFIG = {
   }
 
   const idOf = i => i.name + "||" + (i.size || "");
-  function addItem(name, price, size) {
+  function addItem(name, price, size, close) {
     size = size || "";
     const ex = basket.find(i => i.name === name && (i.size || "") === size);
-    if (ex) ex.qty += 1; else basket.push({ name, price, size, qty: 1 });
+    if (ex) ex.qty += 1; else basket.push({ name, price, size, qty: 1, close: close || SHOP_CONFIG.closeDate });
     save(); render();
   }
   function setQty(id, d) {
@@ -160,8 +167,16 @@ const SHOP_CONFIG = {
   const total = () => basket.reduce((s, i) => s + i.price * i.qty, 0);
   const count = () => basket.reduce((s, i) => s + i.qty, 0);
 
+  // drop basket items whose own deadline has passed (e.g. trackies after their close)
+  function prune() {
+    const n = basket.length;
+    basket = basket.filter(i => !i.close || !past(i.close));
+    if (basket.length !== n) save();
+  }
+
   /* ---------- render ---------- */
   function render() {
+    prune();
     const badge = $("#basketCount");
     if (badge) badge.textContent = count();
     const items = $("#ditems"), foot = $("#dfoot");
@@ -200,7 +215,8 @@ const SHOP_CONFIG = {
 
   /* ---------- checkout: step 1 details ---------- */
   function checkoutDetails() {
-    if (!basket.length || closed()) return;
+    prune();
+    if (!basket.length || closed()) { render(); return; }
     const m = $("#mcard");
     m.innerHTML =
       '<div class="mhead"><h3>Checkout</h3><button class="dclose" id="mClose">&times;</button></div>' +
@@ -295,7 +311,8 @@ const SHOP_CONFIG = {
       name: cust.name, email: cust.email, crew: cust.crew,
       delivery: cust.deliver, notes: cust.notes,
       items: basket.map(i => ({ name: i.size ? i.name + " (" + i.size + ")" : i.name, qty: i.qty, price: i.price })),
-      total: total(), bank: SHOP_CONFIG.bank.name
+      total: total(), bank: SHOP_CONFIG.bank.name,
+      payBy: payBy()
     };
 
     const done = () => { basket = []; save(); render(); confirmScreen(cust); };
@@ -310,6 +327,17 @@ const SHOP_CONFIG = {
       fallbackEmail(order);
       done();
     }
+  }
+
+  // Earliest deadline among the basket items, for the receipt's "pay by" text.
+  function payBy() {
+    const d = new Date(basket.map(i => i.close || SHOP_CONFIG.closeDate)
+      .sort((a, b) => new Date(a) - new Date(b))[0]);
+    return {
+      text: d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) +
+            " (" + d.toTimeString().slice(0, 5) + ")",
+      short: d.toLocaleDateString("en-GB", { day: "numeric", month: "long" })
+    };
   }
 
   // No backend configured: open the customer's email app pre-filled.
@@ -350,39 +378,44 @@ const SHOP_CONFIG = {
     $$(".shot.photo").forEach(shot => {
       const b = shot.querySelector("[data-flip]");
       if (!b) return;
+      const labels = [b.textContent, b.dataset.flipAlt || "View front"];
       const flip = e => {
         e.preventDefault();
         const back = shot.classList.toggle("back");
-        b.textContent = back ? "View front" : "View back";
+        b.textContent = back ? labels[1] : labels[0];
         b.setAttribute("aria-pressed", back);
       };
       b.addEventListener("click", flip);
       shot.querySelectorAll("img").forEach(i => i.addEventListener("click", flip));
     });
-    const dlg = $("#sizeGuide");
-    if (!dlg) return;
-    const open = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", ""); };
-    const shut = () => { if (dlg.close) dlg.close(); else dlg.removeAttribute("open"); };
-    $$("[data-size-guide]").forEach(b => b.addEventListener("click", e => { e.preventDefault(); open(); }));
-    $$("[data-sg-close]", dlg).forEach(b => b.addEventListener("click", shut));
-    dlg.addEventListener("click", e => { if (e.target === dlg) shut(); });   // click on backdrop
-    let fit = "m", unit = "cm";
-    const show = () => {
-      $$("[data-sg-panel]", dlg).forEach(p => { p.hidden = p.dataset.sgPanel !== fit + "-" + unit; });
-      $$("[data-sg-tab]", dlg).forEach(b => b.classList.toggle("on", b.dataset.sgTab === fit));
-      $$("[data-sg-unit]", dlg).forEach(b => b.classList.toggle("on", b.dataset.sgUnit === unit));
-    };
-    $$("[data-sg-tab]", dlg).forEach(b => b.addEventListener("click", () => { fit = b.dataset.sgTab; show(); }));
-    $$("[data-sg-unit]", dlg).forEach(b => b.addEventListener("click", () => { unit = b.dataset.sgUnit; show(); }));
-    show();
+    const open = d => { if (d.showModal) d.showModal(); else d.setAttribute("open", ""); };
+    const shut = d => { if (d.close) d.close(); else d.removeAttribute("open"); };
+    $$("[data-size-guide]").forEach(b => b.addEventListener("click", e => {
+      const d = document.getElementById(b.dataset.sizeGuide || "sizeGuide");
+      if (d) { e.preventDefault(); open(d); }
+    }));
+    $$("dialog.sg").forEach(dlg => {
+      $$("[data-sg-close]", dlg).forEach(b => b.addEventListener("click", () => shut(dlg)));
+      dlg.addEventListener("click", e => { if (e.target === dlg) shut(dlg); });   // click on backdrop
+      let fit = "m", unit = "cm";
+      const show = () => {
+        $$("[data-sg-panel]", dlg).forEach(p => { p.hidden = p.dataset.sgPanel !== fit + "-" + unit; });
+        $$("[data-sg-tab]", dlg).forEach(b => b.classList.toggle("on", b.dataset.sgTab === fit));
+        $$("[data-sg-unit]", dlg).forEach(b => b.classList.toggle("on", b.dataset.sgUnit === unit));
+      };
+      $$("[data-sg-tab]", dlg).forEach(b => b.addEventListener("click", () => { fit = b.dataset.sgTab; show(); }));
+      $$("[data-sg-unit]", dlg).forEach(b => b.addEventListener("click", () => { unit = b.dataset.sgUnit; show(); }));
+      show();
+    });
   }
 
   /* ---------- closed state ---------- */
   // After the deadline: grey out every product, stamp it "Sold out", disable its controls.
   function applyClosed() {
-    if (!closed()) return;
-    document.body.classList.add("shop-closed");
+    const all = closed();
+    if (all) document.body.classList.add("shop-closed");
     $$(".product").forEach(p => {
+      if (!all && !past(closeOf(p))) return;
       p.classList.add("soldout");
       const shot = $(".shot", p);
       if (shot && !$(".soldstamp", shot)) shot.insertAdjacentHTML("beforeend", '<span class="soldstamp">Sold out</span>');

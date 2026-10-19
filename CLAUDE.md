@@ -96,7 +96,7 @@ and the active states, then add the link to every page's nav/footer.
 - `assets/js/jcbc.js`: mobile menu, scroll-reveal, **shop switch** (section 7).
   `assets/js/shop.js`: basket and checkout.
 - Every page links them with a version query, e.g. `jcbc.css?v=14`, `jcbc.js?v=10`,
-  `shop.css?v=17`, `shop.js?v=15`. **After editing a CSS/JS file, bump its `?v=` on every
+  `shop.css?v=17`, `shop.js?v=16`. **After editing a CSS/JS file, bump its `?v=` on every
   page**, otherwise returning visitors keep the old file.
 - Section background classes: `bg-paper`, `bg-paper2` (light), `bg-ink`, `bg-crimson`
   (dark). Reusable bits: `.card`, `.panel`, `.dl` (download/link card with `.ic`
@@ -179,6 +179,26 @@ Every `[data-size-guide]` element opens the `<dialog id="sizeGuide">` (tabs: men
 cm/inches; data copied from the supplier's charts). Shop photos deliberately have no
 `loading="lazy"`/`decoding="async"`.
 
+**Canterbury trackies (added 19 Oct 2026):** section `merch.html#trackies` (`.shop-grid.one`),
+one card **Canterbury Stadium Pants**, **Black only** (supplier, 19 Oct; the mock-up artwork looks navy), **£42.00** (£35.00 + VAT, supplier's price),
+standard **31" inside leg** on every size (supplier). Red embroidery on the left thigh: crossed
+oars, cockerel and JCBC, 91 x 56 mm (supplier approval sheet `JCBC_oars_2 90mm`); Canterbury logo
+on the right thigh. Photos: `images/shop/stadium-pants-black.jpg` (supplier mock-up) and
+`stadium-pants-embroidery.jpg` (cut from the approval sheet PDF); the flip button reads
+"View embroidery"/"View trackies" (`data-flip-alt` sets the second label). Sizes follow the
+supplier's Canterbury chart: men's/unisex XS–6XL (Canterbury writes 2XL, not XXL) and
+women's UK 6–22. Own size guide `<dialog id="sizeGuidePants">`, opened by
+`data-size-guide="sizeGuidePants"` (a bare `data-size-guide` opens the jacket guide `#sizeGuide`).
+**Own, earlier deadline: Thursday 22 October 2026, midnight.**
+
+**Per-range deadlines:** a section with `data-close="YYYY-MM-DDTHH:MM:SS"` closes its own
+products before the shop-wide `closeDate` (`closeOf()`/`past()` in `shop.js`): add-to-basket is
+blocked, the cards get the "Sold out" state, basket items carry their `close` and are pruned
+once it passes, and `data-close-label="trackies"` adds "· trackies close Thursday 22 October"
+to the banner until then. A `[data-countdown="<date>"]` box counts down to that date (a bare
+`data-countdown` uses `closeDate`). Each order sends `payBy` = the earliest deadline among its
+items, and the receipt uses it.
+
 **Collection only:** there is no delivery option. Checkout shows a fixed
 "Pick up from the boathouse" field and sends `delivery: "Pick up from the boathouse"`.
 
@@ -195,7 +215,9 @@ setup: `docs/SHOP-SETUP.md`.
 The receipt (HTML + plain text) includes the bank details and a highlighted box: pay by the
 deadline or the order is dropped, no chasing, contact the treasurer with concerns. Its
 deadline text and bank details are constants at the top of `orders-backend.gs`
-(`DEADLINE_TEXT`, `DEADLINE_SHORT`, `BANK`). **Editing the .gs file in the repo does not
+(`DEADLINE_TEXT`, `DEADLINE_SHORT`, `BANK`); since 19 Oct 2026 the repo script prefers `order.payBy`
+(sent by shop.js v16+) over the constants, and its wording says "stash"/"your order" rather than "jacket".
+This version is saved in the "sync orders" editor but only goes live once redeployed as version 7. **Editing the .gs file in the repo does not
 change the live emails**: paste it into the Apps Script editor and redeploy via
 *Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy* (keeps the same URL).
 The live script is the Apps Script project **"sync orders"**, bound to the Google Sheet

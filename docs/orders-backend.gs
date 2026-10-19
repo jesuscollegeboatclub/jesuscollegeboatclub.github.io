@@ -17,7 +17,9 @@ var TREASURER_EMAIL = "jcbc-treasurer@jcsu.jesus.cam.ac.uk";
 var SHEET_NAME = "Orders";
 // Second stash officer, copied (visible CC) on every receipt
 var STASH_CC = "wsg22@cam.ac.uk";
-// Payment deadline shown in the receipt email (keep in step with closeDate in shop.js)
+// Fallback payment deadline for the receipt (keep in step with closeDate in shop.js).
+// shop.js v16+ sends order.payBy = { text, short }: the earliest deadline among the
+// items ordered (trackies close earlier than jackets), which is used instead.
 var DEADLINE_TEXT = "Sunday 25 October 2026 (23:59)";
 var DEADLINE_SHORT = "25 October";
 var BANK = { name: "Jesus College Boat Club", sortCode: "30-91-56", accountNumber: "00538948" };
@@ -49,6 +51,9 @@ function appendToSheet(order) {
 }
 
 function sendReceipt(order) {
+  var payBy = order.payBy || {};
+  var deadlineText = payBy.text || DEADLINE_TEXT;
+  var deadlineShort = payBy.short || DEADLINE_SHORT;
   var total = "£" + Number(order.total).toFixed(2);
   var items = order.items || [];
   var lines = items.map(function (i) {
@@ -56,11 +61,11 @@ function sendReceipt(order) {
   }).join("\n");
 
   var warning =
-    "Please pay by " + DEADLINE_TEXT + ". We will only place the club order for jackets " +
+    "Please pay by " + deadlineText + ". We will only place the club order for items " +
     "that have been paid for by then. We will not chase unpaid orders: if your payment " +
     "has not arrived by the deadline, your order will be dropped and you will not receive " +
-    "a jacket. For any questions about payment, contact the treasurer at " + TREASURER_EMAIL + ".";
-  var help = "Questions about the jackets (sizes, colours, your order)? Just reply to this email.";
+    "your stash. For any questions about payment, contact the treasurer at " + TREASURER_EMAIL + ".";
+  var help = "Questions about your stash (sizes, colours, your order)? Just reply to this email.";
 
   // Plain-text version (for mail apps that don't show HTML)
   var body =
@@ -77,7 +82,7 @@ function sendReceipt(order) {
     "  Reference: " + order.ref + "\n\n" +
     "*** IMPORTANT: " + warning + " ***\n\n" +
     help + "\n\n" +
-    "We'll let you know when your jacket is ready to pick up from the boathouse.\n\n" +
+    "We'll let you know when your order is ready to pick up from the boathouse.\n\n" +
     "Boatie love,\nyour stash officers Amanda & Will";
 
   // HTML version with the highlighted deadline box
@@ -100,14 +105,14 @@ function sendReceipt(order) {
     "<div style='background:#FFF3B0;border-left:6px solid #8A1218;padding:14px 16px;margin:18px 0;font-weight:bold'>" +
     "IMPORTANT: " + esc(warning) + "</div>" +
     "<p>" + esc(help) + "</p>" +
-    "<p>We'll let you know when your jacket is ready to pick up from the boathouse.</p>" +
+    "<p>We'll let you know when your order is ready to pick up from the boathouse.</p>" +
     "<p>Boatie love,<br>your stash officers Amanda &amp; Will</p></div>";
 
   MailApp.sendEmail({
     to: order.email,
     cc: STASH_CC,
     bcc: TREASURER_EMAIL,
-    subject: "Your JCBC order " + order.ref + " (pay by " + DEADLINE_SHORT + ")",
+    subject: "Your JCBC order " + order.ref + " (pay by " + deadlineShort + ")",
     body: body,
     htmlBody: html
   });
