@@ -160,7 +160,23 @@ and the active states, then add the link to every page's nav/footer.
      zeros, checkout falls back to **pay-later mode** (`payLater()` in `shop.js`): no bank
      box, and the treasurer emails the bank details.
 
-**Current range (Michaelmas 2026):** two Musto jackets in `merch.html#range`
+**Members-only Godfrey splash jacket (added 29 Oct 2026, the only item currently shown):**
+section `merch.html#splash`, first after the hero. Not sold through the basket: a button links
+to `https://godfrey.co.uk/products/splash-g2-custom-102` (new tab). Copy (webmaster's facts):
+current members only, non-members are not allowed to use the link or code; usually £84, subsidised
+by the boat club for members, **now £60** (Godfrey's listed price incl. VAT, all sizes XS–3XL in stock,
+checked 29 Oct 2026); add code **CLUBSHIP** at checkout and it is shipped to college. Photo
+`images/shop/godfrey-splash-g2.jpg` (front + back design, taken from the Godfrey product page).
+Hero chips, "How it works", "Good to know" and the CTA band point at `#splash`.
+
+**Jackets and trackies hidden (29 Oct 2026):** the `#range` and `#trackies` sections carry the
+`hidden` attribute (`body > section[hidden]{display:none!important}` in the inline `<style>` of
+`merch.html`). To bring a range back, remove `hidden` and restore the hero chips and the
+"How it works" text. While `closeDate` is past, the inline style also hides the closed banner and
+the basket button (`body.shop-closed .shop-banner, body.shop-closed #basketBtn`); both return
+automatically once `closeDate` is moved to a future date.
+
+**Previous range (Michaelmas 2026, now hidden):** two Musto jackets in `merch.html#range`
 (`.shop-grid.two`): **Sardinia** (£157.86, Black or Platinum; light mesh lining) and
 **Corsica** (£165.06, Black only; brushed fleece lining, three zipped pockets). Both are
 waterproof seam-sealed Ocean Tech with a hood that packs into the collar (verified on

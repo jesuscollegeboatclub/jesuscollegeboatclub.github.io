@@ -77,6 +77,23 @@ dialog.sg::backdrop{background:rgba(23,20,17,.55)}
 .mlinks a{color:var(--crimson);font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .sg-hint{display:none;font-size:.78rem;color:var(--crimson);font-weight:700;margin:0 0 8px}
 @media(max-width:620px){.sg-hint{display:block}.sg-scroll th:first-child,.sg-scroll td:first-child{position:sticky;left:0;z-index:1;background:var(--paper-2);box-shadow:6px 0 8px -6px rgba(0,0,0,.25)}.sg-scroll thead th:first-child{background:var(--ink)}}
+/* Hidden ranges (jackets, trackies): remove the hidden attribute to bring a range back */
+body > section[hidden]{display:none!important}
+/* Nothing is sold through the basket while the shop is closed */
+body.shop-closed .shop-banner,body.shop-closed #basketBtn{display:none!important}
+/* Members-only Godfrey splash jacket */
+.mo-card{max-width:760px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:14px;padding:34px 36px;box-shadow:0 1px 2px rgba(23,20,17,.04)}
+.mo-warn{border:2px solid var(--crimson);background:#fff4e0;border-radius:10px;padding:16px 20px;margin:0 0 22px;color:var(--ink)}
+.mo-warn b.k{display:block;color:var(--crimson);text-transform:uppercase;letter-spacing:.12em;font-family:'Archivo',sans-serif;font-size:.8rem;font-weight:800;margin-bottom:6px}
+.mo-img{display:block;width:100%;height:auto;margin:0 0 22px;border-radius:8px}
+.mo-price{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:6px 0 18px}
+.mo-price s{color:var(--ink-soft);font-size:1.2rem;font-weight:700}
+.mo-price strong{color:var(--ink);font-family:'Archivo',sans-serif;font-size:2rem;font-weight:900;line-height:1}
+.mo-price span{color:var(--crimson);font-weight:800;font-size:1.05rem}
+.mo-code{display:inline-block;font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;font-size:1.15rem;letter-spacing:.08em;background:var(--ink);color:#fff;border-radius:6px;padding:3px 10px}
+.mo-steps{margin:0 0 22px 1.2em;color:var(--ink)}
+.mo-steps li{margin:6px 0}
+@media(max-width:540px){.mo-card{padding:24px 20px}}
 </style>
 </head>
 <body>
@@ -125,18 +142,39 @@ dialog.sg::backdrop{background:rgba(23,20,17,.55)}
     <nav class="crumbs"><a href="index.html">Home</a> / Shop</nav>
     <span class="eyebrow light">Wear the red and black</span>
     <h1>The <em>Shop</em></h1>
-    <p class="lead">Official JCBC jackets, trackies and the bicentenary books. Every purchase helps fund the club, our boats and our rowers.</p>
+    <p class="lead">Official JCBC kit and the bicentenary books. Every purchase helps fund the club, our boats and our rowers.</p>
     <div class="chips" style="margin-top:24px">
-      <a class="chip on" href="#range">Jackets</a>
-      <a class="chip" href="#trackies">Trackies</a>
-      <a class="chip" href="#range" data-size-guide>Size guide</a>
+      <a class="chip on" href="#splash">Members&#x27; splash jacket</a>
       <a class="chip" href="#books">Bicentenary books</a>
     </div>
   </div>
 </section>
 
-<!-- JCBC JACKET RANGE -->
-<section class="bg-paper2" id="range">
+<!-- GODFREY SPLASH JACKET: current members only, ordered on godfrey.co.uk -->
+<section class="bg-paper2" id="splash">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Current members only</span>
+      <h2>The JCBC Godfrey splash jacket</h2>
+      <p>The club&#x27;s custom Godfrey G2 Splash Jacket, made for rowing: neck zip, back ventilation flap, zipped side pockets and a fleece collar. It is ordered directly from Godfrey, not through the basket on this page.</p>
+    </div>
+    <div class="mo-card">
+      <img class="mo-img" src="images/shop/godfrey-splash-g2.jpg" alt="JCBC Godfrey G2 Splash Jacket, black with red trim: front with the club crest, back with JCBC" width="800" height="346">
+      <div class="mo-warn" role="note"><b class="k">Current JCBC members only</b>This offer is <b>only for current members</b> of Jesus College Boat Club. <b>If you are not a current member, you are not allowed to use this link or the code below.</b></div>
+      <div class="mo-price"><strong>&pound;60</strong><s>Usually &pound;84</s><span>Subsidised by the boat club for current members</span></div>
+      <ol class="mo-steps">
+        <li>Open the jacket on the Godfrey website with the button below and choose your size.</li>
+        <li>At checkout, add the code <span class="mo-code">CLUBSHIP</span></li>
+        <li>Your jacket is then shipped to college.</li>
+      </ol>
+      <div class="btn-row"><a class="btn btn-primary" href="https://godfrey.co.uk/products/splash-g2-custom-102" target="_blank" rel="noopener">Order on godfrey.co.uk &rarr;</a></div>
+      <p style="color:var(--ink-soft);font-size:.85rem;margin-top:14px">Opens the Godfrey website in a new tab. Current members only.</p>
+    </div>
+  </div>
+</section>
+
+<!-- JCBC JACKET RANGE (hidden: remove the hidden attribute to show it again) -->
+<section class="bg-paper2" id="range" hidden>
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">New &middot; Michaelmas 2026</span>
@@ -161,8 +199,8 @@ dialog.sg::backdrop{background:rgba(23,20,17,.55)}
   </div>
 </section>
 
-<!-- CANTERBURY TRACKIES (own, earlier deadline: data-close on the section) -->
-<section class="bg-paper" id="trackies" data-close="2026-10-22T23:59:59" data-close-label="trackies">
+<!-- CANTERBURY TRACKIES (hidden: remove the hidden attribute to show it again; own, earlier deadline: data-close on the section) -->
+<section class="bg-paper" id="trackies" data-close="2026-10-22T23:59:59" data-close-label="trackies" hidden>
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">New &middot; Michaelmas 2026</span>
@@ -206,13 +244,12 @@ dialog.sg::backdrop{background:rgba(23,20,17,.55)}
     <div class="prose">
       <span class="eyebrow">Ordering</span>
       <h2 style="color:#fff;font-size:clamp(1.9rem,4vw,2.8rem);font-weight:900;margin:12px 0 18px">How it works</h2>
-      <p>Choose your fit and size, add your jacket or trackies to the basket and check out online. You&#x27;ll see the club&#x27;s bank details and a personal payment reference; once you&#x27;ve paid, place the order and a receipt is emailed to you.</p><p><b>Trackies orders close at midnight on Thursday 22 October 2026; jacket orders close on Sunday 25 October 2026.</b> Everything is picked up from the boathouse; there is no home delivery.</p>
-      <p>All proceeds go straight back into the club: new boats, blades and supporting our rowers.</p>
+      <p>The splash jacket is for <b>current members only</b> and costs <b>&pound;60</b> (usually &pound;84; the boat club is subsidising it). Order it directly on the Godfrey website, add the code <b>CLUBSHIP</b> at checkout and it will be shipped to college. If you are not a current member, you are not allowed to order it.</p>
     </div>
     <div class="panel">
       <h3 style="color:var(--crimson)">Good to know</h3>
-      <p style="color:rgba(255,255,255,.82);margin-top:12px"><b>Sizing:</b> men&#x27;s/unisex and women&#x27;s fits. Size guides for the <a class="inl" href="#range" data-size-guide>jackets</a> and the <a class="inl" href="#trackies" data-size-guide="sizeGuidePants">trackies</a>.</p>
-      <p style="color:rgba(255,255,255,.82);margin-top:10px"><b>Collection:</b> pick up from the Jesus College Boathouse; we&#x27;ll let you know when your order is ready.</p>
+      <p style="color:rgba(255,255,255,.82);margin-top:12px"><b>Sizing:</b> the splash jacket is unisex; the size guide is on the <a class="inl" href="https://godfrey.co.uk/products/splash-g2-custom-102" target="_blank" rel="noopener">Godfrey product page</a>.</p>
+      <p style="color:rgba(255,255,255,.82);margin-top:10px"><b>Delivery:</b> with the code CLUBSHIP at checkout, your jacket is shipped to college.</p>
       <p style="color:rgba(255,255,255,.82);margin-top:10px"><b>Questions?</b> Email <a class="inl" href="mailto:jcbc-president@jcsu.jesus.cam.ac.uk">the club</a>.</p>
     </div>
   </div>
@@ -223,7 +260,7 @@ dialog.sg::backdrop{background:rgba(23,20,17,.55)}
     <span class="eyebrow light">Two centuries on the Cam</span>
     <h2 style="margin-top:12px">Wear the red and black</h2>
     <p>Every order supports Jesus College Boat Club as we row towards our bicentenary.</p>
-    <div class="btn-row center"><a href="#range" class="btn btn-light">Shop jackets &amp; trackies</a><a href="contact.html" class="btn btn-ghost">Contact the Club</a></div>
+    <div class="btn-row center"><a href="#splash" class="btn btn-light">Members&#x27; splash jacket</a><a href="contact.html" class="btn btn-ghost">Contact the Club</a></div>
   </div>
 </section>
 
