@@ -93,6 +93,8 @@ body.shop-closed .shop-banner,body.shop-closed #basketBtn{display:none!important
 .mo-code{display:inline-block;font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;font-size:1.15rem;letter-spacing:.08em;background:var(--ink);color:#fff;border-radius:6px;padding:3px 10px}
 .mo-steps{margin:0 0 22px 1.2em;color:var(--ink)}
 .mo-steps li{margin:6px 0}
+.mo-card .deadline.mo-deadline{display:flex;max-width:none;margin:0 0 22px}
+.mo-closed{display:inline-block;font-weight:800;color:var(--ink-soft);border:1px solid var(--line);border-radius:8px;padding:12px 20px}
 @media(max-width:540px){.mo-card{padding:24px 20px}}
 </style>
 </head>
@@ -157,17 +159,23 @@ body.shop-closed .shop-banner,body.shop-closed #basketBtn{display:none!important
       <span class="eyebrow">Current members only</span>
       <h2>The JCBC Godfrey splash jacket</h2>
       <p>The club&#x27;s custom Godfrey G2 Splash Jacket, made for rowing: neck zip, back ventilation flap, zipped side pockets and a fleece collar. It is ordered directly from Godfrey, not through the basket on this page.</p>
+      <p><b>Order now to get yours before Fairbairns. Orders close on Tuesday 3 November 2026 at midnight.</b></p>
     </div>
     <div class="mo-card">
       <img class="mo-img" src="images/shop/godfrey-splash-g2.jpg" alt="JCBC Godfrey G2 Splash Jacket, black with red trim: front with the club crest, back with JCBC" width="800" height="346">
       <div class="mo-warn" role="note"><b class="k">Current JCBC members only</b>This offer is <b>only for current members</b> of Jesus College Boat Club. <b>If you are not a current member, you are not allowed to use this link or the code below.</b></div>
       <div class="mo-price"><strong>&pound;60</strong><s>Usually &pound;84</s><span>Subsidised by the boat club for current members</span></div>
+      <!-- Splash jacket deadline: driven by the inline script at the bottom of this page, not by shop.js -->
+      <div class="deadline mo-deadline" data-splash-close="2026-11-03T23:59:59">
+        <div class="dl-l"><span class="dl-k">Order now, get it before Fairbairns</span><span class="dl-d">Tuesday 3 November</span><span class="dl-s">Orders close at midnight.</span></div>
+        <div class="dl-c" aria-live="polite"><div><b data-cd="d">00</b><span>days</span></div><div><b data-cd="h">00</b><span>hrs</span></div><div><b data-cd="m">00</b><span>min</span></div><div><b data-cd="s">00</b><span>sec</span></div></div>
+      </div>
       <ol class="mo-steps">
         <li>Open the jacket on the Godfrey website with the button below and choose your size.</li>
         <li>At checkout, add the code <span class="mo-code">CLUBSHIP</span></li>
         <li>Your jacket is then shipped to college.</li>
       </ol>
-      <div class="btn-row"><a class="btn btn-primary" href="https://godfrey.co.uk/products/splash-g2-custom-102" target="_blank" rel="noopener">Order on godfrey.co.uk &rarr;</a></div>
+      <div class="btn-row" data-splash-order><a class="btn btn-primary" href="https://godfrey.co.uk/products/splash-g2-custom-102" target="_blank" rel="noopener">Order on godfrey.co.uk &rarr;</a></div>
       <p style="color:var(--ink-soft);font-size:.85rem;margin-top:14px">Opens the Godfrey website in a new tab. Current members only.</p>
     </div>
   </div>
@@ -244,7 +252,7 @@ body.shop-closed .shop-banner,body.shop-closed #basketBtn{display:none!important
     <div class="prose">
       <span class="eyebrow">Ordering</span>
       <h2 style="color:#fff;font-size:clamp(1.9rem,4vw,2.8rem);font-weight:900;margin:12px 0 18px">How it works</h2>
-      <p>The splash jacket is for <b>current members only</b> and costs <b>&pound;60</b> (usually &pound;84; the boat club is subsidising it). Order it directly on the Godfrey website, add the code <b>CLUBSHIP</b> at checkout and it will be shipped to college. If you are not a current member, you are not allowed to order it.</p>
+      <p>The splash jacket is for <b>current members only</b> and costs <b>&pound;60</b> (usually &pound;84; the boat club is subsidising it). <b>Order by midnight on Tuesday 3 November 2026 to get yours before Fairbairns.</b> Order it directly on the Godfrey website, add the code <b>CLUBSHIP</b> at checkout and it will be shipped to college. If you are not a current member, you are not allowed to order it.</p>
     </div>
     <div class="panel">
       <h3 style="color:var(--crimson)">Good to know</h3>
@@ -317,5 +325,34 @@ body.shop-closed .shop-banner,body.shop-closed #basketBtn{display:none!important
 
 <script src="assets/js/jcbc.js?v=10"></script>
 <script src="assets/js/shop.js?v=16"></script>
+<script>
+/* Splash jacket countdown (own deadline; shop.js hides its .deadline boxes once the stash shop has closed).
+   After the deadline: countdown removed and the Godfrey button replaced by "Orders closed". */
+(function () {
+  var box = document.querySelector("[data-splash-close]");
+  if (!box) return;
+  var end = new Date(box.getAttribute("data-splash-close")), timer;
+  var pad = function (n) { return String(n).padStart(2, "0"); };
+  function close() {
+    if (timer) clearInterval(timer);
+    box.remove();
+    var row = document.querySelector("[data-splash-order]");
+    if (row) row.innerHTML = '<span class="mo-closed">Orders closed on Tuesday 3 November</span>';
+  }
+  function tick() {
+    var ms = end - new Date();
+    if (ms <= 0) { close(); return; }
+    var d = Math.floor(ms / 864e5); ms -= d * 864e5;
+    var h = Math.floor(ms / 36e5); ms -= h * 36e5;
+    var m = Math.floor(ms / 6e4), s = Math.floor((ms - m * 6e4) / 1e3);
+    box.querySelector("[data-cd=d]").textContent = pad(d);
+    box.querySelector("[data-cd=h]").textContent = pad(h);
+    box.querySelector("[data-cd=m]").textContent = pad(m);
+    box.querySelector("[data-cd=s]").textContent = pad(s);
+    box.classList.toggle("final", d < 3);
+  }
+  tick(); timer = setInterval(tick, 1000);
+})();
+</script>
 </body>
 </html>

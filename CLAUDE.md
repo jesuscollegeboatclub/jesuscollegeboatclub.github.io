@@ -168,6 +168,11 @@ by the boat club for members, **now £60** (Godfrey's listed price incl. VAT, al
 checked 29 Oct 2026); add code **CLUBSHIP** at checkout and it is shipped to college. Photo
 `images/shop/godfrey-splash-g2.jpg` (front + back design, taken from the Godfrey product page).
 Hero chips, "How it works", "Good to know" and the CTA band point at `#splash`.
+**Splash deadline: Tuesday 3 November 2026, midnight** ("order now to get yours before Fairbairns"). Its
+countdown is `[data-splash-close]` inside the card, run by an inline script at the bottom of `merch.html`
+(shop.js would remove a normal `[data-countdown]` box because `closeDate` has passed). After the
+deadline the script removes the countdown and replaces the Godfrey button with "Orders closed";
+the date text in the countdown, the intro sentence and "How it works" are plain HTML.
 
 **Jackets and trackies hidden (29 Oct 2026):** the `#range` and `#trackies` sections carry the
 `hidden` attribute (`body > section[hidden]{display:none!important}` in the inline `<style>` of
