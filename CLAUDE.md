@@ -293,8 +293,11 @@ reads everything from the HTML, so no JS change is needed.
   `convert -density 200 -background white -flatten X.svg X.png`.
 - Race PDFs live in `documents/`: 2026 rules and coxes' notes
   (`fairbairn-rules-and-regulations-2026.pdf`, `fairbairn-coxes-notes-2026.pdf`, made from the
-  Fairbairns Secretary's .docx with LibreOffice) and the 2025 safety plan
-  (`fairbairn-safety-plan-2025.pdf`, no 2026 version yet; old 2025 rules/notes PDFs kept but unlinked). When new versions
+  Fairbairns Secretary's .docx with LibreOffice; rules replaced 1 Nov 2026 by the Secretary's own PDF) and the
+  2026 safety plan (`fairbairn-safety-plan-2026.pdf`, the Secretary's PDF; old 2025 rules/notes/safety PDFs kept but unlinked).
+- 2026 categories: "Open" (not "Men's") for VIIIs and prizes; Friday 14:15 division is "Senior IVs & Alumni VIIIs"
+  (finish at the Red Grind Post); Student divisions open to Cambridge, Oxford and Durham colleges, Alumni VIIIs to their
+  alumni. Bumps Top Finish is named after Green Dragon Bridge in the 2026 rules. When new versions
   arrive, either overwrite with the same filename or update the links in
   `fairbairns.html` and `coxes-notes.html`, and refresh the on-page summaries.
 - **2026 race dates: Novice VIIIs Thursday 3 December, Senior VIIIs and IVs Friday 4 December.**
