@@ -326,13 +326,22 @@ reads everything from the HTML, so no JS change is needed.
 
 - Committee bios: keep the member's submitted wording; fix only typos and grammar;
   always **first person**.
-- Avoid em dashes in new copy the webmaster asks for (use commas or full stops).
+- **No em dashes anywhere on the site** (all removed 1 Nov 2026, bios included as punctuation-only
+  edits). Use commas, colons, semicolons or full stops.
 - Say **"men's and open side"**, not "men's side".
 - Keep the **Shop** in the menu at all times; `SHOP_LIVE` only hides the products.
 - Don't publish anything obsolete just because it was on the old Wix site; the
   current page structure wins.
 - Verify facts (people, dates, Olympic results etc.) before adding them; flag any
   assumption rather than guessing.
+
+- **Cross-linking (audit 1 Nov 2026):** every page ends with a way onward. Fairbairn pages link each other
+  (breadcrumbs link to `fairbairns.html`; footer "Racing" lists Coxes' Notes); Fairbairns, home, history,
+  news and shop link `bicentenary.html`; documents.html ends with an "Other documents" grid (Fairbairn
+  docs, brochures, sponsorship, Trust forms); trust.html ends with a support CTA; fleet links the Trust;
+  contact links committee/sponsorship/Trust; "Meet the Captains" goes to committee.html. Keep this
+  when adding pages.
+- Role label is "Fairbairns Secretary" (as in the constitution and rules); contact card "Men's & Open Rowing".
 
 ## 12. Docs index
 
