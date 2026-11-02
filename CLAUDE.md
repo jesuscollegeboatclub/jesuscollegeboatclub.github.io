@@ -304,6 +304,9 @@ reads everything from the HTML, so no JS change is needed.
   Shown as explicit dates (not "Wk9") in the fairbairns.html hero, tile, `.fb-dates` box,
   times and prizes headings, on coxes-notes.html and in the index.html Fairbairn block. Update
   all of these each year.
+- **2026 entry form** (Google Form, open 18:00 Mon 2 Nov to 18:00 GMT Thu 19 Nov 2026):
+  `https://docs.google.com/forms/d/e/1FAIpQLScAWSZb-uvUCWFavMuOWon91EOt9jIjHWLLgW0_WT77UqXQag/viewform`. Linked as "Enter Now" in the fairbairns.html hero, an intro paragraph + button in `#info`,
+  the rules summary (rule 7) and the index.html Fairbairn block. After 19 Nov, replace these with "Entries closed".
 - Fairbairns Secretary for 2026 is Vova Chub (sign-off on the coxes' notes summary).
 - Novice definition: no rower has rowed / no cox has coxed **before September** of the
   current year.
