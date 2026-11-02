@@ -95,7 +95,7 @@ and the active states, then add the link to every page's nav/footer.
   `--ink`, `--paper`, `--line` …). `assets/css/shop.css`: shop only.
 - `assets/js/jcbc.js`: mobile menu, scroll-reveal, **shop switch** (section 7).
   `assets/js/shop.js`: basket and checkout.
-- Every page links them with a version query, e.g. `jcbc.css?v=14`, `jcbc.js?v=10`,
+- Every page links them with a version query, e.g. `jcbc.css?v=15`, `jcbc.js?v=10`,
   `shop.css?v=17`, `shop.js?v=16`. **After editing a CSS/JS file, bump its `?v=` on every
   page**, otherwise returning visitors keep the old file.
 - Section background classes: `bg-paper`, `bg-paper2` (light), `bg-ink`, `bg-crimson`
@@ -111,6 +111,8 @@ and the active states, then add the link to every page's nav/footer.
   explicitly. Check text colour whenever a section's background changes.
 - The mobile menu dropdowns must use `visibility:inherit` (not `visible`), or the
   invisible closed menu captures taps.
+- On phones a tap triggers `.dd:hover`/`.dd:focus-within`; the mobile media query resets their
+  `transform` (and visibility) or the sub-links jump half off-screen under the finger (fixed 2 Nov 2026, css v15).
 - Never hot-link files from the old Wix host (`jesusboatclub.co.uk/_files/…`,
   `static.wixstatic.com`): store them in the repo and link relatively.
 

@@ -74,6 +74,9 @@ nav.bar{display:flex;align-items:center;justify-content:space-between;height:74p
   /* visibility must INHERIT here: an explicit `visible` would re-expose these
      links to taps while the closed panel is only opacity:0 (invisible but hit-testable). */
   .dd-menu{position:static;opacity:1;visibility:inherit;transform:none;background:none;border:0;box-shadow:none;padding:0 0 6px;min-width:0}
+  /* a tap counts as :hover/:focus-within on phones; without this the desktop rule
+     slides the open sub-links half off-screen (translateX(-50%)) under the finger. */
+  .dd:hover .dd-menu,.dd:focus-within .dd-menu{transform:none;visibility:inherit}
   .dd-menu a{display:block;padding:12px 26px 12px 42px;font-size:.96rem;color:rgba(255,255,255,.72)}
   .dd-menu a:hover,.dd-menu a.active{background:rgba(255,255,255,.06)}
 }
