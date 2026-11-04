@@ -16,7 +16,7 @@
 const SHOP_CONFIG = {
   // Shop closes at the end of this moment (local time). After it,
   // the shop greys out and no orders can be placed.
-  closeDate: "2026-10-25T23:59:59",
+  closeDate: "2026-11-06T20:00:00",
 
   // Paste your deployed Apps Script Web App URL here to enable
   // email receipts + the orders spreadsheet. If left blank, the
@@ -128,8 +128,13 @@ const SHOP_CONFIG = {
         const colSel = card.querySelector("select.colour");
         if (colSel && !colSel.value) { colSel.classList.add("needs"); colSel.focus(); setTimeout(() => colSel.classList.remove("needs"), 1200); return; }
         const size = sizeSel ? sizeSel.value : "";
-        addItem(colSel ? name + " · " + colSel.value : name, price, size, closeOf(card));
-        openDrawer();
+        const itemName = colSel ? name + " · " + colSel.value : name;
+        const k = keyOf({ name: itemName, size: size });
+        if (!canAdd(k)) { closeAll(); notice("Not enough stock", noStockMsg(name, size, k)); return; }
+        const members = !!card.closest("[data-members-only]");
+        addItem(itemName, price, size, closeOf(card), members);
+        if (members && !memberConfirmed) askMember(name, idOf({ name: itemName, size: size }));
+        else openDrawer();
         btn.textContent = "Added ✓";
         setTimeout(() => { btn.textContent = original; }, 1100);
       });
@@ -145,20 +150,133 @@ const SHOP_CONFIG = {
         if (o.dataset.front && f) f.src = o.dataset.front;
         if (o.dataset.back && b) b.src = o.dataset.back;
         if (n && o.dataset.note) n.textContent = o.dataset.note;
+        if (stock) applyStock();
       });
     });
   }
 
+  // Members-only items: after "Add to basket", ask once per page visit whether the buyer is a
+  // current member. "No" takes the item back out of the basket and explains why.
+  let memberConfirmed = false;
+  function askMember(product, id) {
+    const m = $("#mcard");
+    m.innerHTML =
+      '<div class="mhead"><h3>Current members only</h3><button class="dclose" id="mClose" aria-label="Close">&times;</button></div>' +
+      '<div class="mbody">' +
+        '<p>The ' + esc(product) + ' is only for <b>current members</b> of Jesus College Boat Club.</p>' +
+        '<p style="color:var(--ink);font-weight:700;font-size:1.05rem;margin-top:14px">Are you a current JCBC member?</p>' +
+        '<div style="display:flex;gap:10px;margin-top:18px">' +
+          '<button class="btn btn-primary" id="memYes" style="flex:1">Yes, I am a member</button>' +
+          '<button class="btn btn-dark" id="memNo" style="flex:1">No</button>' +
+        '</div>' +
+      '</div>';
+    $("#bkModal").classList.add("open");
+    const no = () => {
+      setQty(id, -1);
+      m.innerHTML =
+        '<div class="mhead"><h3>Not added</h3><button class="dclose" id="mClose" aria-label="Close">&times;</button></div>' +
+        '<div class="mbody">' +
+          '<p>Sorry, the ' + esc(product) + ' can only be bought by current members of Jesus College Boat Club, so it has been taken out of your basket.</p>' +
+          '<p style="margin-top:10px">If you would like to join the club, have a look at <a class="inl" href="join.html">Row for Jesus</a>.</p>' +
+          '<button class="btn btn-dark" id="mDone" style="width:100%;margin-top:18px">OK</button>' +
+        '</div>';
+      $("#mClose").onclick = closeAll; $("#mDone").onclick = closeAll;
+    };
+    $("#mClose").onclick = no;   // closing without answering counts as "no"
+    $("#memNo").onclick = no;
+    $("#memYes").onclick = () => { memberConfirmed = true; $("#bkModal").classList.remove("open"); openDrawer(); };
+  }
+
   const idOf = i => i.name + "||" + (i.size || "");
-  function addItem(name, price, size, close) {
+
+  /* ---------- limited stock (STOCK in the Apps Script; GET orderEndpoint returns what is left) ---------- */
+  // Keys are the names the order sends: "<h3> · <colour> (<size>)". Items not in the map are unlimited.
+  let stock = null;
+  const keyOf = i => i.size ? i.name + " (" + i.size + ")" : i.name;
+  const inBasket = k => basket.filter(i => keyOf(i) === k).reduce((n, i) => n + i.qty, 0);
+  const limited = k => !!stock && Object.prototype.hasOwnProperty.call(stock, k);
+  const canAdd = k => !limited(k) || inBasket(k) < stock[k];
+  function fetchStock() {
+    if (!SHOP_CONFIG.orderEndpoint) return Promise.resolve(null);
+    return fetch(SHOP_CONFIG.orderEndpoint, { cache: "no-store" })
+      .then(r => r.json()).then(d => (d && d.ok && d.remaining) ? d.remaining : null).catch(() => null);
+  }
+  function loadStock() { fetchStock().then(r => { if (r) { stock = r; applyStock(); } }); }
+  // Label sizes "sold out" / "only N left", disable sold-out sizes, grey a card out when
+  // every size is gone, and trim basket items that are no longer available.
+  function applyStock() {
+    $$(".product").forEach(card => {
+      const sel = card.querySelector("select.size");
+      if (!sel || card.classList.contains("soldout")) return;
+      const colSel = card.querySelector("select.colour");
+      const base = $("h3", card).textContent.trim() + (colSel && colSel.value ? " · " + colSel.value : "");
+      let any = false, open = 0;
+      $$("option", sel).forEach(o => {
+        if (!o.value) return;
+        const k = base + " (" + o.value + ")";
+        if (!limited(k)) { open++; return; }
+        any = true;
+        if (!o.dataset.label) o.dataset.label = o.textContent;
+        const n = stock[k];
+        o.disabled = n <= 0;
+        o.textContent = o.dataset.label + (n <= 0 ? " · sold out" : n <= 5 ? " · only " + n + " left" : "");
+        if (n > 0) open++;
+        if (o.disabled && o.selected) sel.value = "";
+      });
+      if (any && !open) soldOut(card);
+    });
+    let trimmed = [];
+    basket.forEach(i => {
+      const k = keyOf(i);
+      if (limited(k) && i.qty > stock[k]) { trimmed.push(i); i.qty = stock[k]; }
+    });
+    if (trimmed.length) {
+      basket = basket.filter(i => i.qty > 0); save(); render();
+      notice("Basket updated", "Some sizes have sold out since you added them, so your basket has been updated: " +
+        trimmed.map(i => esc(i.name) + (i.size ? " (" + esc(i.size) + ")" : "")).join(", ") +
+        ". Nothing has been ordered yet: please check your basket before you check out.");
+    }
+  }
+  function soldOut(p) {
+    p.classList.add("soldout");
+    const shot = $(".shot", p);
+    if (shot && !$(".soldstamp", shot)) shot.insertAdjacentHTML("beforeend", '<span class="soldstamp">Sold out</span>');
+    $$("select, button:not([data-flip])", p).forEach(el => { el.disabled = true; });
+    const add = $(".padd", p);
+    if (add) add.textContent = "Sold out";
+  }
+  function noStockMsg(name, size, k) {
+    const n = stock[k];
+    return n <= 0 ? "Sorry, the " + esc(name) + " in size " + esc(size) + " is sold out."
+      : "Sorry, there " + (n === 1 ? "is only 1" : "are only " + n) + " left in size " + esc(size) +
+        ", and " + (n === 1 ? "it is" : "they are all") + " already in your basket.";
+  }
+  function notice(title, html) {
+    const m = $("#mcard");
+    m.innerHTML =
+      '<div class="mhead"><h3>' + esc(title) + '</h3><button class="dclose" id="mClose" aria-label="Close">&times;</button></div>' +
+      '<div class="mbody"><p>' + html + '</p>' +
+        '<button class="btn btn-dark" id="mDone" style="width:100%;margin-top:18px">OK</button></div>';
+    $("#bkModal").classList.add("open");
+    $("#mClose").onclick = closeAll; $("#mDone").onclick = closeAll;
+  }
+  function addItem(name, price, size, close, members) {
     size = size || "";
     const ex = basket.find(i => i.name === name && (i.size || "") === size);
-    if (ex) ex.qty += 1; else basket.push({ name, price, size, qty: 1, close: close || SHOP_CONFIG.closeDate });
+    if (ex) ex.qty += 1; else basket.push({ name, price, size, qty: 1, close: close || SHOP_CONFIG.closeDate, members: !!members });
     save(); render();
   }
   function setQty(id, d) {
     const it = basket.find(i => idOf(i) === id);
     if (!it) return;
+    if (d > 0 && !canAdd(keyOf(it))) {
+      const box = $("#ditems"), k = keyOf(it);
+      const msg = document.createElement("div");
+      msg.className = "dempty"; msg.style.padding = "10px 0"; msg.style.color = "var(--crimson)";
+      msg.textContent = stock[k] === 1 ? "Only 1 left in this size." : "Only " + stock[k] + " left in this size.";
+      if (box) { box.appendChild(msg); setTimeout(() => msg.remove(), 2500); }
+      return;
+    }
     it.qty += d;
     if (it.qty <= 0) basket = basket.filter(i => idOf(i) !== id);
     save(); render();
@@ -217,6 +335,8 @@ const SHOP_CONFIG = {
   function checkoutDetails() {
     prune();
     if (!basket.length || closed()) { render(); return; }
+    // Items from a [data-members-only] section: only current members can check out.
+    const membersOnly = basket.some(i => i.members);
     const m = $("#mcard");
     m.innerHTML =
       '<div class="mhead"><h3>Checkout</h3><button class="dclose" id="mClose">&times;</button></div>' +
@@ -227,12 +347,14 @@ const SHOP_CONFIG = {
         '<div class="field"><label>Email (for your receipt)</label><input id="f_email" type="email" autocomplete="email"></div>' +
         '<div class="field row">' +
           '<div><label>Connection to JCBC</label><select id="f_conn">' +
+            (membersOnly ? '<option selected>Current member</option>' :
             '<option value="" disabled selected>Choose…</option>' +
             '<option>Current member</option><option>Alumni</option>' +
-            '<option>Fan / supporter</option><option>Other</option></select></div>' +
+            '<option>Fan / supporter</option><option>Other</option>') + '</select></div>' +
           '<div><label>Collection</label><div class="fixedopt">Pick up from the boathouse</div></div>' +
         '</div>' +
-        '<div class="field" id="f_crewwrap" hidden><label>Crew (optional)</label><input id="f_crew" placeholder="e.g. M1, W2, novice"></div>' +
+        (membersOnly ? '<p style="font-size:.86rem;color:var(--crimson);font-weight:700">Your basket has members-only items: only current JCBC members can place this order.</p>' : '') +
+        '<div class="field" id="f_crewwrap"' + (membersOnly ? '' : ' hidden') + '><label>Crew (optional)</label><input id="f_crew" placeholder="e.g. M1, W2, novice"></div>' +
         '<div class="field"><label>Notes (optional)</label><textarea id="f_notes" rows="2" placeholder="Anything else we should know?"></textarea></div>' +
         '<div class="err" id="f_err">Please enter your name, a valid email and your connection to JCBC.</div>' +
         '<button class="btn btn-primary" id="toBank" style="width:100%">' + (payLater() ? 'Continue' : 'Continue to payment') + '</button>' +
@@ -306,6 +428,22 @@ const SHOP_CONFIG = {
   function placeOrder(cust) {
     const btn = $("#placeOrder");
     btn.textContent = "Placing order…"; btn.disabled = true;
+    // Last check: has anything sold out since the page loaded? (The Apps Script checks again.)
+    fetchStock().then(r => {
+      if (r) {
+        stock = r;
+        const over = basket.filter(i => limited(keyOf(i)) && inBasket(keyOf(i)) > stock[keyOf(i)]);
+        if (over.length) {
+          applyStock();
+          const e = $("#p_err");
+          if (e) { e.textContent = "Sorry, part of your order has just sold out, so your basket has been updated. Nothing has been ordered: please check your basket and order again."; e.classList.add("show"); }
+          btn.textContent = "Order not placed"; return;
+        }
+      }
+      sendOrder(cust);
+    });
+  }
+  function sendOrder(cust) {
     const order = {
       ref: cust.ref, date: new Date().toISOString(),
       name: cust.name, email: cust.email, crew: cust.crew,
@@ -428,6 +566,7 @@ const SHOP_CONFIG = {
   /* ---------- init ---------- */
   function init() {
     ui(); banner(); wireProducts(); wireColours(); wireExtras(); countdown(); applyClosed(); render();
+    if (!closed()) loadStock();
     const bb = $("#basketBtn");
     if (bb) bb.addEventListener("click", openDrawer);
   }

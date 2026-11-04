@@ -145,8 +145,8 @@ and the active states, then add the link to every page's nav/footer.
      stays visible above the notice.
    - `true`: full shop. Flip it only when there is real stash to sell.
 2. **`SHOP_CONFIG`** at the top of `assets/js/shop.js`:
-   - `closeDate`: order deadline. Currently `2026-10-25T23:59:59` (orders close Sunday
-     25 October 2026; moved from 1 November on 13 Oct). After it the shop shows a "shop is closed" banner and every
+   - `closeDate`: order deadline. Currently `2026-11-06T20:00:00` (novice T-shirt orders close Friday
+     6 November 2026 at 8pm; the jackets closed 25 October). After it the shop shows a "shop is closed" banner and every
      `.product` gets `.soldout`: greyed out, a crimson "Sold out" stamp on the photo, controls
      disabled and the button reads "Sold out" (`applyClosed()` in `shop.js`). The "Shop is open · orders close …" banner only appears
      while `SHOP_LIVE` is true (`window.JCBC_SHOP_LIVE`).
@@ -162,22 +162,37 @@ and the active states, then add the link to every page's nav/footer.
      zeros, checkout falls back to **pay-later mode** (`payLater()` in `shop.js`): no bank
      box, and the treasurer emails the bank details.
 
-**Members-only Godfrey splash jacket (added 29 Oct 2026, the only item currently shown):**
-section `merch.html#splash`, first after the hero. Not sold through the basket: a button links
-to `https://godfrey.co.uk/products/splash-g2-custom-102` (new tab). Copy (webmaster's facts):
-current members only, non-members are not allowed to use the link or code; usually £84, subsidised
-by the boat club for members, **now £60** (Godfrey's listed price incl. VAT, all sizes XS–3XL in stock,
-checked 29 Oct 2026); add code **CLUBSHIP** at checkout and it is shipped to college. Photo
-`images/shop/godfrey-splash-g2.jpg` (front + back design, taken from the Godfrey product page).
-Hero chips, "How it works", "Good to know" and the CTA band point at `#splash`.
-**Splash deadline: Tuesday 3 November 2026, midnight** ("order now to get yours before Fairbairns"). Its
-countdown is `[data-splash-close]` inside the card, run by an inline script at the bottom of `merch.html`
-(shop.js would remove a normal `[data-countdown]` box because `closeDate` has passed). After the
-deadline the script removes the countdown and replaces the Godfrey button with "Orders closed";
-the date text in the countdown, the intro sentence and "How it works" are plain HTML.
+**Members-only novice T-shirt (added 4 Nov 2026, the only item currently shown):** section
+`merch.html#novice` (`.shop-grid.one`), sold through the basket. **Novice T-shirt**, Black only, **£6.00**,
+unisex sizes S, M, L, XL, 2XL (size values stored as "S" … "2XL"); Gildan Heavy Cotton (GD05) from
+Talking T's, crest printed on the left chest (about 6 x 10.5 cm), JCBC in red on the back (about 26 x 11 cm),
+from the supplier artwork PDF (T3353). Photos `images/shop/novice-tshirt-black-front.jpg`/`-back.jpg`
+(cut from that PDF). No size guide. Deadline = `closeDate` **Friday 6 November 2026, 20:00**, with a bare
+`[data-countdown]` box. **Members only:** the section carries `data-members-only`; `shop.js` (v17+) stores
+`members: true` on basket items from such a section, and checkout then offers only "Current member" as the
+connection (crew box shown) with a crimson "members-only items" note. Since shop.js v18, "Add to basket" on such an item adds it and
+then opens a pop-up (`askMember()` in `shop.js`, in `#bkModal`): "Are you a current JCBC member?" Yes opens the
+basket and is remembered until the page is reloaded; No (or closing the pop-up) takes that one item back out and
+explains that only current members can buy it, with a link to join.html.
+
+**Limited stock (4 Nov 2026, shop.js v19, Apps Script with `doGet`):** stock lives only in `STOCK` at the top
+of `docs/orders-backend.gs` (keys = item names as sent, e.g. "Novice T-shirt · Black (M)"; novice T-shirt
+S 30, M 30, L 26, XL 5, 2XL 0). Every row in the Orders tab counts against it unless its Status contains
+CANCEL, DROP, REFUND or SOLD OUT, so setting a row to e.g. "CANCELLED" or "DROPPED" frees its shirts.
+`doGet` returns `{ok, remaining}`; `shop.js` fetches it on load (`loadStock()`), labels sizes "only N left"
+(5 or fewer) or "sold out" (disabled), greys a card out when every size is gone, caps basket quantities, and
+re-checks just before "Place order". `doPost` checks again under a script lock: an order asking for more than is
+left is written with Status "SOLD OUT - not ordered" and the buyer gets a "could not be placed, do not pay"
+email (`sendSoldOut`, CC Will, BCC treasurer) instead of the receipt. To change stock, edit `STOCK` in the live
+script and the repo copy, then deploy a new version. If the endpoint cannot be reached the shop sells without limits. A `.mo-warn` box on the page says so too.
+Hero chip, "How it works", "Good to know" and the CTA band point at `#novice`.
+
+**Godfrey splash jacket removed (4 Nov 2026):** its section, CSS (except `.mo-warn`) and inline countdown
+script were deleted from `merch.html` after it closed on 3 Nov. The photo `images/shop/godfrey-splash-g2.jpg`
+is still in the repo but unlinked. It was ordered on godfrey.co.uk (code CLUBSHIP, £60 for members).
 
 **Jackets and trackies hidden (29 Oct 2026):** the `#range` and `#trackies` sections carry the
-`hidden` attribute (`body > section[hidden]{display:none!important}` in the inline `<style>` of
+`hidden` attribute (`#range` also has `data-close="2026-10-25T23:59:59"` so the jackets stay closed while `closeDate` is later; `body > section[hidden]{display:none!important}` in the inline `<style>` of
 `merch.html`). To bring a range back, remove `hidden` and restore the hero chips and the
 "How it works" text. While `closeDate` is past, the inline style also hides the closed banner and
 the basket button (`body.shop-closed .shop-banner, body.shop-closed #basketBtn`); both return
@@ -238,9 +253,9 @@ setup: `docs/SHOP-SETUP.md`.
 The receipt (HTML + plain text) includes the bank details and a highlighted box: pay by the
 deadline or the order is dropped, no chasing, contact the treasurer with concerns. Its
 deadline text and bank details are constants at the top of `orders-backend.gs`
-(`DEADLINE_TEXT`, `DEADLINE_SHORT`, `BANK`); since 19 Oct 2026 the repo script prefers `order.payBy`
+(`DEADLINE_TEXT`, `DEADLINE_SHORT`, `BANK`; repo copy set to Friday 6 November 2026 (20:00) on 4 Nov, live copy not redeployed since shop.js always sends `payBy`); since 19 Oct 2026 the repo script prefers `order.payBy`
 (sent by shop.js v16+) over the constants, and its wording says "stash"/"your order" rather than "jacket".
-Live as **version 7** (19 Oct 2026, same deployment ID). **Editing the .gs file in the repo does not
+Live: the stock version (`STOCK`, `doGet`, `sendSoldOut`), deployed 4 Nov 2026 as a new version of the same deployment (previously version 7, 19 Oct 2026); live code identical to the repo copy at that date. **Editing the .gs file in the repo does not
 change the live emails**: paste it into the Apps Script editor and redeploy via
 *Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy* (keeps the same URL).
 The live script is the Apps Script project **"sync orders"**, bound to the Google Sheet
