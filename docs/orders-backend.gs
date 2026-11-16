@@ -116,7 +116,65 @@ function appendToSheet(order, status) {
   var items = (order.items || []).map(function (i) { return i.qty + " x " + i.name; }).join("; ");
   sh.appendRow([new Date(), order.ref, order.name, order.email, order.crew,
                 order.delivery, items, order.total, order.notes, status || "PENDING"]);
+  // Hand-over columns for the new row (never block the receipt if this fails).
+  if (!status) { try { writeHandover(sh, sh.getLastRow(), items); } catch (e) {} }
   // newest order is easy to spot; you can mark Status -> PAID / POSTED as you go.
+}
+
+/* ---------- hand-over columns (stash officers tick when an item is given out) ----------
+   From column O, one pair per item line of the order: "Item n" (e.g. "1 x Unisuit · Black (Women's M)")
+   and "Given n" (tick box). Columns K-N (Date Paid, Paid, notes, Stash received) are kept by hand and
+   never touched. New orders get their pairs in appendToSheet; run setupHandover() once from the editor
+   to fill in the orders that were already in the sheet. */
+var HANDOVER_COL = 15;   // column O
+
+function writeHandover(sh, row, itemsText) {
+  var items = String(itemsText || "").split("; ").filter(function (x) { return x; });
+  if (!items.length) return;
+  var head = sh.getRange(1, HANDOVER_COL, 1, 2 * items.length);
+  var hv = head.getValues()[0];
+  for (var k = 0; k < items.length; k++) {
+    if (!hv[2 * k]) hv[2 * k] = "Item " + (k + 1);
+    if (!hv[2 * k + 1]) hv[2 * k + 1] = "Given " + (k + 1);
+  }
+  head.setValues([hv]).setFontWeight("bold");
+  for (var j = 0; j < items.length; j++) {
+    sh.getRange(row, HANDOVER_COL + 2 * j).setValue(items[j]);
+    sh.getRange(row, HANDOVER_COL + 2 * j + 1).insertCheckboxes();
+  }
+}
+
+// One-off: fill the hand-over columns for every existing order (skips blank rows, rows already
+// done and "SOLD OUT - not ordered" rows), then colour an item green once its box is ticked.
+function setupHandover() {
+  var sh = ordersSheet();
+  var last = sh.getLastRow();
+  if (last < 2) return;
+  var rows = sh.getRange(2, 7, last - 1, 4).getValues();   // G Items .. J Status
+  var done = sh.getRange(2, HANDOVER_COL, last - 1, 1).getValues();
+  rows.forEach(function (r, i) {
+    if (!r[0] || done[i][0] || /SOLD OUT/i.test(String(r[3]))) return;
+    writeHandover(sh, i + 2, r[0]);
+  });
+  // Headers and colouring for at least 5 items, so bigger orders later are covered too.
+  var pairs = Math.max(5, Math.floor((sh.getLastColumn() - HANDOVER_COL + 1) / 2));
+  var head = sh.getRange(1, HANDOVER_COL, 1, 2 * pairs), hv = head.getValues()[0];
+  for (var p = 0; p < pairs; p++) {
+    if (!hv[2 * p]) hv[2 * p] = "Item " + (p + 1);
+    if (!hv[2 * p + 1]) hv[2 * p + 1] = "Given " + (p + 1);
+  }
+  head.setValues([hv]).setFontWeight("bold");
+  var rules = sh.getConditionalFormatRules();
+  for (var k = 0; k < pairs; k++) {
+    var itemCol = HANDOVER_COL + 2 * k;
+    var tick = sh.getRange(2, itemCol + 1).getA1Notation().replace(/\d+$/, "");
+    rules.push(SpreadsheetApp.newConditionalFormatRule()
+      .whenFormulaSatisfied("=$" + tick + "2=TRUE")
+      .setBackground("#c8e6c9")
+      .setRanges([sh.getRange(2, itemCol, sh.getMaxRows() - 1, 1)])
+      .build());
+  }
+  sh.setConditionalFormatRules(rules);
 }
 
 function sendReceipt(order) {

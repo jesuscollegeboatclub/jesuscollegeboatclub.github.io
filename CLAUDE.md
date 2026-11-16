@@ -251,6 +251,14 @@ to the banner until then. A `[data-countdown="<date>"]` box counts down to that 
 `data-countdown` uses `closeDate`). Each order sends `payBy` = the earliest deadline among its
 items, and the receipt uses it.
 
+**Hand-over columns in the Orders tab (16 Nov 2026):** from column O, one pair per item line of an order:
+"Item n" (e.g. "1 x Unisuit · Black (Women's M)") and "Given n" (tick box) for the stash officers to tick when
+the item is handed over; the item cell turns green when ticked (conditional formatting, 5 pairs set up). K-N
+(Date Paid, Paid, an unlabelled notes column, Stash received) stay hand-kept and untouched. `appendToSheet`
+writes the pairs for every new order (`writeHandover`, wrapped in try/catch so it can never block a receipt;
+not for "SOLD OUT" rows); `setupHandover()` was run once from the editor to fill in the orders already there.
+A line "2 x ..." has one tick box for both.
+
 **Collection only:** there is no delivery option. Checkout shows a fixed
 "Pick up from the boathouse" field and sends `delivery: "Pick up from the boathouse"`.
 
