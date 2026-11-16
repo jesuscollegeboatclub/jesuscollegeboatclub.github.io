@@ -129,7 +129,11 @@ function sendReceipt(order) {
     return "  " + i.qty + " x " + i.name + ":  £" + (i.price * i.qty).toFixed(2);
   }).join("\n");
 
-  var warning =
+  // shop.js sends payBy = { none: true } when nothing in the order has a deadline.
+  var warning = payBy.none ?
+    "Please pay straight away by bank transfer, using your order reference. We only order items " +
+    "that have been paid for, and we will not chase unpaid orders. For any questions about payment, " +
+    "contact the treasurer at " + TREASURER_EMAIL + "." :
     "Please pay by " + deadlineText + ". We will only place the club order for items " +
     "that have been paid for by then. We will not chase unpaid orders: if your payment " +
     "has not arrived by the deadline, your order will be dropped and you will not receive " +
@@ -181,7 +185,7 @@ function sendReceipt(order) {
     to: order.email,
     cc: STASH_CC,
     bcc: TREASURER_EMAIL,
-    subject: "Your JCBC order " + order.ref + " (pay by " + deadlineShort + ")",
+    subject: "Your JCBC order " + order.ref + (payBy.none ? " (please pay now)" : " (pay by " + deadlineShort + ")"),
     body: body,
     htmlBody: html
   });

@@ -16,7 +16,8 @@
 const SHOP_CONFIG = {
   // Shop closes at the end of this moment (local time). After it,
   // the shop greys out and no orders can be placed.
-  closeDate: "2026-11-06T20:00:00",
+  // "" = no deadline: the shop stays open, no countdown, receipts say "pay straight away".
+  closeDate: "",
 
   // Paste your deployed Apps Script Web App URL here to enable
   // email receipts + the orders spreadsheet. If left blank, the
@@ -42,10 +43,10 @@ const SHOP_CONFIG = {
   const $$ = (s, r) => Array.prototype.slice.call((r || document).querySelectorAll(s));
   const LS = "jcbc_basket_v1";
   const money = n => SHOP_CONFIG.currency + n.toFixed(2).replace(/\.00$/, "");
-  const closed = () => new Date() > new Date(SHOP_CONFIG.closeDate);
+  const closed = () => !!SHOP_CONFIG.closeDate && new Date() > new Date(SHOP_CONFIG.closeDate);
   // Per-range deadlines: a section with data-close="YYYY-MM-DDTHH:MM:SS" closes its own
   // products earlier than the whole shop (e.g. the trackies). Default: SHOP_CONFIG.closeDate.
-  const past = d => new Date() > new Date(d);
+  const past = d => !!d && new Date() > new Date(d);
   const closeOf = el => { const s = el && el.closest("[data-close]"); return s ? s.dataset.close : SHOP_CONFIG.closeDate; };
   const dayFmt = d => new Date(d).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
   // Bank details not filled in yet: take orders, and the treasurer emails payment details.
@@ -65,7 +66,11 @@ const SHOP_CONFIG = {
     b.className = "shop-banner";
     const close = new Date(SHOP_CONFIG.closeDate);
     const fmt = close.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
-    if (closed()) {
+    const ranges = () => $$("[data-close][data-close-label]").filter(s => !past(s.dataset.close))
+      .map(s => ' · ' + esc(s.dataset.closeLabel) + ' close <b>' + dayFmt(s.dataset.close) + '</b>').join("");
+    if (!SHOP_CONFIG.closeDate) {
+      b.innerHTML = '<span class="dot"></span><span>Shop is <b>open</b> · all orders are picked up from the boathouse' + ranges() + '</span>';
+    } else if (closed()) {
       b.innerHTML = '<span class="dot"></span><span>The shop is now <b>closed</b>. Thank you for your orders; it will reopen for the next stash drop.</span>';
     } else {
       const days = Math.max(0, Math.ceil((close - new Date()) / 86400000));
@@ -83,7 +88,7 @@ const SHOP_CONFIG = {
   function countdown() { $$("[data-countdown]").forEach(countdownBox); }
   function countdownBox(box) {
     const endStr = box.dataset.countdown || SHOP_CONFIG.closeDate;
-    if (closed() || past(endStr)) { box.remove(); return; }
+    if (!endStr || closed() || past(endStr)) { box.remove(); return; }
     const end = new Date(endStr), pad = n => String(n).padStart(2, "0");
     const tick = () => {
       let ms = end - new Date();
@@ -468,9 +473,11 @@ const SHOP_CONFIG = {
   }
 
   // Earliest deadline among the basket items, for the receipt's "pay by" text.
+  // No deadline anywhere in the basket: { none: true } and the receipt asks for payment straight away.
   function payBy() {
-    const d = new Date(basket.map(i => i.close || SHOP_CONFIG.closeDate)
-      .sort((a, b) => new Date(a) - new Date(b))[0]);
+    const dates = basket.map(i => i.close || SHOP_CONFIG.closeDate).filter(Boolean);
+    if (!dates.length) return { none: true, text: "", short: "" };
+    const d = new Date(dates.sort((a, b) => new Date(a) - new Date(b))[0]);
     return {
       text: d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) +
             " (" + d.toTimeString().slice(0, 5) + ")",

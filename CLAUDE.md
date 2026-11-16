@@ -145,8 +145,11 @@ and the active states, then add the link to every page's nav/footer.
      stays visible above the notice.
    - `true`: full shop. Flip it only when there is real stash to sell.
 2. **`SHOP_CONFIG`** at the top of `assets/js/shop.js`:
-   - `closeDate`: order deadline. Currently `2026-11-06T20:00:00` (novice T-shirt orders close Friday
-     6 November 2026 at 8pm; the jackets closed 25 October). After it the shop shows a "shop is closed" banner and every
+   - `closeDate`: order deadline. Currently `""` = **no deadline** (since 16 Nov 2026, webmaster's choice:
+     the shop stays open until she asks to close it). With `""`: no countdown boxes, the banner reads "Shop is open ·
+     all orders are picked up from the boathouse", and orders send `payBy: { none: true }`, so the receipt says
+     "please pay straight away" and the subject "(please pay now)". Earlier deadlines: 25 Oct (jackets), 6 Nov 2026
+     20:00 (novice T-shirt, members only). With a date set: After it the shop shows a "shop is closed" banner and every
      `.product` gets `.soldout`: greyed out, a crimson "Sold out" stamp on the photo, controls
      disabled and the button reads "Sold out" (`applyClosed()` in `shop.js`). The "Shop is open · orders close …" banner only appears
      while `SHOP_LIVE` is true (`window.JCBC_SHOP_LIVE`).
@@ -162,7 +165,18 @@ and the active states, then add the link to every page's nav/footer.
      zeros, checkout falls back to **pay-later mode** (`payLater()` in `shop.js`): no bank
      box, and the treasurer emails the bank details.
 
-**Members-only novice T-shirt (added 4 Nov 2026, the only item currently shown):** section
+**Current range (16 Nov 2026):**
+- **Unisuit** (`merch.html#unisuit`, first after the hero, `data-members-only`): **£30, current members only,
+  subsidised by the boat club** (webmaster's facts; usual price not stated, so none is shown). Black Stitch unisuit
+  with 4-inch red side stripes and the crest embroidered on the left chest. Sizes Men's XS–XL and Women's XS–XL
+  (values "Men's M", "Women's S"). No stock limit, no size guide. Photos `images/shop/unisuit-front.jpg` (front
+  and back, from the supplier mock-up `unisuit.png`) and `unisuit-embroidery.jpg` (photo of the embroidered crest);
+  flip button "View embroidery". Highlighted by a `.mo-warn` box and the member pop-up.
+- **Novice T-shirt** (`#novice`): **open to everyone since 16 Nov 2026, £13** (was £6, members only, closed
+  6 Nov). Pick-up from the boathouse only. Same item name, so the `STOCK` limits in the Apps Script keep counting
+  every earlier order. Hero chips, "How it works", "Good to know" and the CTA band cover both items.
+
+**Novice T-shirt, first run (4–6 Nov 2026, members only, £6; now open to everyone, see above):** section
 `merch.html#novice` (`.shop-grid.one`), sold through the basket. **Novice T-shirt**, Black only, **£6.00**,
 unisex sizes S, M, L, XL, 2XL (size values stored as "S" … "2XL"); Gildan Heavy Cotton (GD05) from
 Talking T's, crest printed on the left chest (about 6 x 10.5 cm), JCBC in red on the back (about 26 x 11 cm),
@@ -255,7 +269,7 @@ deadline or the order is dropped, no chasing, contact the treasurer with concern
 deadline text and bank details are constants at the top of `orders-backend.gs`
 (`DEADLINE_TEXT`, `DEADLINE_SHORT`, `BANK`; repo copy set to Friday 6 November 2026 (20:00) on 4 Nov, live copy not redeployed since shop.js always sends `payBy`); since 19 Oct 2026 the repo script prefers `order.payBy`
 (sent by shop.js v16+) over the constants, and its wording says "stash"/"your order" rather than "jacket".
-Live: the stock version (`STOCK`, `doGet`, `sendSoldOut`), deployed 4 Nov 2026 as a new version of the same deployment (previously version 7, 19 Oct 2026); live code identical to the repo copy at that date. **Editing the .gs file in the repo does not
+Live: the stock version (`STOCK`, `doGet`, `sendSoldOut`) (deployed 4 Nov 2026) plus the no-deadline receipt wording (`payBy.none`, deployed 16 Nov 2026), each as a new version of the same deployment (previously version 7, 19 Oct 2026); live code identical to the repo copy at that date. **Editing the .gs file in the repo does not
 change the live emails**: paste it into the Apps Script editor and redeploy via
 *Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy* (keeps the same URL).
 The live script is the Apps Script project **"sync orders"**, bound to the Google Sheet
