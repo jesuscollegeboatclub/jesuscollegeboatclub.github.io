@@ -260,7 +260,14 @@ not for "SOLD OUT" rows); `setupHandover()` (run from the editor, safe to re-run
 there and sets the formatting: once every item in a row is ticked, the whole row (A to the last "Given" column)
 turns grey with grey, crossed-out text (rule listed first, covers the first 5 item pairs). Rows whose College/Crew (E)
 contains "Alumni" or "Fan / supporter" are tinted light orange (#ffe0b2; rule listed last, so grey and the green item ticks win).
-A line "2 x ..." has one tick box for both.
+A line "2 x ..." has one tick box for both. **Paid (L)** is a tick box (`PAID_COL`): every new order
+gets one in `appendToSheet`; `setupHandover` adds them to older rows (blank -> unticked, "y"/"yes"/"x"/"paid" ->
+ticked, other text left alone). Only that cell is coloured: yellow (#fff2cc) while unticked on an order row,
+green (#b7e1cd) once ticked; these two rules come first, so payment shows even on grey or orange rows. Don't
+delete or move columns: the script finds Items (G), Status (J), Paid (L) and the hand-over pairs (from O) by
+position, so hide unused columns (e.g. Delivery, Stash received) instead. Columns A-E and G-H have **warning-only protection**
+(set by `setupHandover`, description "Order data from the website: click OK to edit anyway"): editing them
+shows a pop-up anyone can click through; the script is unaffected. Remove via Data > Protect sheets and ranges.
 
 **Collection only:** there is no delivery option. Checkout shows a fixed
 "Pick up from the boathouse" field and sends `delivery: "Pick up from the boathouse"`.

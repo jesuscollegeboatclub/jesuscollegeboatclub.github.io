@@ -117,7 +117,10 @@ function appendToSheet(order, status) {
   sh.appendRow([new Date(), order.ref, order.name, order.email, order.crew,
                 order.delivery, items, order.total, order.notes, status || "PENDING"]);
   // Hand-over columns for the new row (never block the receipt if this fails).
-  if (!status) { try { writeHandover(sh, sh.getLastRow(), items); } catch (e) {} }
+  if (!status) {
+    try { sh.getRange(sh.getLastRow(), PAID_COL).insertCheckboxes(); } catch (e) {}
+    try { writeHandover(sh, sh.getLastRow(), items); } catch (e) {}
+  }
   // newest order is easy to spot; you can mark Status -> PAID / POSTED as you go.
 }
 
@@ -127,6 +130,8 @@ function appendToSheet(order, status) {
    never touched. New orders get their pairs in appendToSheet; run setupHandover() once from the editor
    to fill in the orders that were already in the sheet. */
 var HANDOVER_COL = 15;   // column O
+var PAID_COL = 12;       // column L "Paid": tick box, yellow until ticked, then green
+var PROTECT_NOTE = "Order data from the website: click OK to edit anyway";
 
 function writeHandover(sh, row, itemsText) {
   var items = String(itemsText || "").split("; ").filter(function (x) { return x; });
@@ -146,8 +151,9 @@ function writeHandover(sh, row, itemsText) {
 
 // Run from the editor: fill the hand-over columns for every existing order (skips blank rows, rows
 // already done and "SOLD OUT - not ordered" rows), colour an item green once its box is ticked, and
-// grey out and cross out a whole row once all its items are ticked, and tint alumni and
-// fan/supporter orders light orange. Safe to run again.
+// grey out and cross out a whole row once all its items are ticked, tint alumni and
+// fan/supporter orders light orange, turn "Paid" (L) into a tick box (yellow, then green when ticked)
+// and put a warning-only protection on the order data (A-E, G-H). Safe to run again.
 function setupHandover() {
   var sh = ordersSheet();
   var last = sh.getLastRow();
@@ -157,6 +163,18 @@ function setupHandover() {
   rows.forEach(function (r, i) {
     if (!r[0] || done[i][0] || /SOLD OUT/i.test(String(r[3]))) return;
     writeHandover(sh, i + 2, r[0]);
+  });
+  // "Paid" tick boxes for every order row (reference in B, not SOLD OUT). An empty cell becomes an
+  // unticked box; "y", "yes", "x", "paid" or TRUE become a ticked box; any other text is left alone.
+  var refs = sh.getRange(2, 2, last - 1, 1).getValues();
+  var paid = sh.getRange(2, PAID_COL, last - 1, 1).getValues();
+  refs.forEach(function (ref, i) {
+    if (!ref[0] || /SOLD OUT/i.test(String(rows[i][3]))) return;
+    var v = paid[i][0], cell = sh.getRange(i + 2, PAID_COL);
+    if (v === true || v === false) { cell.insertCheckboxes(); cell.setValue(v); return; }
+    var t = String(v).trim().toLowerCase();
+    if (t === "") { cell.insertCheckboxes(); return; }
+    if (/^(y|yes|x|paid|true|✓|✔)$/.test(t)) { cell.insertCheckboxes(); cell.setValue(true); }
   });
   // Headers and colouring for at least 5 items, so bigger orders later are covered too.
   var pairs = Math.max(5, Math.floor((sh.getLastColumn() - HANDOVER_COL + 1) / 2));
@@ -169,7 +187,8 @@ function setupHandover() {
   // Drop the rules this function made before, so running it again does not stack duplicates.
   var rules = sh.getConditionalFormatRules().filter(function (r) {
     var c = r.getBooleanCondition(), f = c ? String(c.getCriteriaValues()[0] || "") : "";
-    return !/^=\$[A-Z]+2=TRUE$/.test(f) && f.indexOf("=AND(COUNTA($") !== 0 && f.indexOf("=REGEXMATCH($E2") !== 0;
+    return !/^=\$[A-Z]+2=TRUE$/.test(f) && f.indexOf("=AND(COUNTA($") !== 0 &&
+      f.indexOf("=REGEXMATCH($E2") !== 0 && f.indexOf("=AND($B2<>") !== 0;
   });
   // Whole row grey and crossed out once every item in it is ticked. Listed first, so it wins.
   var itemRefs = [], conds = [];
@@ -185,6 +204,20 @@ function setupHandover() {
     .setFontColor("#7f7f7f")
     .setStrikethrough(true)
     .setRanges([sh.getRange(2, 1, sh.getMaxRows() - 1, HANDOVER_COL + 2 * pairs - 1)])
+    .build());
+  // "Paid" cell only: green once ticked, yellow while unticked on an order row. Listed before the
+  // grey row rule, so an unpaid order stays visible even after it has been handed over.
+  var paidL = sh.getRange(2, PAID_COL).getA1Notation().replace(/\d+$/, "");
+  var paidRange = sh.getRange(2, PAID_COL, sh.getMaxRows() - 1, 1);
+  rules.unshift(SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied("=AND($B2<>\"\",NOT(REGEXMATCH($J2,\"SOLD OUT\")),$" + paidL + "2<>TRUE)")
+    .setBackground("#fff2cc")
+    .setRanges([paidRange])
+    .build());
+  rules.unshift(SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied("=$" + paidL + "2=TRUE")
+    .setBackground("#b7e1cd")
+    .setRanges([paidRange])
     .build());
   for (var k = 0; k < pairs; k++) {
     var itemCol = HANDOVER_COL + 2 * k;
@@ -203,6 +236,16 @@ function setupHandover() {
     .setRanges([sh.getRange(2, 1, sh.getMaxRows() - 1, HANDOVER_COL + 2 * pairs - 1)])
     .build());
   sh.setConditionalFormatRules(rules);
+
+  // Order data (A-E Timestamp..College/Crew, G-H Items and Total) is protected with "warning only":
+  // editing a cell shows a "you are trying to edit a protected cell" pop-up, and anyone can click OK to
+  // go ahead. The script itself is not affected. Old protections made here are replaced, not stacked.
+  sh.getProtections(SpreadsheetApp.ProtectionType.RANGE).forEach(function (pr) {
+    if (pr.getDescription() === PROTECT_NOTE) pr.remove();
+  });
+  ["A:E", "G:H"].forEach(function (a1) {
+    sh.getRange(a1).protect().setDescription(PROTECT_NOTE).setWarningOnly(true);
+  });
 }
 
 function sendReceipt(order) {
