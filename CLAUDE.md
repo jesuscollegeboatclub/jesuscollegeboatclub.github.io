@@ -256,7 +256,9 @@ items, and the receipt uses it.
 the item is handed over; the item cell turns green when ticked (conditional formatting, 5 pairs set up). K-N
 (Date Paid, Paid, an unlabelled notes column, Stash received) stay hand-kept and untouched. `appendToSheet`
 writes the pairs for every new order (`writeHandover`, wrapped in try/catch so it can never block a receipt;
-not for "SOLD OUT" rows); `setupHandover()` was run once from the editor to fill in the orders already there.
+not for "SOLD OUT" rows); `setupHandover()` (run from the editor, safe to re-run) fills in the orders already
+there and sets the formatting: once every item in a row is ticked, the whole row (A to the last "Given" column)
+turns grey with grey, crossed-out text (rule listed first, covers the first 5 item pairs).
 A line "2 x ..." has one tick box for both.
 
 **Collection only:** there is no delivery option. Checkout shows a fixed

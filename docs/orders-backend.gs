@@ -144,8 +144,9 @@ function writeHandover(sh, row, itemsText) {
   }
 }
 
-// One-off: fill the hand-over columns for every existing order (skips blank rows, rows already
-// done and "SOLD OUT - not ordered" rows), then colour an item green once its box is ticked.
+// Run from the editor: fill the hand-over columns for every existing order (skips blank rows, rows
+// already done and "SOLD OUT - not ordered" rows), colour an item green once its box is ticked, and
+// grey out and cross out a whole row once all its items are ticked. Safe to run again.
 function setupHandover() {
   var sh = ordersSheet();
   var last = sh.getLastRow();
@@ -164,7 +165,26 @@ function setupHandover() {
     if (!hv[2 * p + 1]) hv[2 * p + 1] = "Given " + (p + 1);
   }
   head.setValues([hv]).setFontWeight("bold");
-  var rules = sh.getConditionalFormatRules();
+  // Drop the rules this function made before, so running it again does not stack duplicates.
+  var rules = sh.getConditionalFormatRules().filter(function (r) {
+    var c = r.getBooleanCondition(), f = c ? String(c.getCriteriaValues()[0] || "") : "";
+    return !/^=\$[A-Z]+2=TRUE$/.test(f) && f.indexOf("=AND(COUNTA($") !== 0;
+  });
+  // Whole row grey and crossed out once every item in it is ticked. Listed first, so it wins.
+  var itemRefs = [], conds = [];
+  for (var q = 0; q < pairs; q++) {
+    var ic = sh.getRange(2, HANDOVER_COL + 2 * q).getA1Notation().replace(/\d+$/, "");
+    var tc = sh.getRange(2, HANDOVER_COL + 2 * q + 1).getA1Notation().replace(/\d+$/, "");
+    itemRefs.push("$" + ic + "2");
+    conds.push("OR($" + ic + "2=\"\",$" + tc + "2=TRUE)");
+  }
+  rules.unshift(SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied("=AND(COUNTA(" + itemRefs.join(",") + ")>0," + conds.join(",") + ")")
+    .setBackground("#d9d9d9")
+    .setFontColor("#7f7f7f")
+    .setStrikethrough(true)
+    .setRanges([sh.getRange(2, 1, sh.getMaxRows() - 1, HANDOVER_COL + 2 * pairs - 1)])
+    .build());
   for (var k = 0; k < pairs; k++) {
     var itemCol = HANDOVER_COL + 2 * k;
     var tick = sh.getRange(2, itemCol + 1).getA1Notation().replace(/\d+$/, "");
