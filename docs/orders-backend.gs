@@ -146,7 +146,8 @@ function writeHandover(sh, row, itemsText) {
 
 // Run from the editor: fill the hand-over columns for every existing order (skips blank rows, rows
 // already done and "SOLD OUT - not ordered" rows), colour an item green once its box is ticked, and
-// grey out and cross out a whole row once all its items are ticked. Safe to run again.
+// grey out and cross out a whole row once all its items are ticked, and tint alumni and
+// fan/supporter orders light orange. Safe to run again.
 function setupHandover() {
   var sh = ordersSheet();
   var last = sh.getLastRow();
@@ -168,7 +169,7 @@ function setupHandover() {
   // Drop the rules this function made before, so running it again does not stack duplicates.
   var rules = sh.getConditionalFormatRules().filter(function (r) {
     var c = r.getBooleanCondition(), f = c ? String(c.getCriteriaValues()[0] || "") : "";
-    return !/^=\$[A-Z]+2=TRUE$/.test(f) && f.indexOf("=AND(COUNTA($") !== 0;
+    return !/^=\$[A-Z]+2=TRUE$/.test(f) && f.indexOf("=AND(COUNTA($") !== 0 && f.indexOf("=REGEXMATCH($E2") !== 0;
   });
   // Whole row grey and crossed out once every item in it is ticked. Listed first, so it wins.
   var itemRefs = [], conds = [];
@@ -194,6 +195,13 @@ function setupHandover() {
       .setRanges([sh.getRange(2, itemCol, sh.getMaxRows() - 1, 1)])
       .build());
   }
+  // Alumni and fan/supporter orders (College/Crew column E): whole row light orange. Listed last, so a
+  // fully handed-over row still goes grey and a ticked item still shows green.
+  rules.push(SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied("=REGEXMATCH($E2,\"(?i)alumni|fan|supporter\")")
+    .setBackground("#ffe0b2")
+    .setRanges([sh.getRange(2, 1, sh.getMaxRows() - 1, HANDOVER_COL + 2 * pairs - 1)])
+    .build());
   sh.setConditionalFormatRules(rules);
 }
 

@@ -258,7 +258,8 @@ the item is handed over; the item cell turns green when ticked (conditional form
 writes the pairs for every new order (`writeHandover`, wrapped in try/catch so it can never block a receipt;
 not for "SOLD OUT" rows); `setupHandover()` (run from the editor, safe to re-run) fills in the orders already
 there and sets the formatting: once every item in a row is ticked, the whole row (A to the last "Given" column)
-turns grey with grey, crossed-out text (rule listed first, covers the first 5 item pairs).
+turns grey with grey, crossed-out text (rule listed first, covers the first 5 item pairs). Rows whose College/Crew (E)
+contains "Alumni" or "Fan / supporter" are tinted light orange (#ffe0b2; rule listed last, so grey and the green item ticks win).
 A line "2 x ..." has one tick box for both.
 
 **Collection only:** there is no delivery option. Checkout shows a fixed
