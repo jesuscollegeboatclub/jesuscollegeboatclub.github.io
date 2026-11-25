@@ -332,6 +332,10 @@ reads everything from the HTML, so no JS change is needed.
   table), `#maps` (map cards), `#raceday`, `#rules` (rules, safety plan, coxes' notes as
   `details.doc` summaries + PDF downloads). Dates and times are for a specific year
   and **must be updated each autumn**.
+- 2026 start order (provisional, from the Fairbairns Secretary, added 25 Nov 2026): Google Sheet
+  `1xs39DHVZfXXJOEOrMZLyabf2m5da0KzSsv9Gj987Z3A`, linked from the hero ("Start Order" -> `#raceday`), a
+  button under the provisional times in `#info`, and the first card in `#raceday` (eyebrow "Race day · 2026").
+  The Results and Race Photos cards are still the 2025 links, labelled "2025": swap them when 2026's arrive.
 - `coxes-notes.html`: steering advice + the three redrawn maps (`images/fairbairns/*.svg`
   with PNG downloads). In the Fairbairn Cup dropdown.
 - `maps/`: the webmaster's original map files (course map PDF, marshals map PNG,
